@@ -1,0 +1,311 @@
+#header {
+	background-color:rgb(40,170,170);
+	height:120px;
+	width: 940px;
+}
+body {
+padding: 0px; margin: 0px;
+}
+#appwrapper {
+  margin: 0px auto; width: 940px;
+}
+#header .col1 {
+  height: inherit; float: left; width: 350px; position: relative;
+}
+#header .col2 {
+  height: inherit; float: left;
+}
+
+ul#top-nav {
+  list-style: outside none none;
+  margin: 0;
+  padding: 0;
+}
+ul#top-nav > li {
+  background-color: #222;
+  border-radius: 5px;
+  color: white;
+  float: left;
+  left: 55px;
+  margin: 0 10px;
+  padding: 5px;
+  position: relative;
+  top: 50px;
+}
+ul#top-nav > li.active {
+  background-color:darkgreen;
+}
+
+#main1 {
+	background-color:#eeeeee;
+    height:350px;
+    width:940px;
+}
+
+
+#main2 {
+	background-color:#eeeeee;
+    height:150px;
+    width:940px;
+}
+
+#main3 {
+	background-color:#eeeeee;
+    height:150px;
+    width:940px;
+}
+
+#main3 {
+	background-color:#eeeeee;
+    height:600px;
+    width:940px;
+}
+
+#contact {
+	background-color: rgb(40,170,170);
+	height: 120px;
+	width: 940px;
+	text-align: center;
+	padding-top:5px;
+
+}
+
+#border1 {
+	position: relative;
+	top: 50%;
+	left: 10%;
+}
+
+#border2 {
+	position: relative;
+	top: 5%;
+	left: 10%;
+}
+
+#border3 {
+	position: relative;
+	top: 2%;
+	left: 10%;
+}
+
+#border4 {
+	position: relative;
+	top: 2%;
+	left: 10%;
+}
+
+#border5 {
+	position: relative;
+	top: 10%;
+	left: 10%;
+}
+
+#title {
+  background: black none repeat scroll 0 0;
+  color: white;
+  height: 70px;
+  left: 136px;
+  padding-top: 1px;
+  position: relative;
+  text-align: center;
+  top: 56px;
+  width: 140px;
+}
+
+#great-hairstyle {
+  background: white none repeat scroll 0 0;
+  border-color: rgb(40, 170, 170);
+  border-style: solid;
+  border-width: 1px;
+  height: 300px;
+  width: 750px;
+}
+
+#hairstyle-sentence {
+	margin-top: 110px;
+	margin-left: 400px
+}
+
+#sentence2 {
+	margin-left: 140px
+}
+
+#featured {
+	width: 150px;
+	height: 50px;
+	background: black;
+	color: white;
+	text-align: center;
+	padding: 5px;
+}
+#content {
+  background-color: rgb(238, 238, 238);
+}
+#first{
+	width: 350px;
+	height: 400px;
+	background: white;
+	border-size: 1px;
+	border-style: ridge;
+	border-color: rgb(40,170,170);
+	margin-top: 140px;
+	margin-left:10px;
+}
+
+#paragraph2{
+	margin-top:60px;
+	margin-left:10px;
+}
+ul.image-list {
+  list-style: outside none none; padding: 0px; margin: 0px;
+}
+ul.image-list > li {
+  background-color: yellow;
+  float: left;
+  margin-right: 46px;
+  width: 200px;
+}
+ul.image-list > li:last-child {
+  margin-right:0px;
+}
+ul.image-list > li  > .image {
+
+}
+
+
+.parallelandposition {
+    position: absolute;
+    z-index: 0;
+}
+
+.picture2 {
+    position: absolute;
+    left: 20px;
+    top: 70px;
+    z-index: 0;
+}
+
+.picture3 {
+    position: absolute;
+    left: 700px;
+    z-index: 0;
+}
+
+.picture4 {
+    position: absolute;
+    left: 740px;
+    z-index: 0;
+}
+
+.picture5 {
+    position: absolute;
+    left: 780px;
+    z-index: 0;
+}
+
+.picture6 {
+    position: absolute;
+    left: 820px;
+    z-index: 0;
+}
+
+.icon1 {
+    position: absolute;
+    left: 20px;
+    top: 70px;
+    z-index: 0;
+}
+
+
+.parallel1 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 0;
+}
+
+.overandflip1 {
+    position: absolute;
+    left: 4px;
+    top: 3px;
+    z-index: 1;
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+   transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.parallel2 {
+    position: absolute;
+    left: 190px;
+    top: 0px;
+    z-index: 0;
+}
+
+.overandflip2 {
+    position: absolute;
+    left: 194px;
+    top: 3px;
+    z-index: 1;
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+   transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.parallel3 {
+    position: absolute;
+    left: 380px;
+    top: 0px;
+    z-index: 0;
+}
+
+.overandflip3 {
+    position: absolute;
+    left: 384px;
+    top: 3px;
+    z-index: 1;
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+   transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.parallel4 {
+    position: absolute;
+    left: 570px;
+    top: 0px;
+    z-index: 0;
+}
+
+.overandflip4 {
+    position: absolute;
+    left: 574px;
+    top: 3px;
+    z-index: 1;
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+   transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+h1.sansserif {
+    font-family: Arial, Helvetica, sansserif;
+}
+
+p.sansserif {
+    font-family: Arial, Helvetica, sansserif;
+}
+
+p{
+	color: rgb(0,0,128);
+	font-size: 175%;
+}
