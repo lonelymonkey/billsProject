@@ -1,346 +1,141 @@
 <!DOCTYPE html>
+<link href="css/style.css" rel="stylesheet">
+
 <html>
-<head>
-<style>
-#header {
-	background-color:rgb(40,170,170);
-	height:120px;
-	width: 940px;
-}
 
-#main1 {
-	background-color:#eeeeee;
-    height:350px;
-    width:940px;
-}
-
-#main2 {
-	background-color:#eeeeee;
-    height:150px;
-    width:940px;
-}
-
-#main3 {
-	background-color:#eeeeee;
-    height:150px;
-    width:940px;
-}
-
-#main3 {
-	background-color:#eeeeee;
-    height:600px;
-    width:940px;
-}
-
-#contact {
-	background-color: rgb(40,170,170);
-	height: 120px;
-	width: 940px;
-	text-align: center;
-	padding-top:5px;
-
-}
-
-#border1 {
-	position: relative;
-	top: 50%;
-	left: 10%;
-}
-
-#border2 {
-	position: relative;
-	top: 5%;
-	left: 10%;
-}
-
-#border3 {
-	position: relative;
-	top: 2%;
-	left: 10%;
-}
-
-#border4 {
-	position: relative;
-	top: 2%;
-	left: 10%;
-}
-
-#border5 {
-	position: relative;
-	top: 10%;
-	left: 10%;
-}
-
-#title {
-	width: 140px;
-	height: 70px;
-	background: black;
-	color: white;
-	text-align: center;
-	padding-top: 1px;
-}
-
-#great-hairstyle {
-	width: 750px;
-	height: 300px;
-	background: white;
-	border-size: 1px;
-	border-style: ridge;
-	border-color: rgb(40,170,170);
-}
-
-#hairstyle-sentence {
-	margin-top: 110px;
-	margin-left: 400px
-}
-
-#sentence2 {
-	margin-left: 140px
-}
-
-#featured {
-	width: 150px;
-	height: 50px;
-	background: black;
-	color: white;
-	text-align: center;
-	padding: 5px;
-}
-
-#first{
-	width: 350px;
-	height: 400px;
-	background: white;
-	border-size: 1px;
-	border-style: ridge;
-	border-color: rgb(40,170,170);
-	margin-top: 140px;
-	margin-left:10px;
-}
-
-#paragraph2{
-	margin-top:60px;
-	margin-left:10px;
-}
-
-.parallelandposition {
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    z-index: 0;
-}
-
-.picture2 {
-    position: absolute;
-    left: 20px;
-    top: 70px;
-    z-index: 0;
-}
-
-.picture3 {
-    position: absolute;
-    left: 700px;
-    z-index: 0;
-}
-
-.picture4 {
-    position: absolute;
-    left: 740px;
-    z-index: 0;
-}
-
-.picture5 {
-    position: absolute;
-    left: 780px;
-    z-index: 0;
-}
-
-.picture6 {
-    position: absolute;
-    left: 820px;
-    z-index: 0;
-}
-
-.icon1 {
-    position: absolute;
-    left: 20px;
-    top: 70px;
-    z-index: 0;
-}
-
-
-.parallel1 {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 0;
-}
-
-.overandflip1 {
-    position: absolute;
-    left: 4px;
-    top: 3px;
-    z-index: 1;
-	-moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-   transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
-}
-
-.parallel2 {
-    position: absolute;
-    left: 190px;
-    top: 0px;
-    z-index: 0;
-}
-
-.overandflip2 {
-    position: absolute;
-    left: 194px;
-    top: 3px;
-    z-index: 1;
-	-moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-   transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
-}
-
-.parallel3 {
-    position: absolute;
-    left: 380px;
-    top: 0px;
-    z-index: 0;
-}
-
-.overandflip3 {
-    position: absolute;
-    left: 384px;
-    top: 3px;
-    z-index: 1;
-	-moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-   transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
-}
-
-.parallel4 {
-    position: absolute;
-    left: 570px;
-    top: 0px;
-    z-index: 0;
-}
-
-.overandflip4 {
-    position: absolute;
-    left: 574px;
-    top: 3px;
-    z-index: 1;
-	-moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-   transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
-}
-
-h1.sansserif {
-    font-family: Arial, Helvetica, sansserif;
-}
-
-p.sansserif {
-    font-family: Arial, Helvetica, sansserif;
-}
-
-p{
-	color: rgb(0,0,128);
-	font-size: 175%;
-}
-
-</style>
-</head>
-<body>
-
+<div id="appwrapper">
 <div id="header">
-	<div id="border1">
+	<div class="col1">
 		<div id="title">
-		<h1 class="sansserif">ZIZURZ</h1>
+			<h1 class="sansserif">ZIZURZ</h1>
 		</div>
+	</div>
+	
+	<div class="col2">
+		<ul id="top-nav">
+			<li class="active">Home</li>
+			<li>About</li>
+			<li>HAIRSTYLES</li>
+			<li>NEWS</li>
+			<li>CONTACT</li>
+		</ul>
 	</div>
 </div>
 
-<div id="main1">
-	<div id="border2">
-		<div id="great-hairstyle">
-			<img src="images/great-hairstyle.jpg" alt="Great hairstyle" style="width:330px;height:300px;" class="parallelandposition">
-				<div id="hairstyle-sentence">
-					<p class="sansserif">Great hairstyle comes <br/> from the experts.</p>
+<div id="content">
+	<div id="main1">
+		<div id="border1">
+			<div id="great-hairstyle">
+				<div class="col1">
+					<img src="images/great-hairstyle.jpg" alt="Great hairstyle" style="width:330px;height:300px;" class="parallelandposition">
 				</div>
+				
+				<div class="col2">
+					<div id="margin1">
+						<h1 class="sansserif">Great hairstyle comes <br> from the experts.</h1>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
-
-<div id="main2">
-	<div id="border3">
-		<img src="images/hairstyle1.jpg" alt="Great hairstyle" style="width:160px;height:125px;" class="overandflip1">
-		<img src="images/frame.png" alt="Great hairstyle" style="width:170px;height:150px;" class="parallel1">
-
-		<img src="images/hairstyle2.jpg" alt="Great hairstyle" style="width:160px;height:125px;" class="overandflip2">
-		<img src="images/frame.png" alt="Great hairstyle" style="width:170px;height:150px;" class="parallel2">
-		
-		<img src="images/hairstyle3.jpg" alt="Great hairstyle" style="width:160px;height:125px;" class="overandflip3">
-		<img src="images/frame.png" alt="Great hairstyle" style="width:170px;height:150px;" class="parallel3">
-		
-		<img src="images/hairstyle4.jpg" alt="Great hairstyle" style="width:160px;height:125px;" class="overandflip4">
-		<img src="images/frame.png" alt="Great hairstyle" style="width:170px;height:150px;" class="parallel4">
+	
+	<div id="main2">
+		<div id="border2">
+		<ul class="image-list">
+			<li>
+				<div class="image"><img src="images/hairstyle1.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>
+				<div class="text"><h2>first picture</h2 </br> <p>Internal styling is used to define a style for one HTML page.</p></div>
+			</li>
+			<li>
+				<div class="image"><img src="images/hairstyle2.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>
+				<div class="text"><h2>second picture</h2></div>
+			</li>
+			<li>
+				<div class="image"><img src="images/hairstyle3.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>
+				<div class="text"><h2>third picture</h2></div>
+			</li>
+			<li>
+				<div class="image"><img src="images/hairstyle4.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>
+				<div class="text"><h2>fourth picture</h2></div>
+			</li>
+		</ul>
+		</div>
 	</div>
-</div>
-
-<div id="main3">
-	<div id="border4">
-		<table width="800px">
-  <tr>
-  <td width="200px">123123123131132131332</td>
-  <td width="200px">2</td>
-  <td width="200px">3</td>
-  <td width="200px">4</td>
-  </tr>
-</table>
-	</div>
-
-<div id="main4">
-	<div id="border5">
-			<div id="first">
+	
+	<div id="main3">
+		<div id="border3">
+			<div class="col1bot">
 				<div id="featured">
 					<h3>Featured</h3>
 				</div>
 				
-				<div id="picture">
-					<img src="images/featured.jpg" alt="Great hairstyle" style="width:100px;height:100px;" class="picture2"> 
-					<div id="sentence2">
-						<p><font size="4">hair, I just met you</font></p>
+				<div id="block1">
+					<div class="col3">
+						<img src="images/featured.jpg" alt="Great hairstyle" style="width:100px;height:100px;" class="position">
+					</div>
+					
+					<div class="col4">
+						<div id="margin2">
+							<h4>hair, I just met you</h4>
+						</div>
+					</div>
+					
+					<div id="botparagraph">
+						<p>At W3Schools you will find complete references about tags, attributes, events, color names, entities, character-sets, URL encoding, language codes, HTTP messages, and more.</p>
 					</div>
 				</div>
+			</div>
+			<div class="col2bot">
+				<div class="col5">
+					<div id="hairstyle">
+						<h3>Hairstyle</h3>
+					</div>
+					
+					<div id="block2">
+						<div id="padding1">
+							<p>At W3Schools you will find complete references about tags, attributes, events, color names, entities, character-sets, URL encoding, language codes, HTTP messages, and more.</p>
+							</br><p style="text-align: right">Mike M</p>
+						</div>
+					</div>
 				
-				<div id="paragraph2">
-					<p>Send me your League of Legends replays (Bugs, Glitches, Fails, Escapes, LoL funny stuff) to: Kshawaay@gmail.com</p>
+				<div class="col6">
+					<div id="block3">
+						<div class="col7">
+							<img src="images/skinhead.png" alt="Great hairstyle" style="width:200px;height:230px;">
+						</div>
+						
+						<div class="col8">
+							<p style="line-height: 150%">At W3Schools you will find references about tags, attributes, events, color names, entities</p>
+						</div>
+					</div>
 				</div>
-			</div>	
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-	
-<div id="contact">
-	<p>copyright 2023@ | all rights reserved</p>
-    <img src="images/icons/icon-twitter2.png" alt="Great hairstyle" style="width:25px;height:25px;" class="picture3"> 
-	<img src="images/icons/icon-facebook.png" alt="Great hairstyle" style="width:25px;height:25px;" class="picture4">
-<img src="images/icons/googleplus.png" alt="Great hairstyle" style="width:25px;height:25px;" class="picture5"> 
-<img src="images/icons/pinterest.png" alt="Great hairstyle" style="width:25px;height:25px;" class="picture6"> 	
-</div>
 
-</body>
+<div id="footer">
+	<div id="col9">
+		<p>copyright 2013@ ZIZURZ all rights reserved</p>
+	</div>
+	
+	<div id="col10">
+		<ul class="image-list-icons">
+			<li>
+				<img src="images/icons/googleplus.png" alt="Great hairstyle" style="width:20px;height:20px;">
+			</li>
+			<li>
+				<img src="images/icons/icon-facebook.png" alt="Great hairstyle" style="width:20px;height:20px;">
+			</li>
+			<li>
+				<img src="images/icons/icon-twitter2.png" alt="Great hairstyle" style="width:20px;height:20px;">
+			</li>
+			<li>
+				<img src="images/icons/pinterest.png" alt="Great hairstyle" style="width:20px;height:20px;">
+			</li>
+		</ul>
+	</div>
+
+</div>
 </html>
