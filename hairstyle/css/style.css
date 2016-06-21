@@ -1,5 +1,5 @@
 #header {
-	background-color:rgb(40,170,170);
+	background-color:rgb(76,143,150);
 	height:120px;
 	width: 1250px;
 }
@@ -149,7 +149,7 @@ ul#top-nav > li.active {
 }
 
 #title {
-    background: black none repeat scroll 0 0;
+    background: rgb(34,40,66) none repeat scroll 0 0;
     color: white;
     height: 70px;
     padding: 10px 10px 10px 10px;
@@ -193,7 +193,7 @@ ul#top-nav > li.active {
 #featured {
 	width: 150px;
 	height: 50px;
-	background: black;
+	background:  rgb(34,40,66);
 	color: white;
 	text-align: center;
 	padding: 5px;
@@ -207,7 +207,7 @@ ul#top-nav > li.active {
 #hairstyle {
 	width: 150px;
 	height: 50px;
-	background: black;
+	background:  rgb(34,40,66);
 	color: white;
 	text-align: center;
 	padding: 5px;
@@ -216,10 +216,6 @@ ul#top-nav > li.active {
     top: 45px;
     left: 20px;
 	
-}
-
-#content {
-  background-color: rgb(238, 238, 238);
 }
 
 #block1 {
@@ -264,7 +260,7 @@ ul#top-nav > li.active {
 }
 
 #footer {
-	background: rgb(40,170,170);
+	background: rgb(76,143,150);
 	height:140px;
 	width: 1250px;
 	color: white;
