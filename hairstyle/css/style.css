@@ -2,6 +2,7 @@
 	background-color:rgb(76,143,150);
 	height:120px;
 	width: 1250px;
+	margin:0 auto;
 }
 
 body {
@@ -9,10 +10,10 @@ padding: 0px; margin: 0px;
 }
 
 #appwrapper {
-  margin: 0px auto; width: 1250px;
+  margin: 0px auto;
 }
 #header .col1 {
-  height: inherit; float: left; width: 500px; position: relative; 
+  height: inherit; float: left; width: 500px; position: relative;
 }
 #header .col2 {
   height: inherit; float: left;
@@ -201,7 +202,7 @@ ul#top-nav > li.active {
     position: relative;
     top: 45px;
     left: 13px;
-	
+
 }
 
 #hairstyle {
@@ -215,7 +216,7 @@ ul#top-nav > li.active {
     position: relative;
     top: 45px;
     left: 20px;
-	
+
 }
 
 #block1 {
@@ -264,6 +265,8 @@ ul#top-nav > li.active {
 	height:140px;
 	width: 1250px;
 	color: white;
+	margin: 0 auto;
+width: 1250px;
 }
 
 ul.image-list {
@@ -321,4 +324,3 @@ h1.sansserif {
 p.sansserif {
     font-family: Arial, Helvetica, sansserif;
 }
-
