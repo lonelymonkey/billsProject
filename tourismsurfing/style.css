@@ -1,0 +1,103 @@
+body {
+	padding: 0px; margin: 0px;
+	background-color: rgb(0,30,97);
+}
+
+#appwrapper{
+	margin: 0px auto;
+}
+
+#header {
+	background-color:rgb(0,143,150);
+	height:180px;
+	width: 1250px;
+	margin:0 auto;
+}
+
+#border_header {
+	position: relative;
+	top:20%;
+}
+
+#header .col1 {
+	height: inherit; float:left; width: 50px; position: relative;
+}
+
+#header .col2 {
+	height: inherit; float:left; color:white;
+}
+
+#picture{
+	position:relative;
+	float: left;
+	width: 20px;
+	
+}
+
+/*content*/
+
+#content{
+	margin:0 auto;
+	background-image: url(Content_background.jpg);
+	z-index: -1;
+}
+
+#background{
+	margin:0 auto;
+	height: 1000px;
+	width: 1250px;
+	background-color: rgba(2,55,116, 0.6);
+	z-index: 0;
+}
+
+#content .col1 {
+	height: 75px; float:left; width: 300px; position: relative;
+}
+
+#home {
+	height: 75px; float:left; width: 200px; position: relative;
+}
+
+#surfbase {
+	height: 75px; float:left; width: 200px; position: relative;
+}
+
+#news {
+	height: 75px; float:left; width: 200px; position: relative;
+}
+
+#about {
+	height: 75px; float:left; width: 200px; position: relative;
+}
+
+#contact {
+	height: 75px; float:left; width: 200px; position: relative;
+}
+
+
+#content .col2 {
+	height: 100px; float: left;
+}
+
+#footer{
+}
+
+/*font config for title*/
+
+h1 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 400%;
+}
+
+h2 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 100%;
+	position:relative;
+	float:right;
+}
+
+h1.sansserif {
+    font-family: arial, helvetica, sansserif;
+}
