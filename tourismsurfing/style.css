@@ -8,7 +8,7 @@ body {
 }
 
 #header {
-	background-color:rgb(0,143,150);
+	background-color:rgb(0,30,97);
 	height:180px;
 	width: 1250px;
 	margin:0 auto;
@@ -44,44 +44,173 @@ body {
 
 #background{
 	margin:0 auto;
-	height: 1000px;
+	height: 1250px;
 	width: 1250px;
 	background-color: rgba(2,55,116, 0.6);
 	z-index: 0;
+	position: relative;
+	top: 5%;
 }
 
 #content .col1 {
-	height: 75px; float:left; width: 300px; position: relative;
+	height: 968px; float:left; width: 270px; position: relative;
+	top: 5%;
 }
 
+/*buttons*/
+
 #home {
-	height: 75px; float:left; width: 200px; position: relative;
+	height: 20px; float:left; width: 60px; position: relative;
+	padding: 20px 30px;
+	background-color: rgb(209,211,212);
+	color: rgb(2,22,77);
 }
 
 #surfbase {
-	height: 75px; float:left; width: 200px; position: relative;
+	height: 20px; float:left; width: 103px; position: relative;
+	padding: 20px 30px;
+	background-color: rgb(2,22,77);
+	color: rgb(255,247,153);
 }
 
 #news {
-	height: 75px; float:left; width: 200px; position: relative;
+	height: 20px; float:left; width: 135px; position: relative;
+	padding: 20px 30px;
+	background-color: rgb(0,31,100);
+	color: rgb(255,247,153);
 }
 
 #about {
-	height: 75px; float:left; width: 200px; position: relative;
+	height: 20px; float:left; width: 66px; position: relative;
+	padding: 20px 30px;
+	background-color: rgb(2,22,77);
+	color: rgb(255,247,153);
 }
 
 #contact {
-	height: 75px; float:left; width: 200px; position: relative;
+	height: 20px; float:left; width: 92px; position: relative;
+	padding: 20px 30px;
+	background-color: rgb(0,31,100);
+	color: rgb(255,247,153);
 }
+
+/*content*/
+
+/*Home*/
+#header_home {
+	height: 250px;
+	width: 980px;
+	color: white;
+}
+
+#content_home {
+	height: 600px;
+	width: 980px;
+}
+
+#footer_home {
+	height: 300px;
+	width: 980px;
+}
+
+#picture1 {
+	float: left;
+	height: 500px;
+	width: 500px;
+}
+
+#picture2 {
+	float: left;
+	width: 420px;
+	height: 450px;
+	position: relative;
+	bottom: 10%;
+	left: 2%;
+	z-index: -1;
+}
+
+#picture3 {
+	float: left;
+	width: 100px;
+	height: 100px;
+}
+
+#mid {
+	max-width: 100px; 
+	position:relative;
+	top: 270px;
+	right: 50px;
+}
+
+#blog {
+	float: left;
+	width: 250px;
+	height: inherit;
+	color: rgb(255,247,153);
+	padding: 0px 20px 0px 0px;
+}
+
+#paragraph {
+	float: left;
+	height: inherit;
+	width: 710px;
+	color: white;
+	line-height: 120%;
+}
+/*Home*/
+
 
 
 #content .col2 {
-	height: 100px; float: left;
+	height: 968px; width: 980px; float: left;
+	position: relative; top:3%;
 }
+
+/*footer*/
 
 #footer{
+	background-color:rgb(0,30,97);
+	height:180px;
+	width: 1250px;
+	margin:0 auto;
 }
 
+#border_footer {
+	position: relative;
+	top: 25%;
+}
+
+#footer .col1 {
+	float:left; width: 700px; height: 100px;
+	padding: 0px 50px 0px 0px;
+}
+
+#footer .col2 {
+	float:left;  width: 300px; height: 100px;
+}
+
+#footer .col3 {
+	float: left; height: 100px;
+}
+
+#email {
+	height: 30px;
+	width: 280px;
+	background-color: rgb(50,92,133);
+	position: relative;
+	top: 30px;
+}
+
+ul#icon-list {
+	list-style: outside none none;
+	margin: 0;
+	padding: 0;
+}
+
+ul#icon-list > li {
+	float: left;
+	padding: 0px 10px 0px 0px;
+}
 /*font config for title*/
 
 h1 {
@@ -98,6 +227,36 @@ h2 {
 	float:right;
 }
 
+/*font config for buttons*/
+
+h3 {
+	margin: 0px;
+	padding: 0px;
+}
+
+h4 {
+	font-size: 500%;
+	color: rgb(255,247,153);
+	margin: 0px;
+	padding: 0px;
+}
+
+p{
+	margin:0px;
+	padding:0px;
+	text-align: justify;
+}
+
+/*font style*/
+
 h1.sansserif {
+    font-family: arial, helvetica, sansserif;
+}
+
+h4.sansserif {
+    font-family: arial, helvetica, sansserif;
+}
+
+p.arial {
     font-family: arial, helvetica, sansserif;
 }
