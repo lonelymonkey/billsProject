@@ -80,6 +80,11 @@ padding: 0px; margin: 0px;
     margin: 50px 0px 0px 40px;
 }
 
+a{
+	 text-decoration: none;
+	 padding: 20px 5px;
+}
+
 h2{
 	margin:5px;
 }
@@ -107,14 +112,14 @@ ul#top-nav > li {
   border-radius: 5px;
   color: white;
   float: left;
-  left: 55px;
+  left: 50px;
   margin: 0 10px;
-  padding: 5px;
+  padding: 7 17px;
   position: relative;
   top: 50px;
 }
 ul#top-nav > li.active {
-  background-color:darkgreen;
+  background-color:rgb(51,95,100);
 }
 
 #main1 {
@@ -269,18 +274,18 @@ ul#top-nav > li.active {
 width: 1250px;
 }
 
-ul.image-list {
+ul.imageList {
   list-style: outside none none ; padding: 0px; margin: 0px;
 }
-ul.image-list > li {
+ul.imageList > li {
   float: left;
   margin-right: 46px;
   width: 220px;
 }
-ul.image-list > li:last-child {
+ul.imageList > li:last-child {
   margin-right:0px;
 }
-ul.image-list > li  > .image {
+ul.imageList > li  > .image {
 
 }
 

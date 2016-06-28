@@ -12,7 +12,7 @@ padding: 0px; margin: 0px;
   margin: 0px auto; width: 1250px;
 }
 #header .col1 {
-	height: inherit; float: left; width: 500px; position: relative; 
+	height: inherit; float: left; width: 500px; position: relative;
 }
 #header .col2 {
 	height: inherit; float: left;
@@ -149,6 +149,7 @@ ul#picture_horiz > li:last-child {
 	height:140px;
 	width: 1250px;
 	color: white;
+	margin: 0px auto;
 }
 
 ul.image-list {

@@ -12,14 +12,14 @@ padding: 0px; margin: 0px;
   margin: 0px auto; width: 1250px;
 }
 #header .col1 {
-	height: inherit; float: left; width: 500px; position: relative; 
+	height: inherit; float: left; width: 500px; position: relative;
 }
 #header .col2 {
 	height: inherit; float: left;
 }
 
 #content .col1{
-	height: inherit; float: left; width: 622px; position: relative; 
+	height: inherit; float: left; width: 622px; position: relative;
 }
 
 #content .col2{
@@ -136,6 +136,7 @@ ul#top-nav > li.active {
 	height:140px;
 	width: 1250px;
 	color: white;
+	margin: 0px auto;
 }
 
 ul.image-list {
@@ -184,4 +185,3 @@ h4.helvetica {
 p.sansserif {
     font-family: Arial, Helvetica, sansserif;
 }
-
