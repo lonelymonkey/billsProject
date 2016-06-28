@@ -63,26 +63,30 @@ p{
 	margin:0px;
 }
 
+a{
+	 text-decoration: none;
+	 padding: 20px 5px;
+}
+
 ul#top-nav {
   list-style: outside none none;
   margin: 0;
   padding: 0;
 }
 ul#top-nav > li {
-  background-color: #222;
-  border-radius: 5px;
-  color: white;
-  float: left;
-  left: 55px;
-  margin: 0 10px;
-  padding: 5px;
-  position: relative;
-  top: 50px;
-}
-ul#top-nav > li.active {
-  background-color:darkgreen;
-}
-
+	  background-color: #222;
+	  border-radius: 5px;
+	  color: white;
+	  float: left;
+	  left: 50px;
+	  margin: 0 10px;
+	  padding: 7 17px;
+	  position: relative;
+	  top: 50px;
+	}
+	ul#top-nav > li.active {
+	  background-color:rgb(51,95,100);
+	}
 #main {
 	background-color: rgb(237,237,237);
     height:1450px;
