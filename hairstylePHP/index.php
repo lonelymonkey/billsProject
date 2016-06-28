@@ -1,7 +1,25 @@
 <?php
 
 include "../includes/global.inc";
-error_reporting(0);
+define('hair', 'helloworld');
+/*
+define('CONSTANT_PI', 3.144);
+echo CONSTANT_PI;
+$var = 10;
+echo $var . '<br/>';
+$var = array(
+  'test' => '1',
+  'test2' => 2,
+  'test3' => 3,
+  'test4' => 'helloworld',
+  'test5' => CONSTANT_PI,
+);
+echo $var . '<br/>';
+echo '<pre>';
+var_dump($var);
+echo '</pre>';
+*/
+//error_reporting(0);
 
 /*$cssPath = 'css/style.css';*/
 
@@ -24,7 +42,7 @@ printHeader('home');
 						<h1 class="sansserif">Great hairstyle comes <br> from the experts.</h1>
 					</div>
 				</div>';
-   printcolWhite(hair, 1015, 300, $content);
+   printcolWhite('hair', 1015, 300, $content);
     ?>
   </div>
 </div>
@@ -36,9 +54,23 @@ printHeader('home');
         $picture2 = '<div class="image"><img src="images/hairstyle2.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
         $picture3 = '<div class="image"><img src="images/hairstyle3.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
         $picture4 = '<div class="image"><img src="images/hairstyle4.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+
+        $pictureArray = array();
+        /*
+        $pictureArray[] = '<div class="image"><img src="images/hairstyle1.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+        $pictureArray[] = '<div class="image"><img src="images/hairstyle2.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+        $pictureArray[] = '<div class="image"><img src="images/hairstyle3.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+        $pictureArray[] = '<div class="image"><img src="images/hairstyle4.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+        $pictureArray[] = '<div class="image"><img src="images/hairstyle4.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+        $pictureArray[] = '<div class="image"><img src="images/hairstyle4.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+*/
         $sentence = '<h2>first picture</h2 </br> <p>Internal styling is used to define a style for one HTML page.</p>';
-        listFourItems(imageList, $picture, $picture2, $picture3, $picture4);
-        listFourItems(imageList, $sentence, $sentence, $sentence, $sentence);
+        listFourItems('imageList', $picture, $picture2, $picture3, $picture4);
+        /*listFourItems(imageList, $pictureArray);*/
+
+        listFourItems('imageList', $sentence, $sentence, $sentence, $sentence);
+
+        printContent();
       ?>
 		</div>
 </div>
@@ -47,7 +79,7 @@ printHeader('home');
 		<div id="border3">
 			<div class="col1bot">
         <?php
-        smallHeader(feature,45,13,Featured);
+        smallHeader('feature',45,13,'Featured');
         ?>
 
 				<div id="block1">

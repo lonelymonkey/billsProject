@@ -1,5 +1,18 @@
 <?php
 
+error_reporting(0);
+/*
+function printContent() {
+  $picture = '<div class="image"><img src="images/hairstyle1.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+  $picture2 = '<div class="image"><img src="images/hairstyle2.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+  $picture3 = '<div class="image"><img src="images/hairstyle3.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+  $picture4 = '<div class="image"><img src="images/hairstyle4.jpg" alt="Great hairstyle" style="width:210px;height:170px;" class="positionandflip"></div>';
+  $sentence = '<h2>first picture</h2 </br> <p>Internal styling is used to define a style for one HTML page.</p>';
+  listFourItems(imageList, $picture, $picture2, $picture3, $picture4);
+
+}
+*/
+
 function printHeader($activeTab) {
   /*
   switch($activeTab) {
