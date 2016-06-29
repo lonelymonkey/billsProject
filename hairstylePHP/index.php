@@ -1,8 +1,9 @@
 <?php
 
 include "../includes/global.inc";
-define('hair', 'helloworld');
 /*
+define('hair', 'helloworld');
+
 define('CONSTANT_PI', 3.144);
 echo CONSTANT_PI;
 $var = 10;
