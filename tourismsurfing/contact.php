@@ -12,46 +12,81 @@
    ?>
 
    <div class="col2">
-     <div id="header_home">
-       <h4 class="sansserif">BEST SURFING!</h4>
-       <p style="font-size: 250%">This website templates has been designed by Free Templates for you, for free. You can replace
-       this text with your own text.</p>
-     </div>
-
-     <div id="content_home">
-
-       <div id="picture1">
-         <div><img src="images/Home/Left.png" style="height:500px; width:500px;"></div>
+     <div id="firstContact">
+       <div id="BigFont">
+         We want to hear from you!
        </div>
 
-       <div id="picture3">
-         <div id="mid"><img src="images/Home/mid circle.png"></div>
-         <div id="surfing"><h2>GO TO SURF BASE</h2></div>
+     </br>
+
+       <div id="smallFont">
+         Free Website Templates
        </div>
+       <p>As with the exterior, the experience of driving the vehicle feels like an oxymoron. On one hand, you're driving a production version of a hydrogen car. If you live near one of the filling stations and want to be on the bleeding edge of clean driving without tethering your vehicle to the grid for hours on end, you can buy one right now. While EVs are all the rage, fuel-cell vehicles (like traditional cars) only take five minutes to refuel with a familiar pump. On the other hand, once you get behind the wheel you don't feel like you're driving the future. It's sort of like driving a Camry.</p>
+    </div>
 
-       <div id="picture2">
-         <div><img src="images/Home/right.png" style="height:400px; width:400px;"></div>
-       </div>
+      <div id="detail1">
+          <div id="smallFont">
+            CONTACT DETAILS
+          </div>
 
-     </div>
+        </br>
 
-     <?php
-        $content = '
-         </br>
-         </br>
-         </br>
-         <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">This is just a placeholder</p>
-         <p>And Game of Thrones fans might want to see this Night King carved from
-         fruit. As always, please share any interesting tech or science videos y
-         ou find by using the #ICYMI hashtag on Twitter for @mskerryd.
-         </p>';
-        printRow('NEWS&BLOG','News_blog.png', $content);
-      ?>
+          <div id="smallFontWhite">
+            LOCATION
+      </div>
+      <p>This is just a place holder, so you can see what the site would look like</p>
+      <hr>
 
- </div>
+      <div id="smallFontWhite">
+        Email
+      </div>
+        <p style="color:rgb(181,163,82); text-decoration:underline;">billchou@alumni.ubc.ca</p>
+        <hr>
+
+        <div id="smallFontWhite">
+          Phone
+        </div>
+
+        <p>(604)324-2349</p>
+        <p>(604)324-2349</p>
+        <p>(604)324-2349</p>
+
+    </div>
+
+    <div id="detail2">
+      <div id="smallFont">
+        Send A Message
+      </div>
+
+    </br>
+<form action="customer.php" method="post">
+    <div id="smallFontMessage">
+      Your Name:
+    </div>
+    <input type="text" name="name" style="width:450px;">
+
+    <div id="smallFontMessage">
+      Email Address:
+    </div>
+    <input type="text" name="email" style="width:450px;">
+
+    <div id="smallFontMessage">
+      Message:
+    </div>
+    <input type="text" name="message" style="width:450px; height:300px;">
+
+      <input type="submit">
+</form>
+
+
+
+
+    </div>
+
 </div>
 </div>
-
+</div>
 
 
 <?php

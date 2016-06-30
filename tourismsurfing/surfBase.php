@@ -14,6 +14,13 @@
      <div class="col2">
        <div id="headerSurf">
          <h4 class="sansserif">Surfer's Paradise</h4>
+        <div id="circleSurf">
+         <img src="images/About/about_circle.png">
+          <div id="wordSurf">
+            <div id="smallFont">Go To Blog</div>
+          </div>
+       </div>
+
        </div>
 
        <div id="contentSurf">
@@ -31,7 +38,25 @@ Police fired shots to try to stop two of the attackers just before they reached 
            <div><img src="images/Home/right.png" style="height:500px; width:500px;"></div>
          </div>
 
-         <h2 style="color: white; font-size: 150%;">This is just a placeholder, so you can see what the site would look like</h2>
+         <div id="secondHeader">
+         <h2 style="color: white; font-size: 150%; margin: 20px 0px;">This is just a placeholder, so you can see what the site would look like</h2>
+       </div>
+
+        <div id="threePic">
+         <?php
+         $pic1 = '<img src="images/Surf Base/bot_first.png">';
+         $pic2 = '<img src="images/Surf Base/bot_second.png">';
+         $pic3 = '<img src="images/Surf Base/bot_last.png">';
+
+          printlist($pic1,$pic2,$pic3);
+          ?>
+        </div>
+        <div id="lastParagraph">
+          <div class="paragraph">
+            The next version of Android is dubbed "Nougat," Google revealed
+            on Snapchat this morning (because of course it did). This was the first time that Google opened up the Android naming process to the public, and Nougat beat out other n-based treat suggestions including Nutter Butter, Nutella, Nerds and Necco Wafers. Of course, offering creative rights to the entire internet ensured there were a few sour apples in that system.
+          </div>
+        </div>
 
        </div>
 
