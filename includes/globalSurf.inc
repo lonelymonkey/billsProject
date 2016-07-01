@@ -1,4 +1,10 @@
 <?php
+error_reporting(0);
+/*
+echo '<pre style="color:white">';
+var_dump($_SERVER);
+echo '</pre>';
+*/
 
 function printheader() {
   $output =
@@ -49,26 +55,47 @@ function printFooter() {
 }
 
 function printBackgroundMenu() {
-
+  $currPage = '';
+ switch ($_SERVER['REQUEST_URI']) {
+   case '/tourismsurfing/about.php':
+    $currPage = 'about';
+    break;
+   case '/tourismsurfing/contact.php':
+    $currPage = 'contact';
+    break;
+   case '/tourismsurfing/index.php':
+    $currPage = 'index';
+    break;
+   case '/tourismsurfing/newsBlog.php':
+    $currPage = 'newsBlog';
+    break;
+   case '/tourismsurfing/surfBase.php':
+    $currPage = 'surfBase';
+    break;
+   default:
+    $currPage = 'index';
+    break;
+ }
+ ${$currPage . 'Class'} = 'active';
   $output = '
       <div class="col1">
-        <div id="home">
+        <div id="home" class="'.$indexClass.'">
           <h3><a href="/tourismsurfing/index.php">HOME</a></h3>
         </div>
 
-        <div id="surfbase">
+        <div id="surfbase" class="'.$surfBaseClass.'">
           <h3><a href="/tourismsurfing/surfBase.php">SURF BASE</a></h3>
         </div>
 
-        <div id="news">
+        <div id="news" class="'.$newsBlogClass.'">
           <h3><a href="/tourismsurfing/newsBlog.php">NEWS & BLOG</a></h3>
         </div>
 
-        <div id="about">
+        <div id="about" class="'.$aboutClass.'">
           <h3><a href="/tourismsurfing/about.php">ABOUT</a></h3>
         </div>
 
-        <div id="contact">
+        <div id="contact" class="'.$contactClass.'">
           <h3><a href="/tourismsurfing/contact.php">CONTACT</a></h3>
         </div>
 

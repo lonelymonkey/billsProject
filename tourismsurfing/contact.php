@@ -2,6 +2,20 @@
 <!DOCTYPE html>
 <?php
   include "../includes/globalSurf.inc";
+
+if (!empty($_POST['contact-us-submit'])) {
+  $var =  '
+      Name: '.$_POST["name"].'<br>
+      Email address: '.$_POST["email"].'<br>
+      Message: '.$_POST["message"];
+  //echo $var;
+  /*
+    process data
+      - save data to file in JSON format
+  */
+  
+}
+
   printheader();
 ?>
 
@@ -60,7 +74,7 @@
       </div>
 
     </br>
-<form action="customer.php" method="post">
+<form method="post">
     <div id="smallFontMessage">
       Your Name:
     </div>
@@ -74,9 +88,8 @@
     <div id="smallFontMessage">
       Message:
     </div>
-    <input type="text" name="message" style="width:450px; height:300px;">
-
-      <input type="submit">
+    <textarea name="message" style="width:450px; height:300px;"></textarea>
+    <input type="submit" value="submit" name="contact-us-submit">
 </form>
 
 
