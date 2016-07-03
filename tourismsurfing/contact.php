@@ -4,16 +4,31 @@
   include "../includes/globalSurf.inc";
 
 if (!empty($_POST['contact-us-submit'])) {
-  $var =  '
+  $d = array();
+/*  $var =  '
       Name: '.$_POST["name"].'<br>
       Email address: '.$_POST["email"].'<br>
-      Message: '.$_POST["message"];
-  //echo $var;
-  /*
-    process data
-      - save data to file in JSON format
-  */
-  
+      Message: '.$_POST["message"]; */
+  $c = array('name' => $_POST["name"], 'email' => $_POST["email"], 'message' => $_POST["message"]);
+    echo json_encode($c);
+
+  if(file_exists($myfile)){
+    $myfile = fopen("customer.json", "w") or die ("Unable to open customer.json");
+    fwrite($myfile, print_r(json_encode($c), TRUE));
+    $d = file($myfile, FILE_IGNORE_NEW_LINES);
+    fclose($myfile);
+  }
+
+
+
+
+
+
+
+/*  $tempTemp++;
+  $temp = $tempTemp;
+  echo $temp;
+*/
 }
 
   printheader();
