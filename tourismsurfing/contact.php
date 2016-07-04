@@ -2,43 +2,59 @@
 <!DOCTYPE html>
 <?php
   include "../includes/globalSurf.inc";
+  /*  $var =  '
+        Name: '.$_POST["name"].'<br>
+        Email address: '.$_POST["email"].'<br>
+        Message: '.$_POST["message"];
+        fwrite($myfile, print_r(json_encode($c), TRUE));
+        $cars = array
+          (
+          array('name' => 'wayne','email' => 'wayne@hotmail.com', 'message' => 'sup' ),
+          array('name' => 'wayne','email' => 'wayne@hotmail.com', 'message' => 'sup' )
+          );
+
+           var_dump($cars);*/
 
 if (!empty($_POST['contact-us-submit'])) {
-  $storageArray = array();
-/*  $var =  '
-      Name: '.$_POST["name"].'<br>
-      Email address: '.$_POST["email"].'<br>
-      Message: '.$_POST["message"];
-      fwrite($myfile, print_r(json_encode($c), TRUE));
-      $cars = array
-        (
-        array('name' => 'wayne','email' => 'wayne@hotmail.com', 'message' => 'sup' ),
-        array('name' => 'wayne','email' => 'wayne@hotmail.com', 'message' => 'sup' )
-        );
+  $error = false;
+  $errorMsg = array();
+  //validate email
+  //validate user
+  if (empty($_POST['name'])) {
+    $error = true;
+    $errorMsg['name'] = 'Please insert your name.';
+  }  
+  //validate message
 
-         var_dump($cars);*/
-  $information = array('name' => $_POST["name"], 'email' => $_POST["email"], 'message' => $_POST["message"]);
-  $filename = "customer.json";
 
-  if(file_exists($filename)){
-    $myfile = fopen("customer.json", "r") or die ("Unable to open customer.json");
-    $filesize = filesize("customer.json");
-    $contents = fread($myfile, $filesize);
-    $storageArray = json_decode($contents);
-    }
 
-    $myfile = fopen("customer.json", "w") or die ("Unable to open customer.json");
-    $count = count($storageArray);
-    $storageArray[$count] = $information;
-    $contents = json_encode($storageArray);
+  if (!$error) {
+    $storageArray = array();
 
-    fwrite($myfile,$contents);
+    $information = array('name' => $_POST["name"], 'email' => $_POST["email"], 'message' => $_POST["message"]);
+    $filename = "customer.json";
 
-    fclose($myfile);
-/*  $tempTemp++;
-  $temp = $tempTemp;
-  echo $temp;
-*/
+    if(file_exists($filename)){
+      $myfile = fopen("customer.json", "r") or die ("Unable to open customer.json");
+      $filesize = filesize("customer.json");
+      $contents = fread($myfile, $filesize);
+      $storageArray = json_decode($contents);
+      }
+
+      $myfile = fopen("customer.json", "w") or die ("Unable to open customer.json");
+      //$count = count($storageArray);
+      //$storageArray[$count] = $information;
+      //array_push($storageArray,$information);
+      $storageArray[] = $information;
+      //$storageArray[0] = 'first item';
+      $contents = json_encode($storageArray);
+      fwrite($myfile,$contents);
+
+      fclose($myfile);
+  }
+
+
+
 }
 
   printheader();
@@ -104,7 +120,7 @@ if (!empty($_POST['contact-us-submit'])) {
       Your Name:
     </div>
     <input type="text" name="name" style="width:450px;">
-
+    <span class="error">* <?php echo $errorMsg['name'];?></span>
     <div id="smallFontMessage">
       Email Address:
     </div>
