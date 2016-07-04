@@ -23,7 +23,44 @@ if (!empty($_POST['contact-us-submit'])) {
   if (empty($_POST['name'])) {
     $error = true;
     $errorMsg['name'] = 'Please insert your name.';
-  }  
+  }
+
+  elseif (strlen(trim($_POST['name'])) == 0 && strlen($_POST['name']) > 0) {
+     $error = true;
+     $errorMsg['name'] = 'Invalid input : name';
+  }
+
+    // check if name only contains letters and whitespace
+  elseif (!preg_match("/^[a-zA-Z ]*$/",$_POST['name'])) {
+    $error = true;
+    $errorMsg['name'] = 'Only letters and white space allowed';
+  }
+
+  if (empty($_POST['email'])) {
+    $error = true;
+    $errorMsg['email'] = 'Please insert your email.';
+  }
+
+  elseif (!filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)) {
+    $error = true;
+    $errorMsg['email'] = 'Invalid Email Address';
+  }
+
+  if (empty($_POST['message'])) {
+    $error = true;
+    $errorMsg['message'] = 'Please insert your message.';
+  }
+
+  elseif (strlen(trim($_POST['message'])) == 0 && strlen($_POST['message']) > 0) {
+     $error = true;
+     $errorMsg['message'] = 'Invalid input : message';
+  }
+
+
+//  elseif (strlen(trim($POST['message'])) == FALSE) {
+//    $error = true;
+//    $errorMsg['message'] = 'Invalid input : Message';
+//  }
   //validate message
 
 
@@ -117,17 +154,15 @@ if (!empty($_POST['contact-us-submit'])) {
     </br>
 <form method="post">
     <div id="smallFontMessage">
-      Your Name:
+      Your Name: <span class="error">* <?php echo $errorMsg['name'];?></span>
     </div>
     <input type="text" name="name" style="width:450px;">
-    <span class="error">* <?php echo $errorMsg['name'];?></span>
     <div id="smallFontMessage">
-      Email Address:
+      Email Address: <span class="error">* <?php echo $errorMsg['email'];?></span>
     </div>
     <input type="text" name="email" style="width:450px;">
-
     <div id="smallFontMessage">
-      Message:
+      Message: <span class="error">* <?php echo $errorMsg['message'];?></span>
     </div>
     <textarea name="message" style="width:450px; height:300px;"></textarea>
     <input type="submit" value="submit" name="contact-us-submit">
