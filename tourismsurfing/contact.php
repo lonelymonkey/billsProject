@@ -4,27 +4,37 @@
   include "../includes/globalSurf.inc";
 
 if (!empty($_POST['contact-us-submit'])) {
-  $d = array();
+  $storageArray = array();
 /*  $var =  '
       Name: '.$_POST["name"].'<br>
       Email address: '.$_POST["email"].'<br>
-      Message: '.$_POST["message"]; */
-  $c = array('name' => $_POST["name"], 'email' => $_POST["email"], 'message' => $_POST["message"]);
-    echo json_encode($c);
+      Message: '.$_POST["message"];
+      fwrite($myfile, print_r(json_encode($c), TRUE));
+      $cars = array
+        (
+        array('name' => 'wayne','email' => 'wayne@hotmail.com', 'message' => 'sup' ),
+        array('name' => 'wayne','email' => 'wayne@hotmail.com', 'message' => 'sup' )
+        );
 
-  if(file_exists($myfile)){
+         var_dump($cars);*/
+  $information = array('name' => $_POST["name"], 'email' => $_POST["email"], 'message' => $_POST["message"]);
+  $filename = "customer.json";
+
+  if(file_exists($filename)){
+    $myfile = fopen("customer.json", "r") or die ("Unable to open customer.json");
+    $filesize = filesize("customer.json");
+    $contents = fread($myfile, $filesize);
+    $storageArray = json_decode($contents);
+    }
+
     $myfile = fopen("customer.json", "w") or die ("Unable to open customer.json");
-    fwrite($myfile, print_r(json_encode($c), TRUE));
-    $d = file($myfile, FILE_IGNORE_NEW_LINES);
+    $count = count($storageArray);
+    $storageArray[$count] = $information;
+    $contents = json_encode($storageArray);
+
+    fwrite($myfile,$contents);
+
     fclose($myfile);
-  }
-
-
-
-
-
-
-
 /*  $tempTemp++;
   $temp = $tempTemp;
   echo $temp;
