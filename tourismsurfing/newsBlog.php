@@ -13,17 +13,6 @@
 
    <div class="col2">
      <?php
-        $content = '
-         <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">This is just a placeholder</p>
-         <p>And Game of Thrones fans might want to see this Night King carved from
-         fruit. As always, please share any interesting tech or science videos y
-         ou find by using the #ICYMI hashtag on Twitter for @mskerryd.
-         </p>';
-
-         $date = '
-         <div id="circle"><img src="images/News/circle.png"></div>
-         <div id="date"><h2>SEPT </br> 2012</h2></div>
-         ';
 
          $line1 = '
          <h5>RECENT POST</h5>
@@ -43,7 +32,40 @@
          fruit. As always, please share any interesting tech or science videos y</p>
          ';
 
-          printRow('','News/1st.png', $content,$date);
+          $filenameBlog = 'blog.json';
+          $filenamePic = 'picture.txt';
+
+          if(filesize($filenameBlog) > 0){
+            $myfileBlog = fopen($filenameBlog,"r") or die ("unable to open blog.json");
+            $filesizeBlog = filesize($filenameBlog);
+            $contentsBlog = fread($myfileBlog, $filesizeBlog);
+            $blogContents = json_decode($contentsBlog);
+            fclose($myfileBlog);
+          }
+
+          if(filesize($filenamePic) > 0) {
+            $myfilePic = fopen($filenamePic, "r") or die ("unable to open picture.txt");
+            $filesizePic = filesize($filenamePic);
+            $contentsPic = fread($myfilePic, $filesizePic);
+            $picUploaded = $contentsPic;
+            fclose($myfilePic);
+          }
+
+          $today = getdate();
+
+          $date = '
+          <div id="circle"><img src="images/News/circle.png"></div>
+          <div id="date"><h2>'.$today['month'].' </br> '.$today['year'].'</h2></div>
+          ';
+
+          echo $blogContents->genderBlog;
+          $content = '
+           <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">'.$blogContents->name.', '.$blogContents->gender.'</p>
+           <p> Email: '.$blogContents->email.' </br>
+              Message: '.$blogContents->message.'
+           </p>';
+
+          printRow('',$picUploaded, $content,$date);
           printRow('','News/2nd.png', $content,$date);
           printRow('','News/3rd.png', $content,$date);
 

@@ -94,6 +94,10 @@ span.error {
 	width: 92px;
 }
 
+#userBlog {
+	width: 120px;
+}
+
 /*content*/
 
 /*Home*/
@@ -338,6 +342,13 @@ ul.list > li:last-child {
 	background-color: rgb(2,46,95);
 }
 
+#detail3 {
+	width: 450px;
+	float: left;
+	padding: 20px;
+	height: 660px;
+}
+
 input[type=submit] {
 	height: 40px;
 	width: 80px;
@@ -348,6 +359,11 @@ input[type=submit] {
 	margin-top: 17px;
 	font-size: 130%;
 }
+
+#content .gender {
+	color: white;
+}
+
 /*contact*/
 
 /*footer*/
@@ -476,12 +492,19 @@ p.arial {
 
 #smallFontWhite {
 	color: white;
-	font-size: 150%;
+	font-size: 140%;
 	padding-bottom: 20px;
 }
 
 #smallFontMessage {
 	color: white;
-	font-size: 150%;
+	font-size: 140%;
 	margin: 1px 0px;
+}
+
+#smallFontGender {
+	color: white;
+	font-size: 140%;
+	margin: 3px 0px;
+	float:left;
 }

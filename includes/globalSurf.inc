@@ -72,6 +72,9 @@ function printBackgroundMenu() {
    case '/tourismsurfing/surfBase.php':
     $currPage = 'surfBase';
     break;
+   case '/tourismsurfing/userBlog.php':
+    $currPage = 'userBlog';
+    break;
    default:
     $currPage = 'index';
     break;
@@ -99,6 +102,9 @@ function printBackgroundMenu() {
           <h3><a href="/tourismsurfing/contact.php">CONTACT</a></h3>
         </div>
 
+        <div id="userBlog" class="'.$userBlogClass.'">
+          <h3><a href="/tourismsurfing/userBlog.php">USER BLOG</a></h3>
+        </div>
       </div>
   ';
 
