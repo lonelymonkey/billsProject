@@ -5,6 +5,8 @@ echo '<pre style="color:white">';
 var_dump($_SERVER);
 echo '</pre>';
 */
+defined('MAX_BLOG_DISPLAY') or define('MAX_BLOG_DISPLAY', '4');
+
 
 function printheader() {
   $output =
@@ -117,7 +119,7 @@ function printRow($text, $picture, $content, $smallPicture) {
     <div id="blog">
       '.$smallPicture.'
       <p style="font-size: 215%; padding: 0px 0px 10px 0px;">'.$text.'</p>
-      <div style="position: relative; z-index: -1;"><img src="images/'.$picture.'" style="width=250px; height:250px;"></div>
+      <div style="position: relative; z-index: -1;"><img src="'.$picture.'" style="width=250px; height:250px;"></div>
     </div>
 
     <div id="paragraph">

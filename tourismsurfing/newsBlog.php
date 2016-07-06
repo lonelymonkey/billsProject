@@ -33,6 +33,7 @@
          ';
 
           $filenameBlog = 'blog.json';
+          /*
           $filenamePic = 'picture.txt';
 
           if(filesize($filenameBlog) > 0){
@@ -50,6 +51,7 @@
             $picUploaded = $contentsPic;
             fclose($myfilePic);
           }
+          */
 
           $today = getdate();
 
@@ -58,16 +60,44 @@
           <div id="date"><h2>'.$today['month'].' </br> '.$today['year'].'</h2></div>
           ';
 
-          echo $blogContents->genderBlog;
+          //echo $blogContents->genderBlog;
+          /*
+
           $content = '
            <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">'.$blogContents->name.', '.$blogContents->gender.'</p>
            <p> Email: '.$blogContents->email.' </br>
               Message: '.$blogContents->message.'
            </p>';
-
           printRow('',$picUploaded, $content,$date);
           printRow('','News/2nd.png', $content,$date);
           printRow('','News/3rd.png', $content,$date);
+
+*/
+          $blogs = json_decode(file_get_contents('blog.json'),true);
+          if (empty($blogs))  $blogs = array();
+          $count = 1;
+
+          foreach($blogs AS $index => $blog) {
+            $content = '
+             <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">'.$blog['name'].', '.$blog['gender'].'</p>
+             <p> Email: '.$blog['email'].' </br>
+                Message: '.$blog['message'].'
+             </p>';
+
+            $picUploaded = "upload/blogImage/".$blog['blogImg'];
+
+            $blogDate = date('F', strtotime($blog['date'])) . '<br/>' . date('Y', strtotime($blog['date']));
+            $date = '
+            <div id="circle"><img src="images/News/circle.png"></div>
+            <div id="date"><h2>'.$blogDate.'</h2></div>
+            ';
+            printRow('',$picUploaded, $content,$date);
+
+
+            if ($count >= MAX_BLOG_DISPLAY) break;
+            $count++;
+          }
+
 
           printlist($line1,$line2,$line3);
          ?>

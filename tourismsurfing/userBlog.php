@@ -4,6 +4,28 @@
   include "../includes/globalSurf.inc";
 
   if (!empty($_POST['blogSubmit'])) {
+
+
+
+    /*
+
+    */
+
+    /*
+echo '<pre>';
+var_dump($_FILES['image']);
+echo '</pre>';
+exit();
+*/
+
+    //move_uploaded_file($_FILES['image']['tmp_name'],"images/".$imageName);
+    /*
+    echo '<pre>';
+    var_dump($_FILES['image']);
+    var_dump($_POST);
+    echo '</pre>';
+*/
+
     $error = false;
     $errorMsg = array();
     //validate email
@@ -59,7 +81,25 @@
 
 
     if (!$error) {
-      $blogInfo = array('name' => $_POST["name"], 'email' => $_POST["email"], 'message' => $_POST["message"], 'gender' => $_POST['gender']);
+      $blogs = json_decode(file_get_contents('blog.json'),true);
+      if (empty($blogs)) $blogs = array();
+      $blogId = count($blogs);
+      $pathInfo = pathinfo($_FILES['image']['name']);
+      $blogImgName = "blogImg-".$blogId . '.'.$pathInfo['extension'];
+
+      move_uploaded_file($_FILES['image']['tmp_name'],"upload/blogImage/$blogImgName");
+      $blogInfo = array(
+            'date' => date('Y-m-d H:i:s'),
+            'name' => $_POST["name"],
+            'email' => $_POST["email"],
+            'message' => $_POST["message"],
+            'gender' => $_POST['gender'],
+            'blogImg' => $blogImgName
+        );
+      array_unshift($blogs,$blogInfo);
+
+
+      //$blogInfo = array('name' => $_POST["name"], 'email' => $_POST["email"], 'message' => $_POST["message"], 'gender' => $_POST['gender']);
       $filename = "blog.json";
 
 
@@ -68,7 +108,7 @@
         //$storageArray[$count] = $information;
         //array_push($storageArray,$information);
         //$storageArray[0] = 'first item';
-      $contents = json_encode($blogInfo);
+      $contents = json_encode($blogs);
         fwrite($myfile,$contents);
         fclose($myfile);
     }
@@ -105,7 +145,7 @@
         </div>
 
       </br>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
       <div id="smallFontMessage">
         Your Name: <span class="error">* <?php echo $errorMsg['name'] ?></span>
       </div>
@@ -118,24 +158,31 @@
         Message: <span class="error">* <?php echo $errorMsg['message'] ?></span>
       </div>
       <textarea name="message" style="width:450px; height:300px;"></textarea>
-
+      <div style="clear: both; overflow: auto;">
       <input type="radio" name="gender" value="female"> <div id="smallFontGender">Female</div> </br> </br>
       <input type="radio" name="gender" value="male"> <div id="smallFontGender">Male</div>
-    </br> <span class="error">* <?php echo $errorMsg['gender'] ?></span> </br>
+      </br> <span class="error">* <?php echo $errorMsg['gender'] ?></span> </br>
+    </div>
+<div >
+      <input type="file" name="image" />
+    </div>
+
 
       <input type="submit" value="submit" name="blogSubmit">
   </form>
+<!--
+  <form action="" method="POST">
 
-  <form action="" method="POST" enctype="multipart/form-data">
-  <input type="file" name="image" />
   <input type="submit" value="upload" name="picSubmit">
   <?php
+  /*
   $imageName = $_FILES['image']['name'];
   move_uploaded_file($_FILES['image']['tmp_name'],"images/".$imageName);
   echo $_POST['gender'];
+  */
   ?>
   </form>
-
+-->
   </div>
       </div>
    </div>
