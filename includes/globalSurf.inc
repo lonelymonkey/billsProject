@@ -5,7 +5,9 @@ echo '<pre style="color:white">';
 var_dump($_SERVER);
 echo '</pre>';
 */
-defined('MAX_BLOG_DISPLAY') or define('MAX_BLOG_DISPLAY', '4');
+defined('MAX_BLOG_DISPLAY') or define('MAX_BLOG_DISPLAY', '3');
+define('TWO_BLOG_DISPLAY', '3');
+define('ONE_BLOG_DISPLAY', '2');
 
 
 function printheader() {
