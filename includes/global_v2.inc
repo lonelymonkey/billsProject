@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_NOTICE);
 
-error_reporting(0);
+//error_reporting(0);
 include 'config.inc';
 
 defined('MAX_BLOG_DISPLAY') or define('MAX_BLOG_DISPLAY', '3');
@@ -182,7 +182,7 @@ public function getFooter() {
        </ul>
     ';
 
-    echo $output;
+    return $output;
    }
 
    public function printRow($text, $picture, $content, $smallPicture) {
@@ -199,7 +199,7 @@ public function getFooter() {
        </div>
      </div>';
 
-     echo $output;
+     return $output;
    }
 }
 ?>

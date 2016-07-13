@@ -5,6 +5,9 @@ class Database{
   private $pass = DB_PASS;
   private $dbname = DB_NAME;
 
+  private $dbh;
+  private $error;
+
   private $stmt;
 
   public function __construct(){
@@ -15,9 +18,6 @@ class Database{
           PDO::ATTR_PERSISTENT => true,
           PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
       );
-
-      private $dbh;
-      private $error;
 
       try {
         $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);

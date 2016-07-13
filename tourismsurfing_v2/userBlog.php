@@ -1,6 +1,8 @@
 
 <?php
   include "../includes/global_v2.inc";
+  include "../includes/databasebill.class.inc";
+  $database = new Database();
   if (!empty($_POST['blogSubmit'])) {
     /*
 echo '<pre>';
@@ -72,7 +74,7 @@ exit();
 
 
     if (!$error) {
-      $blogs = json_decode(file_get_contents('blog.json'),true);
+/*      $blogs = json_decode(file_get_contents('blog.json'),true);
       if (empty($blogs)) $blogs = array();
       $blogId = count($blogs);
       $pathInfo = pathinfo($_FILES['image']['name']);
@@ -101,7 +103,30 @@ exit();
         //$storageArray[0] = 'first item';
       $contents = json_encode($blogs);
         fwrite($myfile,$contents);
-        fclose($myfile);
+        fclose($myfile);*/
+
+        var_dump($_POST);
+
+        $date = date('Y-m-d');
+        $pathInfo = pathinfo($_FILES['image']['name']);
+
+        $database->query('INSERT INTO userblog (name, email, msg, gender, submitDate, imgName) VALUES (:name, :email, :msg, :gender, :submitdate, :imgName)');
+        $database->bind(':name', $_POST['name']);
+        $database->bind(':email', $_POST['email']);
+        $database->bind(':msg', $_POST['message']);
+        $database->bind(':gender', $_POST['gender']);
+        $database->bind(':submitdate', $date);
+        $database->bind(':imgName', $pathInfo['extension']);
+        $database->execute();
+
+        $blogId = $database->lastInsertId();
+
+        $pathInfo = pathinfo($_FILES['image']['name']);
+        $blogImgName = 'blogImg-'.$blogId . '.'.$pathInfo['extension'];
+        move_uploaded_file($_FILES['image']['tmp_name'],"upload/blogImage/$blogImgName");
+
+
+        echo $database->lastInsertId();
     }
 
 

@@ -1,9 +1,10 @@
 
+
 <?php
   include "../includes/global_v2.inc";
+  include '../includes/databasebill.class.inc';
   $wholeView = new general;
-
-  $wholeView->getViewFuncStart();
+  $database = new database;
 
   $line1 = '
   <h5>RECENT POST</h5>
@@ -23,7 +24,7 @@
   fruit. As always, please share any interesting tech or science videos y</p>
   ';
 
-   $filenameBlog = 'blog.json';
+//   $filenameBlog = 'blog.json';
    /*
    $filenamePic = 'picture.txt';
 
@@ -56,7 +57,14 @@
    printRow('','News/3rd.png', $content,$date);
 
 */
-   $blogs = json_decode(file_get_contents('blog.json'),true);
+   //$blogs = json_decode(file_get_contents('blog.json'),true);
+
+   $database->query('SELECT * From userblog order by id DESC limit 3');
+   $blogs = $database->resultset();
+   echo "<pre>";
+   print_r($blogs);
+   echo "</pre>";
+
    if (empty($blogs))  $blogs = array();
 
    $blogs[] = array(
@@ -96,29 +104,31 @@
      );
 */
    $count = 1;
-
+   $contentBlog = '';
    foreach($blogs AS $index => $blog) {
      $content = '
       <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">'.$blog['name'].', '.$blog['gender'].'</p>
       <p> Email: '.$blog['email'].' </br>
-         Message: '.$blog['message'].'
+         Message: '.$blog['msg'].'
       </p>';
 
-     $picUploaded = $blog['blogImg'];
+     $picUploaded = 'upload/blogImage/blogImg-' . $blog['id'] . '.' . $blog['imgName'];
 
-     $blogDate = date('F', strtotime($blog['date'])) . '<br/>' . date('Y', strtotime($blog['date']));
+     $blogDate = date('F', strtotime($blog['sumbmitDate'])) . '<br/>' . date('Y', strtotime($blog['submitDate']));
      $date = '
      <div id="circle"><img src="images/News/circle.png"></div>
      <div id="date"><h2>'.$blogDate.'</h2></div>
      ';
-      $wholeView->printRow('',$picUploaded, $content,$date);
+    $contentBlog.=  $wholeView->printRow('',$picUploaded, $content,$date);
 
      if ($count >= MAX_BLOG_DISPLAY) break;
      $count++;
    }
 
 
-   $wholeView->printlist($line1,$line2,$line3);
+  $contentBlog.= $wholeView->printlist($line1,$line2,$line3);
 
-  $wholeView->getViewFuncEnd();
+  $wholeView->content = $contentBlog;
+  $wholeView->getView();
+
 ?>

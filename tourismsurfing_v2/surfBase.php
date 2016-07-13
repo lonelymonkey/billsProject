@@ -2,7 +2,13 @@
   include "../includes/global_v2.inc";
   $wholeView = new general;
 
-  $wholeView->contentStart = '
+  $pic1 = '<img src="images/Surf Base/bot_first.png">';
+  $pic2 = '<img src="images/Surf Base/bot_second.png">';
+  $pic3 = '<img src="images/Surf Base/bot_last.png">';
+
+  $picList = $wholeView->printlist($pic1,$pic2,$pic3);
+
+  $content = '
   <div id="headerSurf">
     <h4 class="sansserif">Surfer\'s Paradise</h4>
    <div id="circleSurf">
@@ -34,9 +40,7 @@ Police fired shots to try to stop two of the attackers just before they reached 
   </div>
 
    <div id="threePic">
-  ';
-
-  $wholeView->contentEnd = '
+    '.$picList.'
   </div>
   <div id="lastParagraph">
     <div class="paragraph">
@@ -47,14 +51,6 @@ Police fired shots to try to stop two of the attackers just before they reached 
 
  </div>
   ';
-
-  $wholeView->getViewFuncStart();
-
-  $pic1 = '<img src="images/Surf Base/bot_first.png">';
-  $pic2 = '<img src="images/Surf Base/bot_second.png">';
-  $pic3 = '<img src="images/Surf Base/bot_last.png">';
-
-   $wholeView->printlist($pic1,$pic2,$pic3);
-
-  $wholeView->getViewFuncEnd();
+  $wholeView->content = $content;
+  $wholeView->getView();
 ?>
