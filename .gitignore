@@ -34,6 +34,7 @@
 # Logs and databases #
 ######################
 *.log
+!mysql_definition.sql
 *.sqlite
 
 # OS generated files #
