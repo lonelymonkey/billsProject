@@ -154,15 +154,15 @@
               </br>
               <form method="post">
               <div id="smallFontMessage">
-              Your Name: <span class="error">* <?php echo $errorMsg["name"] ?></span>
+              Your Name: <span class="error">*'.$errorMsg["name"].'</span>
               </div>
               <input type="text" name="name" style="width:450px;">
               <div id="smallFontMessage">
-              Email Address: <span class="error">* <?php echo $errorMsg["email"] ?></span>
+              Email Address: <span class="error">*'.$errorMsg["email"].'</span>
               </div>
               <input type="text" name="email" style="width:450px;">
               <div id="smallFontMessage">
-              Message: <span class="error">* <?php echo $errorMsg["message"] ?></span>
+              Message: <span class="error">* '.$errorMsg["message"].'</span>
               </div>
               <textarea name="message" style="width:450px; height:300px;"></textarea>
 

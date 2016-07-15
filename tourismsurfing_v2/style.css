@@ -182,6 +182,14 @@ span.error {
 	line-height: 120%;
 }
 
+#paragraphBlog {
+	float: left;
+	height: inherit;
+	width: 800px;
+	color: white;
+	line-height: 120%;
+}
+
 #content .col2 {
 	width: 980px; float: left;
 	position: relative; top:3%;
@@ -269,6 +277,16 @@ position: relative; left: 840px;
 	text-align: center;
 	top: 57px;
 	left: 10px;
+}
+
+#displayBlog {
+	padding: 30px 30px;
+	border-style: solid;
+	border-color: black;
+	border-width: 5px;
+	border-radius: 50px;
+	height: 800px;
+	width:850px;
 }
 
 ul.list {

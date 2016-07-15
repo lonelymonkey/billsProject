@@ -6,6 +6,11 @@ error_reporting(E_ALL ^ E_NOTICE);
 //error_reporting(0);
 include 'config.inc';
 
+defined('DB_HOST') or define("DB_HOST", "localhost");
+defined('DB_USER') or define("DB_USER", "root");
+defined('DB_PASS') or define("DB_PASS", "");
+defined('DB_NAME') or define("DB_NAME", "surfdatabase");
+
 defined('MAX_BLOG_DISPLAY') or define('MAX_BLOG_DISPLAY', '3');
 
 class general {
@@ -20,8 +25,8 @@ class general {
    }*/
 
    public $content;
-   public $contentStart;
-   public $contentEnd;
+//   public $contentStart;
+//   public $contentEnd;
 
    public function header(){
      return '<link href="style.css" rel="stylesheet">
@@ -150,7 +155,7 @@ public function getFooter() {
 
    }
 
-   public function getViewFuncStart() {
+/*   public function getViewFuncStart() {
       $view = '';
       $view .= $this->header();
       //body
@@ -171,7 +176,7 @@ public function getFooter() {
        ';
      $view .= $this->getFooter();
      echo $view;
-   }
+   }*/
 
    public function printlist($content1,$content2,$content3) {
     $output = '
@@ -195,6 +200,23 @@ public function getFooter() {
        </div>
 
        <div id="paragraph">
+         '.$content.'
+       </div>
+     </div>';
+
+     return $output;
+   }
+
+   public static function printRowBlog($text, $picture, $content, $smallPicture) {
+     $output = '
+       <div id="footer_home">
+       <div id="blog">
+         '.$smallPicture.'
+         <p style="font-size: 215%; padding: 0px 0px 10px 0px;">'.$text.'</p>
+         <div style="position: relative; z-index: -1;"><img src="'.$picture.'" style="width=250px; height:250px;"></div>
+       </div>
+
+       <div id="paragraphBlog">
          '.$content.'
        </div>
      </div>';

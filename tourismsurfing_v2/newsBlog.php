@@ -61,17 +61,22 @@
 
    $database->query('SELECT * From userblog order by id DESC limit 3');
    $blogs = $database->resultset();
-   echo "<pre>";
-   print_r($blogs);
-   echo "</pre>";
 
    if (empty($blogs))  $blogs = array();
+
+   $count = count($blogs);
+
+   for($i = 0; $i < $count; $i++) {
+      $picPath = 'upload/blogImage/blogImg-' . $blogs[$i]['id'] . '.' . $blogs[$i]['imgName'];
+      $blogs[$i]['blogImg'] = $picPath;
+      $blogs[$i]['msg'] = htmlspecialchars(substr($blogs[$i]['msg'], 0, 600)). '...<a href="/tourismsurfing_v2/blog1.php?id='.$blogs[$i]['id'].'">more</a>';
+   }
 
    $blogs[] = array(
      'date' => date('F'),
      'name' => 'BillChouCa',
      'email' => 'BillChouCa@yahoo.com.tw',
-     'message' => '1234567890',
+     'msg' => '1234567890',
      'gender' => 'male',
      'blogImg' => 'images/home/News_Blog.png'
    );
@@ -80,7 +85,7 @@
      'date' => date('F'),
      'name' => 'BillChouCa',
      'email' => 'BillChouCa@yahoo.com.tw',
-     'message' => '1234567890',
+     'msg' => '1234567890',
      'gender' => 'male',
      'blogImg' => 'images/home/Left.png'
    );
@@ -89,7 +94,7 @@
      'date' => date('F'),
      'name' => 'BillChouCa',
      'email' => 'BillChouCa@yahoo.com.tw',
-     'message' => '1234567890',
+     'msg' => '1234567890',
      'gender' => 'male',
      'blogImg' => 'images/home/right.png'
    );
@@ -107,14 +112,14 @@
    $contentBlog = '';
    foreach($blogs AS $index => $blog) {
      $content = '
-      <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">'.$blog['name'].', '.$blog['gender'].'</p>
-      <p> Email: '.$blog['email'].' </br>
+      <p style="color:rgb(255,247,153); font-size: 150%; padding: 0px 0px 20px 0px;">'.htmlspecialchars($blog['name']).', '.htmlspecialchars($blog['gender']).'</p>
+      <p> Email: '.htmlspecialchars($blog['email']).' </br>
          Message: '.$blog['msg'].'
       </p>';
 
-     $picUploaded = 'upload/blogImage/blogImg-' . $blog['id'] . '.' . $blog['imgName'];
+     $picUploaded = htmlspecialchars($blog['blogImg']);
 
-     $blogDate = date('F', strtotime($blog['sumbmitDate'])) . '<br/>' . date('Y', strtotime($blog['submitDate']));
+     $blogDate = date('M', strtotime($blog['submitDate'])) . '<br/>' . date('Y', strtotime($blog['submitDate']));
      $date = '
      <div id="circle"><img src="images/News/circle.png"></div>
      <div id="date"><h2>'.$blogDate.'</h2></div>

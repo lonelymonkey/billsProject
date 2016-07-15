@@ -1,0 +1,8 @@
+{
+  "testConfig" : "hello world",
+  "testConfig2" : [1,3,4],
+  "testConfig3" : {
+    "testConfig3Child1" : 1,
+    "testConfig3Child2" : "sdfssdf"
+  }
+}
