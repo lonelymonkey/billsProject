@@ -51,7 +51,7 @@ Username: <span class="error">* '.$error.'</span>
 <div id="smallFontMessage">
 Password:
 </div>
-<input type="text" name="password" style="width:450px;">
+<input type="password" name="password" style="width:450px;">
 </br>
 <input type="submit" name="login" value="login">
 </form>

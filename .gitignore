@@ -12,7 +12,10 @@
 /upload/
 /design/
 
-
+# App_Data #
+###################
+/upload/
+/design/
 
 # Packages #
 ############
