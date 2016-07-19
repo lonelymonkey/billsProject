@@ -1,0 +1,63 @@
+.key {
+  width: 70px;
+  height: 50px;
+  background-color: rgb(254,255,255);
+  color:black;
+  border-style: solid;
+  border-radius: 10px;
+}
+
+.key6 {
+  width: 70px;
+  height: 50px;
+  background-color: rgb(254,255,255);
+  color:black;
+  border-style: solid;
+  border-radius: 10px;
+}
+
+ul.spacing {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+ul.spacing > li {
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+ul.spacing > li:last-child {
+  margin-right:0px;
+}
+
+#numbers {
+  width: 230px;
+  height: 218px;
+  background-color: rgb(154,208,232);
+  padding: 10px;
+}
+
+#screen {
+  width: 230px;
+  height: 38px;
+  background: rgb(155,211,235);
+  padding: 10px;
+}
+
+#display {
+  width: 127px;
+  height: 25px;
+  background: rgb(123,168,187);
+  padding: 10px;
+}
+
+#clear {
+  width: 70px;
+  height: 50px;
+  background-color: rgb(255,156,171);
+  color:white;
+  border-style: solid;
+  border-radius: 10px;
+}

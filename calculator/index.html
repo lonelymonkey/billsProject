@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<link href='cssCal.css' rel='stylesheet'>
+
+<html>
+<header>
+</header>
+
+<body>
+
+<div id='screen'>
+  <ul class="spacing">
+    <li> <button id='clear'>C</button> </li>
+    <li> <div id='display'></div></li>
+  </ul>
+</div>
+
+<div id='numbers'>
+  <ul class="spacing">
+    <li> <button class='key'>1</button> </li>
+    <li> <button class='key'>2</button> </li>
+    <li> <button class='key'>3</button> </li>
+  </ul>
+
+  <ul class="spacing">
+    <li> <button class='key'>4</button> </li>
+    <li> <button class='key'>5</button> </li>
+    <li> <button class='key'>6</button> </li>
+  </ul>
+
+  <ul class="spacing">
+    <li> <button class='key'>7</button> </li>
+    <li> <button class='key'>8</button> </li>
+    <li> <button class='key'>9</button> </li>
+  </ul>
+
+  <ul class="spacing">
+    <li> <button class='key'>0</button> </li>
+    <li> <button class='key'>.</button> </li>
+    <li> <button class='key'>=</button> </li>
+  </ul>
+</div>
+
+  <script>
+
+  var buttons = document.getElementsByClassName('key');
+  var count;
+
+  function expression(key) {
+    document.getElementById('display').innerHTML += buttons[key].innerHTML;
+  }
+
+  for( count = 0; count < buttons.length; count += 1) {
+    (function(count) {
+    buttons[count].addEventListener("click", function(){expression(count);});
+  }(count));
+  }
+  console.log(buttons);
+</script>
+
+
+</body>
+
+</html>
