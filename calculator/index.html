@@ -6,55 +6,93 @@
 </header>
 
 <body>
-
+<div id='background'>
 <div id='screen'>
   <ul class="spacing">
-    <li> <button id='clear'>C</button> </li>
+    <li> <button class='key'>C</button> </li>
     <li> <div id='display'></div></li>
   </ul>
 </div>
+<div id='keypad'>
+  <div id='numbers'>
+    <ul class="spacing">
+      <li> <button class='key'>1</button> </li>
+      <li> <button class='key'>2</button> </li>
+      <li> <button class='key'>3</button> </li>
+    </ul>
 
-<div id='numbers'>
-  <ul class="spacing">
-    <li> <button class='key'>1</button> </li>
-    <li> <button class='key'>2</button> </li>
-    <li> <button class='key'>3</button> </li>
-  </ul>
+    <ul class="spacing">
+      <li> <button class='key'>4</button> </li>
+      <li> <button class='key'>5</button> </li>
+      <li> <button class='key'>6</button> </li>
+    </ul>
 
-  <ul class="spacing">
-    <li> <button class='key'>4</button> </li>
-    <li> <button class='key'>5</button> </li>
-    <li> <button class='key'>6</button> </li>
-  </ul>
+    <ul class="spacing">
+      <li> <button class='key'>7</button> </li>
+      <li> <button class='key'>8</button> </li>
+      <li> <button class='key'>9</button> </li>
+    </ul>
 
-  <ul class="spacing">
-    <li> <button class='key'>7</button> </li>
-    <li> <button class='key'>8</button> </li>
-    <li> <button class='key'>9</button> </li>
-  </ul>
+    <ul class="spacing">
+      <li> <button class='key'>0</button> </li>
+      <li> <button class='key'>.</button> </li>
+      <li> <div id='green'><button class='key'>=</button></div> </li>
+    </ul>
+  </div>
 
-  <ul class="spacing">
-    <li> <button class='key'>0</button> </li>
-    <li> <button class='key'>.</button> </li>
-    <li> <button class='key'>=</button> </li>
-  </ul>
+  <div id="operator">
+    <ul class="spacing">
+      <li><button class='key'>+</button>  </li>
+      <li> <button class='key'>-</button> </li>
+      <li> <button class='key'>/</button> </li>
+      <li> <button class='key'>x</button> </li>
+    </ul>
+  </div>
 </div>
-
+</div>
   <script>
 
   var buttons = document.getElementsByClassName('key');
+  var result = document.getElementById('display');
   var count;
 
   function expression(key) {
-    document.getElementById('display').innerHTML += buttons[key].innerHTML;
+     result.innerHTML += buttons[key].innerHTML;
+  }
+
+  function calculate() {
+    result.innerHTML = eval(result.innerHTML);
+  }
+
+  function erase() {
+    result.innerHTML = '';
+  }
+
+  function multiply() {
+    result.innerHTML += '*';
   }
 
   for( count = 0; count < buttons.length; count += 1) {
+
+  if(buttons[count].innerHTML === '=') {
     (function(count) {
-    buttons[count].addEventListener("click", function(){expression(count);});
-  }(count));
+      buttons[count].addEventListener("click", function(){calculate();});
+    }(count));
+    }
+  else if (buttons[count].innerHTML === 'C') {
+    buttons[count].addEventListener("click", function(){erase();});
   }
-  console.log(buttons);
+  else if (buttons[count].innerHTML === 'x') {
+    buttons[count].addEventListener("click", function(){multiply();});
+  }
+    else  {
+    (function(count) {
+      buttons[count].addEventListener("click", function(){expression(count);});
+    }(count));
+  };
+};
+
+
 </script>
 
 

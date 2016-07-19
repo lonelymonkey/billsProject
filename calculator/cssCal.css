@@ -1,19 +1,29 @@
 .key {
   width: 70px;
   height: 50px;
-  background-color: rgb(254,255,255);
   color:black;
   border-style: solid;
   border-radius: 10px;
 }
 
-.key6 {
-  width: 70px;
-  height: 50px;
-  background-color: rgb(254,255,255);
-  color:black;
-  border-style: solid;
-  border-radius: 10px;
+#operator > .spacing > li > .key {
+  background-color: rgb(253,240,247);
+}
+
+#screen > .spacing > li > .key {
+  background-color: rgb(255,160,168);
+}
+
+#screen > .spacing > li > .key {
+  background-color: rgb(255,160,168);
+}
+
+#numbers > .spacing > li > .key {
+  background-color: white;
+}
+
+#numbers > .spacing > li > #green > .key {
+  background-color: rgb(245,251,151);
 }
 
 ul.spacing {
@@ -32,22 +42,39 @@ ul.spacing > li:last-child {
   margin-right:0px;
 }
 
-#numbers {
-  width: 230px;
+#background {
+  width: 330px;
+  height: 297px;
+  background: rgb(155,211,235);
+}
+
+#keypad {
+  width: 312px;
   height: 218px;
-  background-color: rgb(154,208,232);
   padding: 10px;
 }
 
 #screen {
-  width: 230px;
+  width: 312px;
   height: 38px;
-  background: rgb(155,211,235);
   padding: 10px;
 }
 
+#numbers {
+  width: 230px;
+  height: 218px;
+  float: left;
+}
+
+#operator {
+  width: 70px;
+  height: 217px;
+  float: left;
+  padding-left: 10px;
+}
+
 #display {
-  width: 127px;
+  width: 207px;
   height: 25px;
   background: rgb(123,168,187);
   padding: 10px;
@@ -60,4 +87,10 @@ ul.spacing > li:last-child {
   color:white;
   border-style: solid;
   border-radius: 10px;
+}
+
+#operator {
+  width: 50px;
+  height: 100px;
+  float: left;
 }
