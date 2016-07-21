@@ -4,6 +4,15 @@
   color:black;
   border-style: solid;
   border-radius: 10px;
+  box-shadow: 2px 5px 1px rgb(118,170,183);
+}
+
+.key:hover {background-color: #3e8e41}
+
+.key:active {
+  background-color: #3e8e41;
+  box-shadow: 0 1px #666;
+  transform: translateY(4px);
 }
 
 #operator > .spacing > li > .key {
@@ -43,19 +52,21 @@ ul.spacing > li:last-child {
 }
 
 #background {
-  width: 330px;
+  width: 412px;
   height: 297px;
   background: rgb(155,211,235);
+  border-radius: 5px;
+  box-shadow: 2px 5px 1px rgb(0,158,229);
 }
 
 #keypad {
-  width: 312px;
+  width: 391px;
   height: 218px;
   padding: 10px;
 }
 
 #screen {
-  width: 312px;
+  width: 392px;
   height: 38px;
   padding: 10px;
 }
@@ -68,16 +79,19 @@ ul.spacing > li:last-child {
 
 #operator {
   width: 70px;
-  height: 217px;
+  height: 218px;
   float: left;
   padding-left: 10px;
 }
 
 #display {
-  width: 207px;
+  width: 287px;
   height: 25px;
   background: rgb(123,168,187);
   padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.5),
+            inset 5px 5px 8px rgba(0,0,0,0.5);
+  border-radius: 5px;
 }
 
 #clear {
@@ -87,10 +101,4 @@ ul.spacing > li:last-child {
   color:white;
   border-style: solid;
   border-radius: 10px;
-}
-
-#operator {
-  width: 50px;
-  height: 100px;
-  float: left;
 }
