@@ -52,207 +52,27 @@
   <div id="operator">
     <ul class="spacing">
       <li><button class='key'>COS</button>  </li>
-      <li> <button class='key'>SIN</button> </li>
+      <li> <button class='key'>SINE</button> </li>
       <li> <button class='key'>TAN</button> </li>
       <li> <button class='key'>^</button> </li>
     </ul>
   </div>
+
+  <div id="operator">
+    <ul class="spacing">
+      <li><button class='key'>(</button>  </li>
+      <li> <button class='key'>)</button> </li>
+      <li> <button class='key'>sqrt</button> </li>
+      <li> <button class='key'>clear</button> </li>
+    </ul>
+  </div>
 </div>
 </div>
-  <script>
 
-  var buttons = document.getElementsByClassName('key');
-  var result = document.getElementById('display');
-  var nonNum = '+-/*.^';
-  var num = '1234567890';
-  var count;
-
-  function expression(key) {
-
-
-    if(result.innerHTML === '') {
-      if(buttons[key].innerHTML === '-') {
-        result.innerHTML += buttons[key].innerHTML;
-      }
-      else if (nonNum.indexOf(buttons[key].innerHTML) > -1){
-          result.innerHTML = '';
-      }
-      else {
-        result.innerHTML += buttons[key].innerHTML;
-      }
-    }
-    else {
-       if(nonNum.indexOf(buttons[key].innerHTML) > -1)
-       {
-         if(num.indexOf(result.innerHTML.slice(-1)) > -1) {
-           result.innerHTML += buttons[key].innerHTML;
-       }
-        else{
-          result.innerHTML = result.innerHTML.slice(0,-1) + buttons[key].innerHTML;
-        }
-       }
-       else {
-         result.innerHTML += buttons[key].innerHTML;
-       }
-    }
-    console.log(result.innerHTML);
-}
-
-  function calculate() {
-    var expoTest = result.innerHTML.indexOf('^');
-    var expo = [];
-    var expoLength;
-    var i;
-    var numOfOperator;
-    var tempExpo;
-
-
-    var separators = ['\\\+', '-', '\\*', '/'];
-    var numSeparators = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-  //  console.log(separators.join('|'));
-    var tokens = result.innerHTML.split(new RegExp(separators.join('|'), 'g'));
-    var nonTokens = result.innerHTML.replace(/[0-9]|\^|\./g, '');
-//    console.log(nonTokens);
-    var tokensLength = tokens.length;
-    var nonTokensLength = tokens.length;
-//    console.log(tokensLength);
-    var arrayCount;
-    var nonTokensArray = [];
-
-    var finalExp = '';
-
-    for(i = 0; i < nonTokensLength; i++) {
-      nonTokensArray[i] = nonTokens.slice(i,i+1);
-  //    console.log(nonTokensArray[i]);
-    }
-  //  console.log(nonTokensArray);
-
-    switch (result.innerHTML.slice(-1)) {
-      case '.':
-      case '*':
-      case '/':
-      case '+':
-      case '-':
-      case '^':
-       result.innerHTML = result.innerHTML.substring(0, result.innerHTML.length - 1);
-       break;
-      default:
-       result.innerHTML = result.innerHTML;
-    }
-
-    if(result.innerHTML.indexOf('^') > -1) {
-    for( arrayCount = 0; arrayCount < tokensLength; arrayCount++) {
-      if(tokens[arrayCount].indexOf('^') > -1) {
-        expo = tokens[arrayCount].split('^');
-      //  console.log(expo);
-        expoLength = expo.length;
-      //  console.log(expo.length);
-        tempExpo = expo[0];
-      //  console.log(tempExpo);
-        for(i = 1; i < expoLength; i++) {
-           tempExpo = Math.pow(tempExpo,expo[i]);
-      //     console.log(tempExpo);
-        }
-       tokens[arrayCount] = tempExpo.toString();
-      }
-    }
-
-//  console.log(tokens);
-
-    for( count = 0; count < tokensLength; count++) {
-        finalExp += tokens[count];
-        finalExp += nonTokensArray[count];
-      //  console.log(finalExp);
-    }
-    console.log(finalExp);
-    result.innerHTML = eval(finalExp);
-  }
-    else {
-      result.innerHTML = eval(result.innerHTML);
-    }
-
-
-/*    if(expoTest > -1) {
-       expo = result.innerHTML.split('^');
-       //console.log(expo);
-       expoLength = expo.length;
-       //console.log(expo.length);
-       tempExpo = expo[0];
-       //console.log(tempExpo);
-       for(i = 1; i < expoLength; i++) {
-          tempExpo = Math.pow(tempExpo,expo[i]);
-          console.log(tempExpo);
-       }
-      result.innerHTML = tempExpo;
-    }
-    else{
-      result.innerHTML = eval(result.innerHTML);
-    } */
-  }
-
-  function erase() {
-    result.innerHTML = '';
-  }
-
-  function multiply() {
-    result.innerHTML += '*';
-  }
-
-  function cosine() {
-    result.innerHTML = Math.cos(result.innerHTML);
-  }
-
-  function sine() {
-    result.innerHTML = Math.sin(result.innerHTML);
-  }
-
-  function tangent() {
-    result.innerHTML = Math.tan(result.innerHTML);
-  }
-
-  function exponent(base) {
-    result.innerHTML += '^';
-
-  }
-
-  for( count = 0; count < buttons.length; count += 1) {
-
-  if(buttons[count].innerHTML === '=') {
-    (function(count) {
-      buttons[count].addEventListener("click", function(){calculate();});
-    }(count));
-    }
-  else if (buttons[count].innerHTML === 'C') {
-    buttons[count].addEventListener("click", function(){erase();});
-  }
-//  else if (buttons[count].innerHTML === 'x') {
-//    buttons[count].addEventListener("click", function(){multiply();});
-//  }
-
-  else if(buttons[count].innerHTML === 'COS') {
-    buttons[count].addEventListener("click", function(){cosine();});
-  }
-
-  else if(buttons[count].innerHTML === 'SIN') {
-    buttons[count].addEventListener("click", function(){sine();});
-  }
-
-  else if(buttons[count].innerHTML === 'TAN') {
-    buttons[count].addEventListener("click", function(){tangent();});
-  }
-
-  else if(buttons[count].innerHTML === 'EXP') {
-    buttons[count].addEventListener("click", function(){exponent(result.innerHTML);});
-  }
-
-    else  {
-    (function(count) {
-      buttons[count].addEventListener("click", function(){expression(count);});
-    }(count));
-  };
-};
-
-</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+  </script>
+  <script src="calculator.js">
+  </script>
 
 
 </body>
