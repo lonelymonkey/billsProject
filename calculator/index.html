@@ -3,76 +3,23 @@
 
 <html>
 <header>
-</header>
-
-<body>
-<div id='background'>
-<div id='screen'>
-  <ul class="spacing">
-    <li> <button class='key'>C</button> </li>
-    <li> <div id='display'></div></li>
-  </ul>
-</div>
-<div id='keypad'>
-  <div id='numbers'>
-    <ul class="spacing">
-      <li> <button class='key'>1</button> </li>
-      <li> <button class='key'>2</button> </li>
-      <li> <button class='key'>3</button> </li>
-    </ul>
-
-    <ul class="spacing">
-      <li> <button class='key'>4</button> </li>
-      <li> <button class='key'>5</button> </li>
-      <li> <button class='key'>6</button> </li>
-    </ul>
-
-    <ul class="spacing">
-      <li> <button class='key'>7</button> </li>
-      <li> <button class='key'>8</button> </li>
-      <li> <button class='key'>9</button> </li>
-    </ul>
-
-    <ul class="spacing">
-      <li> <button class='key'>0</button> </li>
-      <li> <button class='key'>.</button> </li>
-      <li> <div id='green'><button class='key'>=</button></div> </li>
-    </ul>
-  </div>
-
-  <div id="operator">
-    <ul class="spacing">
-      <li><button class='key'>+</button>  </li>
-      <li> <button class='key'>-</button> </li>
-      <li> <button class='key'>/</button> </li>
-      <li> <button class='key'>*</button> </li>
-    </ul>
-  </div>
-
-  <div id="operator">
-    <ul class="spacing">
-      <li><button class='key'>COS</button>  </li>
-      <li> <button class='key'>SINE</button> </li>
-      <li> <button class='key'>TAN</button> </li>
-      <li> <button class='key'>^</button> </li>
-    </ul>
-  </div>
-
-  <div id="operator">
-    <ul class="spacing">
-      <li><button class='key'>(</button>  </li>
-      <li> <button class='key'>)</button> </li>
-      <li> <button class='key'>sqrt</button> </li>
-      <li> <button class='key'>clear</button> </li>
-    </ul>
-  </div>
-</div>
-</div>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
   </script>
   <script src="calculator.js">
   </script>
+  <script>
+  $(document).ready(function(){
+   myCalculator.load({
+     'containerId' : 'app-wrapper'
+   });
+});
+  </script>
+
+</header>
+
+<body>
+
+<div id="app-wrapper"></div>
 
 
 </body>

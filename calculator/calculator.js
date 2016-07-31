@@ -1,12 +1,170 @@
 
-var buttons = document.getElementsByClassName('key');
-var buttons2 = document.getElementsByClassName('key2');
-var result = document.getElementById('display');
-var nonNum = '+-/*.^';
-var num = '1234567890()';
-var bracket = '()';
-var count;
-var count2;
+  (function(factory){
+    window.myCalculator = factory({});
+  }(function(myCalculator){
+    var nonNum = '+-/*.^';
+    var num = '1234567890()';
+    var bracket = '()';
+    var count;
+    var count2;
+    var result;
+    var buttons;
+    var config = {
+    };
+
+    var registeredFunctions = {};
+
+    registeredFunctions.expression = function(key){
+      console.log(key);
+      console.log(buttons);
+      console.log(result);
+      if(result.innerHTML === '') {
+        if(buttons[key].innerHTML === '-') {
+          result.innerHTML += buttons[key].innerHTML;
+        }
+        else if (nonNum.indexOf(buttons[key].innerHTML) > -1){
+            result.innerHTML = '';
+        }
+        else {
+          result.innerHTML += buttons[key].innerHTML;
+        }
+      }
+      else {
+         if(nonNum.indexOf(buttons[key].innerHTML) > -1)
+         {
+           if(num.indexOf(result.innerHTML.slice(-1)) > -1) {
+             result.innerHTML += buttons[key].innerHTML;
+         }
+          else{
+            result.innerHTML = result.innerHTML.slice(0,-1) + buttons[key].innerHTML;
+          }
+         }
+         else {
+           result.innerHTML += buttons[key].innerHTML;
+         }
+      }
+      console.log(result.innerHTML);
+    }
+
+    registeredFunctions.sqrt = function(){
+        result.innerHTML += 'sqrt(';
+        console.log(result.innerHTML);
+    }
+
+    function saveConfig(cfg) {
+      $.extend(config,cfg);
+    }
+
+    function buildUIFrame() {
+      var view = '';
+      view += '' + '<div id="background">'+
+              '<div id="screen">'+
+                '<ul class="spacing">'+
+                  '<li> <button class="key">C</button> </li>'+
+                  '<li> <div id="display">324234</div></li>'+
+                '</ul>'+
+              '</div>'+
+              '<div id="keypad">'+
+                '<div id="numbers">'+
+                  '<ul class="spacing">'+
+                    '<li> <button class="key">1</button> </li>'+
+                    '<li> <button class="key">2</button> </li>'+
+                    '<li> <button class="key">3</button> </li>'+
+                  '</ul>'+
+                  '<ul class="spacing">'+
+                    '<li> <button class="key">4</button> </li>'+
+                    '<li> <button class="key">5</button> </li>'+
+                    '<li> <button class="key">6</button> </li>'+
+                  '</ul>'+
+                  '<ul class="spacing">'+
+                    '<li> <button class="key">7</button> </li>'+
+                    '<li> <button class="key">8</button> </li>'+
+                    '<li> <button class="key">9</button> </li>'+
+                  '</ul>'+
+                  '<ul class="spacing">'+
+                    '<li> <button class="key">0</button> </li>'+
+                    '<li> <button class="key">.</button> </li>'+
+                    '<li> <div id="green"><button class="key">=</button></div> </li>'+
+                  '</ul>'+
+                '</div>'+
+                '<div id="operator">'+
+                  '<ul class="spacing">'+
+                    '<li><button class="key">+</button>  </li>'+
+                    '<li> <button class="key">-</button> </li>'+
+                    '<li> <button class="key">/</button> </li>'+
+                    '<li> <button class="key">*</button> </li>'+
+                  '</ul>'+
+                '</div>'+
+                '<div id="operator">'+
+                  '<ul class="spacing">'+
+                    '<li><button class="key">COS</button>  </li>'+
+                    '<li> <button class="key">SINE</button> </li>'+
+                    '<li> <button class="key">TAN</button> </li>'+
+                    '<li> <button class="key">^</button> </li>'+
+                  '</ul>'+
+                '</div>'+
+                '<div id="operator">'+
+                  '<ul class="spacing">'+
+                    '<li><button class="key">(</button>  </li>'+
+                    '<li> <button class="key">)</button> </li>'+
+                    '<li> <button class="key">sqrt</button> </li>'+
+                    '<li> <button class="key">clear</button> </li>'+
+                  '</ul>'+
+                '</div>'+
+              '</div>'+
+              '</div>'+
+            '';
+
+            $('#'+config.containerId).html(view);
+            bindEvents();
+    }
+
+    function bindEvents(){
+      var i;
+      $('.key').each(function(){
+        $(this).click(function(){
+          var key = $(this).html();
+
+          switch (key) {
+            case '.':
+             var index;
+             for(i = 0; i < buttons.length; i++){
+               if(buttons[i] == key)
+               console.log(index);
+               index = i;
+             }
+             console.log(index);
+             registeredFunctions['expression'](index);
+             break;
+             default:
+             registeredFunctions[key]();
+         }
+
+//          if (typeof(registeredFunctions[key]) == 'function') {
+//               registeredFunctions[key]();
+//               console.log(registeredFunctions);
+
+//        } else {
+  //          console.log('this function is not supported yet');
+        //  }
+
+        });
+      });
+    }
+
+    myCalculator.load = function(cfg){
+      saveConfig(cfg);
+      buildUIFrame();
+      result = document.getElementById('display');
+      console.log(result);
+      buttons = document.getElementsByClassName('key');
+      console.log(buttons);
+      buttons2 = document.getElementsByClassName('key2');
+    }
+
+    return myCalculator;
+  }));
+
 
 
 function expression(key) {
@@ -41,7 +199,7 @@ function expression(key) {
 }
 
 function calculate() {
-  result.innerHTML = "0.6*9-6*sqrt(4346^2+483290)-666/96*sqrt(6)";
+  //result.innerHTML = "0.6*9-6*sqrt(4346^2+483290)-666/96*sqrt(6)";
 /*  var expo = [];
   var expoLength;
   var i;
