@@ -141,29 +141,30 @@
 
 
       for(i = 0; i < numOfOccurencesArray.length; i++) {
-        countNumR = 1;
+        countNumR = 0;
         console.log(result.innerHTML.substring(numOfOccurencesArray[i]+countNumR+1, numOfOccurencesArray[i]+countNumR+2));
         while (nonNumBraket.indexOf(result.innerHTML.substring(numOfOccurencesArray[i]+countNumR+1, numOfOccurencesArray[i]+countNumR+2)) == -1) {
           countNumR++;
         //  console.log(countNumR);
         }
 
-        right = result.innerHTML.substring(numOfOccurencesArray[i]+2,numOfOccurencesArray[i]+countNumR+1);
+        right = result.innerHTML.substring(numOfOccurencesArray[i]+1,numOfOccurencesArray[i]+countNumR+1);
+        console.log(right);
 
-        countNumL = 1;
+        countNumL = 0;
 
         while (nonNumBraket.indexOf(result.innerHTML.substring(numOfOccurencesArray[i]-countNumL-1, numOfOccurencesArray[i]-countNumL)) == -1) {
           countNumL++;
         //  console.log(countNumL);
         }
 
-        left = result.innerHTML.substring(numOfOccurencesArray[i]-countNumL,numOfOccurencesArray[i] - 1);
+        left = result.innerHTML.substring(numOfOccurencesArray[i]-countNumL-1,numOfOccurencesArray[i]);
 
         //console.log(right);
         //console.log(left);
         //console.log(numOfOccurencesArray[i] - countNumL);
         //console.log(numOfOccurencesArray[i] + countNumR + 1);
-      productOriginalArray[i] = result.innerHTML.substring(numOfOccurencesArray[i] - countNumL - 1,numOfOccurencesArray[i] + countNumR + 2);
+      productOriginalArray[i] = result.innerHTML.substring(numOfOccurencesArray[i] - countNumL,numOfOccurencesArray[i] + countNumR + 1);
       product = Math.pow(left,right);
       productArray[i] = product;
       }
