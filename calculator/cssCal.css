@@ -83,7 +83,7 @@ ul.spacing > li:last-child {
 }
 
 #screen {
-  width: 392px;
+  width: inherit;
   height: 38px;
   padding: 10px;
 }
