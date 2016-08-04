@@ -9,8 +9,15 @@
     var count2;
     var result;
     var buttons;
+    var clearFlag;
     var config = {
     };
+    var answer;
+  //  var trigWords = 'cossintan';
+//    var sqrtWord = 'sqrt';
+
+    //test new method
+    var tempResultArray = [];
 
     var registeredFunctions = {};
 
@@ -20,18 +27,36 @@
         $(buttons[1]).off();
 
         $(buttons[22]).on('click', function(){
-          result.innerHTML += 'hello';
+          if(clearFlag == 1){
+            tempResultArray.length = 0;
+            tempResultArray.push('ANS');
+            result.innerHTML = 'ANS';
+            clearFlag = 0;
+          }
+          else {
+            tempResultArray.push('ANS');
+            result.innerHTML += 'ANS';
+          }
         })
 
         $(buttons[22]).empty();
-        $(buttons[22]).html('hello');
+        $(buttons[22]).html('ANS');
 
         $(buttons[23]).on('click', function(){
-          result.innerHTML += 'world';
+          if(clearFlag == 1){
+            tempResultArray.length = 0;
+            tempResultArray.push('!');
+            result.innerHTML = '!';
+            clearFlag = 0;
+          }
+          else {
+            tempResultArray.push('!');
+            result.innerHTML += '!';
+          }
         })
 
         $(buttons[23]).empty();
-        $(buttons[23]).html('world');
+        $(buttons[23]).html('!');
 
         $(buttons[1]).on('click', function(){
           registeredFunctions['unshift']();
@@ -43,16 +68,12 @@
         $(buttons[23]).off();
         $(buttons[1]).off();
 
-        $(buttons[22]).on('click', function(){
-          result.innerHTML += '(';
-        });
+        $(buttons[22]).on('click', registeredFunctions.bracketL);
 
         $(buttons[22]).empty();
         $(buttons[22]).html('(');
 
-        $(buttons[23]).on('click', function(){
-          result.innerHTML += ')';
-        });
+        $(buttons[23]).on('click', registeredFunctions.bracketR);
 
         $(buttons[23]).empty();
         $(buttons[23]).html(')');
@@ -64,299 +85,21 @@
 
 
     registeredFunctions.calculate = function() {
-      //result.innerHTML = "0.6*9-6*sqrt(4346^2+483290)-666/96*sqrt(6)";
-    /*  var expo = [];
-      var expoLength;
-      var i;
-      var numOfOperator;
-      var tempExpo;*/
+    //  result.innerHTML = "6^6^1+5^5^2+5^2+3^2+5^1^1^1^1+2^2^2^2";
+    //tempResultArray = ['9','!','+','4','!'];
+  //  console.log(tempResultArray);
 
-      //variables for calculating power inside an expression
-      var nonNumBraket = '+-/*^()';
-      var countNumR;
-      var countNumL;
-      var right;
-      var left;
-      var numOfOccurences;
-      var numOfOccurencesArray = [];
-      var j = 0;
-      var product;
-      var productArray = [];
-      var productOriginalArray = [];
-      var tempResult;
+    clearFlag = 1;
 
-      //variables for calculating square root
-      var endSR = ')';
-      var detectingSR = 'r';
-      var numOfOccurencesSR;
-      var numOfOccurencesArraySR = [];
-      var k = 0;
-      var productSR;
-      var productArraySR = [];
-      var productOriginalArraySR = [];
-      var countNumSR;
+    result.innerHTML = tempResultArray.join('');
 
+  //  console.log(result.innerHTML);
 
+    result.innerHTML = result.innerHTML.replace('ANS', answer);
 
+    console.log(result.innerHTML);
 
-
-      //variables for calculating cosine
-      var endCos = ')';
-      var detectingCos = 's';
-      var numOfOccurencesCos;
-      var numOfOccurencesArrayCos = [];
-      var productCos;
-      var c = 0;
-      var productArrayCos = [];
-      var productOriginalArrayCos = [];
-      var countNumCos;
-
-      //variables for calculating tan/sin
-      var endTrig = ')';
-      var detectingTrig = 'n';
-      var numOfOccurencesTrig;
-      var numOfOccurencesArrayTrig = [];
-      var productTrig;
-      var t = 0;
-      var productArrayTrig = [];
-      var productOriginalArrayTrig = [];
-      var countNumTrig;
-      var trigTest = [];
-
-      numOfOccurences = result.innerHTML.indexOf('^');
-      while(numOfOccurences >= 0) {
-        numOfOccurencesArray[j] = numOfOccurences;
-        j++;
-        numOfOccurences = result.innerHTML.indexOf('^', numOfOccurences+1);
-      }
-
-      console.log(numOfOccurencesArraySR);
-
-
-    /*  var separators = ['\\\+', '-', '\\*', '/', '\\\(', '\\\)'];
-      console.log(separators.join('|'));
-      var tokens = result.innerHTML.split(new RegExp('[-+()*'/':? ]', 'g'));
-          tokens = tokens.filter(Boolean);
-      var nonTokens = result.innerHTML.replace(/[0-9]|\^|\./g, '');*/
-
-
-      for(i = 0; i < numOfOccurencesArray.length; i++) {
-        countNumR = 0;
-        console.log(result.innerHTML.substring(numOfOccurencesArray[i]+countNumR+1, numOfOccurencesArray[i]+countNumR+2));
-        while (nonNumBraket.indexOf(result.innerHTML.substring(numOfOccurencesArray[i]+countNumR+1, numOfOccurencesArray[i]+countNumR+2)) == -1) {
-          countNumR++;
-        //  console.log(countNumR);
-        }
-
-        right = result.innerHTML.substring(numOfOccurencesArray[i]+1,numOfOccurencesArray[i]+countNumR+1);
-        console.log(right);
-
-        countNumL = 0;
-
-        while (nonNumBraket.indexOf(result.innerHTML.substring(numOfOccurencesArray[i]-countNumL-1, numOfOccurencesArray[i]-countNumL)) == -1) {
-          countNumL++;
-        //  console.log(countNumL);
-        }
-
-        left = result.innerHTML.substring(numOfOccurencesArray[i]-countNumL-1,numOfOccurencesArray[i]);
-
-        //console.log(right);
-        //console.log(left);
-        //console.log(numOfOccurencesArray[i] - countNumL);
-        //console.log(numOfOccurencesArray[i] + countNumR + 1);
-      productOriginalArray[i] = result.innerHTML.substring(numOfOccurencesArray[i] - countNumL,numOfOccurencesArray[i] + countNumR + 1);
-      product = Math.pow(left,right);
-      productArray[i] = product;
-      }
-      tempResult = result.innerHTML;
-
-      for(i=0; i<productOriginalArray.length; i++) {
-        tempResult = tempResult.replace(productOriginalArray[i],productArray[i]);
-      }
-
-      console.log(productArray);
-      console.log(productOriginalArray);
-      console.log(tempResult);
-
-      numOfOccurencesSR = tempResult.indexOf('r');
-      while(numOfOccurencesSR >= 0) {
-        numOfOccurencesArraySR[k] = numOfOccurencesSR;
-        k++;
-        numOfOccurencesSR = tempResult.indexOf('r', numOfOccurencesSR+1);
-      }
-
-
-      for(k = 0; k < numOfOccurencesArraySR.length; k++) {
-        countNumSR = 0;
-
-        while(endSR.indexOf(tempResult.substring(numOfOccurencesArraySR[k]+countNumSR+3, numOfOccurencesArraySR[k]+countNumSR+4)) == -1) {
-
-    //  console.log(endSR.indexOf(tempResult.substring(numOfOccurencesArraySR[k]+countNumSR+2, numOfOccurencesArraySR[k]+countNumSR+3)));
-    //  console.log(tempResult.substring(numOfOccurencesArraySR[k]+countNumSR+2, numOfOccurencesArraySR[k]+countNumSR+3));
-          countNumSR++;
-        }
-
-        // console.log(countNumSR);
-         console.log(tempResult.substring(numOfOccurencesArraySR[k] + 2,numOfOccurencesArraySR[k] + countNumSR + 2));
-      //   console.log(numOfOccurencesArraySR[i] + countNumSR);
-       productOriginalArraySR[k] = tempResult.substring(numOfOccurencesArraySR[k] + 3,numOfOccurencesArraySR[k] + countNumSR + 3);
-       productSR = Math.sqrt(eval(productOriginalArraySR[k]));
-        productArraySR[k] = productSR;
-      }
-
-      console.log(productArraySR);
-      console.log(productOriginalArraySR);
-
-      for(i=0; i<productOriginalArraySR.length; i++) {
-        tempResult = tempResult.replace('sqrt(' + productOriginalArraySR[i] + ')',productArraySR[i]);
-      }
-      console.log(tempResult);
-      //console.log(tempResult.substring(numOfOccurencesArraySR[0]+2, numOfOccurencesArraySR[0]+3));
-
-
-
-
-
-
-
-      numOfOccurencesTrig = tempResult.indexOf('n');
-      while(numOfOccurencesTrig >= 0) {
-        numOfOccurencesArrayTrig[t] = numOfOccurencesTrig;
-        t++;
-        numOfOccurencesTrig = tempResult.indexOf('n', numOfOccurencesTrig+1);
-      }
-
-      for(t = 0; t < numOfOccurencesArrayTrig.length; t++) {
-        countNumTrig = 0;
-
-        while(endTrig.indexOf(tempResult.substring(numOfOccurencesArrayTrig[t]+countNumTrig+2, numOfOccurencesArrayTrig[t]+countNumTrig+3)) == -1) {
-
-    //  console.log(endCos.indexOf(tempResult.substring(numOfOccurencesArrayCos[k]+countNumSR+2, numOfOccurencesArrayCos[k]+countNumSR+3)));
-    //  console.log(tempResult.substring(numOfOccurencesArraySR[k]+countNumSR+2, numOfOccurencesArraySR[k]+countNumSR+3));
-          countNumTrig++;
-        }
-
-        // console.log(countNumSR);
-         console.log(tempResult.substring(numOfOccurencesArrayTrig[t] + 2,numOfOccurencesArrayTrig[t] + countNumTrig + 2));
-      //   console.log(numOfOccurencesArraySR[i] + countNumSR);
-        productOriginalArrayTrig[t] = tempResult.substring(numOfOccurencesArrayTrig[t] + 2,numOfOccurencesArrayTrig[t] + countNumTrig + 2);
-      trigTest[t] = tempResult.substring(numOfOccurencesArrayTrig[t] - 1,numOfOccurencesArrayTrig[t] - 2);
-      console.log(trigTest);
-      if(trigTest[t] === 's'){
-       productTrig = Math.sin(eval(productOriginalArrayTrig[t]));
-     }
-     else if(trigTest[t] === 't'){
-       productTrig = Math.tan(eval(productOriginalArrayTrig[t]));
-     }
-        productArrayTrig[t] = productTrig;
-      }
-
-      console.log(productArrayTrig);
-      console.log(productOriginalArrayTrig);
-
-      for(i=0; i<productOriginalArrayTrig.length; i++) {
-        if(trigTest[i] === 's'){
-          tempResult = tempResult.replace('sin(' + productOriginalArrayTrig[i] + ')',productArrayTrig[i]);
-        }
-        else if (trigTest[i] === 't') {
-          tempResult = tempResult.replace('tan(' + productOriginalArrayTrig[i] + ')',productArrayTrig[i]);
-        }
-      }
-      console.log(tempResult);
-
-
-
-
-
-
-
-
-      numOfOccurencesCos = tempResult.indexOf('s');
-      while(numOfOccurencesCos >= 0) {
-        numOfOccurencesArrayCos[c] = numOfOccurencesCos;
-        c++;
-        numOfOccurencesCos = tempResult.indexOf('s', numOfOccurencesCos+1);
-      }
-
-      for(c = 0; c < numOfOccurencesArrayCos.length; c++) {
-        countNumCos = 0;
-
-        while(endCos.indexOf(tempResult.substring(numOfOccurencesArrayCos[c]+countNumCos+2, numOfOccurencesArrayCos[c]+countNumCos+3)) == -1) {
-
-    //  console.log(endCos.indexOf(tempResult.substring(numOfOccurencesArrayCos[k]+countNumSR+2, numOfOccurencesArrayCos[k]+countNumSR+3)));
-    //  console.log(tempResult.substring(numOfOccurencesArraySR[k]+countNumSR+2, numOfOccurencesArraySR[k]+countNumSR+3));
-          countNumCos++;
-        }
-
-        // console.log(countNumSR);
-         console.log(tempResult.substring(numOfOccurencesArrayCos[c] + 2,numOfOccurencesArrayCos[c] + countNumCos + 2));
-      //   console.log(numOfOccurencesArraySR[i] + countNumSR);
-        productOriginalArrayCos[c] = tempResult.substring(numOfOccurencesArrayCos[c] + 2,numOfOccurencesArrayCos[c] + countNumCos + 2);
-      console.log(tempResult.substring(numOfOccurencesArrayCos[c],numOfOccurencesArrayCos[c]-2));
-       productCos = Math.cos(eval(productOriginalArrayCos[c]));
-        productArrayCos[c] = productCos;
-      }
-
-      console.log(productArrayCos);
-      console.log(productOriginalArrayCos);
-
-      for(i=0; i<productOriginalArrayCos.length; i++) {
-        tempResult = tempResult.replace('cos(' + productOriginalArrayCos[i] + ')',productArrayCos[i]);
-      }
-      console.log(tempResult);
-
-      /*var tokensLength = tokens.length;
-      var nonTokensLength = nonTokens.length;
-    //    console.log(tokensLength);
-      var arrayCount;
-      var nonTokensArray = [];
-      var firstBracketFlag = '';
-
-      var nonTokensArrayBracket = [];
-
-      var finalExp = '';
-
-      for(i = 0; i < nonTokensLength; i++) {
-        nonTokensArray[i] = nonTokens.slice(i,i+1);
-    }
-
-      firstBracketFlag = nonTokensArray[0];
-
-      console.log(nonTokensArray);
-    for(i=0; i < nonTokensArray.length; i++) {
-      if(nonTokensArray[i] === '(') {
-        nonTokensArrayBracket[i] = nonTokensArray[i-1] + nonTokensArray[i];
-        }
-      else if(nonTokensArray[i] == ')') {
-        nonTokensArrayBracket[i] =  nonTokensArray[i] + nonTokensArray[i+1];
-      }
-      else {
-        nonTokensArrayBracket[i] = '';
-      }
-    }
-    console.log(nonTokensArrayBracket);
-    for(i=0; i< nonTokensArrayBracket.length; i++) {
-        nonTokensArrayBracket[i-1] = nonTokensArrayBracket[i];
-    }
-
-     console.log(nonTokensArrayBracket);
-
-
-
-    for(i=0; i< nonTokensArray.length; i++) {
-      if(bracket.indexOf(nonTokensArray[i]) > -1) {
-        nonTokensArray.splice(i,1);
-      }
-    }
-    console.log(nonTokensArray);
-
-    for(i=0; i < nonTokensArray.length; i++) {
-      if(nonTokensArrayBracket[i] !== '') {
-        nonTokensArray[i] = nonTokensArrayBracket[i];
-      }
-    }*/
-
-      switch (result.innerHTML.slice(-1)) {
+    switch (result.innerHTML.slice(-1)) {
         case '.':
         case '*':
         case '/':
@@ -369,119 +112,212 @@
          result.innerHTML = result.innerHTML;
       }
 
-      /*if(result.innerHTML.indexOf('^') > -1) {
-      for( arrayCount = 0; arrayCount < tokensLength; arrayCount++) {
-        if(tokens[arrayCount].indexOf('^') > -1) {
-          expo = tokens[arrayCount].split('^');
-        //  console.log(expo);
-          expoLength = expo.length;
-        //  console.log(expo.length);
-          tempExpo = expo[0];
-        //  console.log(tempExpo);
-          for(i = 1; i < expoLength; i++) {
-             tempExpo = Math.pow(tempExpo,expo[i]);
-        //     console.log(tempExpo);
-          }
-         tokens[arrayCount] = tempExpo.toString();
-        }
-      }
-
-    console.log(tokens);
-    console.log(nonTokensArray);
-      if(firstBracketFlag === '(') {
-
-      }
-      nonTokensArray.unshift('(');
-    console.log(nonTokensArray);
-      for( count = 0; count < tokensLength; count++) {
-          finalExp += tokens[count];
-          if(count < nonTokensArray.length)
-          finalExp += nonTokensArray[count];
-          console.log(finalExp);
-      }
-      console.log(finalExp);
-      result.innerHTML = eval(finalExp);
+    try{
+        result.innerHTML = math.eval(result.innerHTML);
+        answer = result.innerHTML;
     }
-      else {
-        result.innerHTML = eval(result.innerHTML);
-      }*/
-      result.innerHTML = eval(tempResult);
+    catch(err){
+      result.innerHTML = 'unable to evaluate the expression';
+    }
+
     }
 
     registeredFunctions.expression = function(key){
-      console.log(key);
-      console.log(buttons);
-      console.log(result);
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML = '';
+        expressionWithoutFlag(key);
+        clearFlag = 0;
+      }
+      else {
+        expressionWithoutFlag(key);
+      }
+    }
+
+    function factorial() {
+      var indexesOfFac;
+      var factorialArray = [];
+      for(indexesOfFac=0; indexesOfFac < tempResultArray.length; indexesOfFac++){
+        if(tempResultArray[indexesOfFac] == '!') {
+          factorialArray.push(indexesOfFac);
+        }
+      }
+  //    console.log(factorialArray);
+      // use a look up table to record the values
+    }
+
+    function expressionWithoutFlag(key){
       var operators = '/*-+';
-      if(result.innerHTML === '') {
+      if(tempResultArray.length == 0) {
         if(buttons[key].innerHTML === '-') {
-          result.innerHTML += buttons[key].innerHTML;
+          tempResultArray.push('-');
+          result.innerHTML += '-';
         }
         else if (nonNum.indexOf(buttons[key].innerHTML) > -1){
             result.innerHTML = '';
+            tempResultArray.length = 0;
         }
         else {
           result.innerHTML += buttons[key].innerHTML;
+          tempResultArray.push(buttons[key].innerHTML);
         }
       }
-      else if(result.innerHTML === '-'){
+      else if(tempResultArray[0] === '-' && tempResultArray.length == 1){
         if(num.indexOf(buttons[key].innerHTML) > -1) {
           result.innerHTML += buttons[key].innerHTML;
+          tempResultArray.push(buttons[key].innerHTML);
         }
       }
       else {
          if(nonNum.indexOf(buttons[key].innerHTML) > -1)
          {
-           if(num.indexOf(result.innerHTML.slice(-1)) > -1) {
-             result.innerHTML += buttons[key].innerHTML;
+           if(num.indexOf(tempResultArray.slice(-1)) > -1) {
+               result.innerHTML += buttons[key].innerHTML;
+               tempResultArray.push(buttons[key].innerHTML);
          }
           else{
             result.innerHTML = result.innerHTML.slice(0,-1) + buttons[key].innerHTML;
+            tempResultArray.pop();
+            tempResultArray.push(buttons[key].innerHTML);
           }
          }
          else {
            result.innerHTML += buttons[key].innerHTML;
+           tempResultArray.push(buttons[key].innerHTML);
          }
       }
-      console.log(result.innerHTML);
+      console.log(tempResultArray);
     }
 
     registeredFunctions.sqrt = function(){
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
         result.innerHTML += 'sqrt(';
-        console.log(result.innerHTML);
+        tempResultArray.push('sqrt(');
+        clearFlag = 0;
+      }
+      else {
+        result.innerHTML += 'sqrt(';
+        tempResultArray.push('sqrt(');
+      }
+      console.log(tempResultArray);
     }
 
     registeredFunctions.erase = function() {
+      tempResultArray.length = 0;
       result.innerHTML = '';
+      console.log(tempResultArray);
     }
 
     registeredFunctions.cosine = function() {
-      result.innerHTML += 'cos(';
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML += 'cos(';
+        tempResultArray.push('cos(');
+        clearFlag = 0;
+      }
+      else {
+        result.innerHTML += 'cos(';
+        tempResultArray.push('cos(');
+      }
+      console.log(tempResultArray);
     }
 
     registeredFunctions.sine = function() {
-      result.innerHTML += 'sin(';
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML += 'sin(';
+        tempResultArray.push('sin(');
+        clearFlag = 0;
+      }
+      else {
+        result.innerHTML += 'sin(';
+        tempResultArray.push('sin(');
+      }
+      console.log(tempResultArray);
     }
 
     registeredFunctions.tangent = function() {
-      result.innerHTML += 'tan(';
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML += 'tan(';
+        tempResultArray.push('tan(');
+        clearFlag = 0;
+      }
+      else {
+        result.innerHTML += 'tan(';
+        tempResultArray.push('tan(');
+      }
+      console.log(tempResultArray);
     }
 
     registeredFunctions.exponent = function() {
-      result.innerHTML += '^';
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML += '^';
+        tempResultArray.push('^');
+        clearFlag = 0;
+      }
+      else {
+        result.innerHTML += '^';
+        tempResultArray.push('^');
+      }
+      console.log(tempResultArray);
     }
 
     registeredFunctions.bracketL = function() {
-      result.innerHTML += '(';
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML += '(';
+        tempResultArray.push('(');
+        clearFlag = 0;
+      }
+      else {
+        result.innerHTML += '(';
+        tempResultArray.push('(');
+      }
+      console.log(tempResultArray);
     }
 
     registeredFunctions.bracketR = function() {
-      result.innerHTML += ')';
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML += ')';
+        tempResultArray.push(')');
+        clearFlag = 0;
+      }
+      else {
+        result.innerHTML += ')';
+        tempResultArray.push(')');
+      }
+      console.log(tempResultArray);
     }
 
     registeredFunctions.clear = function() {
-      result.innerHTML =  result.innerHTML.substring(0, result.innerHTML.length - 1);
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        result.innerHTML = '';
+        clearFlag = 0;
+      }
+      else {
+        var popped = tempResultArray.pop();
+        var lastIndex = result.innerHTML.lastIndexOf(popped);
+        result.innerHTML = result.innerHTML.substring(0,lastIndex);
+        console.log(popped);
+
+
+      }
+      console.log(tempResultArray);
     }
+    /*  console.log(result.innerHTML.substring(result.innerHTML.length - 4, result.innerHTML.length));
+      if(trigWords.indexOf(result.innerHTML.substring(result.innerHTML.length - 4, result.innerHTML.length - 3)) > -1){
+        result.innerHTML = result.innerHTML.substring(0, result.innerHTML.length - 4);
+      }
+      else if(sqrtWord.indexOf(result.innerHTML.substring(result.innerHTML.length - 4, result.innerHTML.length - 3)) > -1){
+        result.innerHTML = result.innerHTML.substring(0, result.innerHTML.length - 5);
+      }
+      else
+        result.innerHTML =  result.innerHTML.substring(0, result.innerHTML.length - 1); */
 
     function saveConfig(cfg) {
       $.extend(config,cfg);
@@ -578,11 +414,11 @@
              var index;
              for(i = 0; i < buttons.length; i++){
                if(buttons[i].innerHTML == key) {
-               console.log(index);
+          //     console.log(index);
                index = i;
              }
              }
-             console.log(index);
+        //   console.log(index);
              registeredFunctions['expression'](index);
              break;
              case '=':
@@ -615,15 +451,6 @@
              default:
              registeredFunctions[key]();
          }
-
-//          if (typeof(registeredFunctions[key]) == 'function') {
-//               registeredFunctions[key]();
-//               console.log(registeredFunctions);
-
-//        } else {
-  //          console.log('this function is not supported yet');
-        //  }
-
         });
       });
     }
@@ -632,9 +459,9 @@
       saveConfig(cfg);
       buildUIFrame();
       result = document.getElementById('display');
-      console.log(result);
+    //  console.log(result);
       buttons = document.getElementsByClassName('key');
-      console.log(buttons);
+    //  console.log(buttons);
       buttons2 = document.getElementsByClassName('key2');
     }
 

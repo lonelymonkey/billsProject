@@ -2,12 +2,17 @@
   width: 70px;
   height: 50px;
   color:black;
+  opacity: 0.9;
   border-style: solid;
   border-radius: 10px;
   box-shadow: 2px 5px 1px rgb(118,170,183);
+  cursor: pointer;
 }
 
-.key:hover {background-color: #3e8e41}
+.key:hover {
+  background-color: #3e8e41;
+  opacity: 1;
+}
 
 .key:active {
   background-color: #3e8e41;
