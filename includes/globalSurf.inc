@@ -6,8 +6,11 @@ var_dump($_SERVER);
 echo '</pre>';
 */
 defined('MAX_BLOG_DISPLAY') or define('MAX_BLOG_DISPLAY', '3');
+<<<<<<< HEAD
 define('TWO_BLOG_DISPLAY', '3');
 define('ONE_BLOG_DISPLAY', '2');
+=======
+>>>>>>> 55f4214c7bd3cbf696e6ec424e971e90ea9b6a77
 
 
 function printheader() {

@@ -1,0 +1,126 @@
+.key {
+  width: 70px;
+  height: 50px;
+  color:black;
+  opacity: 0.9;
+  border-style: solid;
+  border-radius: 10px;
+  box-shadow: 2px 5px 1px rgb(118,170,183);
+  cursor: pointer;
+}
+
+.key:hover {
+  background-color: #3e8e41;
+  opacity: 1;
+}
+
+.key:active {
+  background-color: #3e8e41;
+  box-shadow: 0 1px #666;
+  transform: translateY(4px);
+}
+
+.key2 {
+  width: 70px;
+  height: 50px;
+  color:black;
+  border-style: solid;
+  border-radius: 10px;
+  box-shadow: 2px 5px 1px rgb(118,170,183);
+}
+
+.key2:hover {background-color: #3e8e41}
+
+.key2:active {
+  background-color: #3e8e41;
+  box-shadow: 0 1px #666;
+  transform: translateY(4px);
+}
+
+#operator > .spacing > li > .key {
+  background-color: rgb(253,240,247);
+}
+
+#screen > .spacing > li > .key {
+  background-color: rgb(255,160,168);
+}
+
+#screen > .spacing > li > .key {
+  background-color: rgb(255,160,168);
+}
+
+#numbers > .spacing > li > .key {
+  background-color: white;
+}
+
+#numbers > .spacing > li > #green > .key {
+  background-color: rgb(245,251,151);
+}
+
+ul.spacing {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+ul.spacing > li {
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+ul.spacing > li:last-child {
+  margin-right:0px;
+}
+
+#background {
+  width: 492px;
+  height: 297px;
+  background: rgb(155,211,235);
+  border-radius: 5px;
+  box-shadow: 2px 5px 1px rgb(0,158,229);
+}
+
+#keypad {
+  width: 471px;
+  height: 218px;
+  padding: 10px;
+}
+
+#screen {
+  width: inherit;
+  height: 38px;
+  padding: 10px;
+}
+
+#numbers {
+  width: 230px;
+  height: 218px;
+  float: left;
+}
+
+#operator {
+  width: 70px;
+  height: 218px;
+  float: left;
+  padding-left: 10px;
+}
+
+#display {
+  width: 287px;
+  height: 25px;
+  background: rgb(123,168,187);
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.5),
+            inset 5px 5px 8px rgba(0,0,0,0.5);
+  border-radius: 5px;
+}
+
+#clear {
+  width: 70px;
+  height: 50px;
+  background-color: rgb(255,156,171);
+  color:white;
+  border-style: solid;
+  border-radius: 10px;
+}

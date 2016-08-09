@@ -10,7 +10,13 @@
 /tourismsurfing/blog.json
 /tourismsurfing/picture.txt
 /upload/
+/design/
+/tourismsurfing_v2/upload/
 
+# App_Data #
+###################
+/upload/
+/design/
 
 # Packages #
 ############
@@ -28,7 +34,7 @@
 # Logs and databases #
 ######################
 *.log
-*.sql
+!mysql_definition.sql
 *.sqlite
 
 # OS generated files #
