@@ -2,8 +2,10 @@
   (function(factory){
     window.myCalculator = factory({});
   }(function(myCalculator){
-    var nonNum = '+-/*.^';
+    var nonNum = '+-/*.^'; //-
     var num = '1234567890()!';
+    var multiplyBrac = '(sqrt(cos(sin(tan(';
+    var backBrac = ')';
     var bracket = '()';
     var count;
     var count2;
@@ -16,6 +18,7 @@
     var order = 0;
     var sqrt = {};
     var orderArray = [];
+    var index = 0;
 
     function factory(value){
       var self = {};
@@ -24,9 +27,11 @@
         self = {
           values: value,
           order: order,
+          index: index,
           class: 'end'
         }
           order--;
+          index++;
 
       }
       else if (value === 'sqrt(' || value === 'cos(' || value === 'sin(' || value === 'tan(' || value === '(') {
@@ -34,18 +39,22 @@
         self = {
           values: value,
           order: order,
+          index: index,
           class: 'start'
 
         }
         orderArray.push(order);
+        index++;
       }
       else{
         self = {
           values: value,
           order: order,
+          index: index,
           class: 'content'
         }
         orderArray.push(order);
+        index++;
       }
 
       return self;
@@ -70,14 +79,31 @@
 
         $(buttons[22]).on('click', function(){
           if(clearFlag == 1){
+            index = 0;
+            order = 0;
             tempResultArray.length = 0;
             tempResultArray.push('ANS');
+            tempResultArrayOb.length = 0;
+            tempResultArrayOb.push({
+              values: answer,
+              order:  index,
+              index:  order,
+              class: 'content'
+            })
             result.innerHTML = 'ANS';
+            index++;
             clearFlag = 0;
           }
           else {
             tempResultArray.push('ANS');
+            tempResultArrayOb.push({
+              values: answer,
+              order:  order,
+              index:  tempResultArrayOb.length,
+              class: 'content'
+            })
             result.innerHTML += 'ANS';
+
           }
         })
 
@@ -88,6 +114,7 @@
           if(clearFlag == 1){
             tempResultArray.length = 0;
             tempResultArray.push('!');
+            jQuery.extend(tempResultArrayOb[tempResultArrayOb.length - 1], factorialOb);
             result.innerHTML = '!';
             clearFlag = 0;
           }
@@ -95,7 +122,7 @@
             tempResultArray.push('!');
             result.innerHTML += '!';
             jQuery.extend(tempResultArrayOb[tempResultArrayOb.length - 1], factorialOb);
-            console.log(tempResultArrayOb);
+        //    console.log(tempResultArrayOb);
           }
         })
 
@@ -129,10 +156,14 @@
 
 
     registeredFunctions.calculate = function() {
+      console.log(result.innerHTML);
     //  result.innerHTML = "6^6^1+5^5^2+5^2+3^2+5^1^1^1^1+2^2^2^2";
     //tempResultArray = ['9','!','+','4','!'];
   //  console.log(tempResultArray);
   var nonNumBraket = '+-/*';
+
+  var multiIndex = tempResultArrayOb.length;
+  var numbers = '0123456789';
   var countNumR;
   var countNumL;
   var right;
@@ -146,16 +177,52 @@
   var productOriginalArray = [];
   var tempResult = {};
 
-    console.log(orderArray);
+  //  console.log(orderArray);
     var checkOrder;
     var checkContent = 0;
     var content;
+    var tempContent = '';
     var temp;
     var functions;
     var nextOrder;
     var tempResultArrayObtemp = [];
     var arrayReset;
+    var calculateIndex;
     clearFlag = 1;
+
+  //  console.log(tempResultArrayOb);
+
+    tempResultArrayOb.push({
+      values: ')',
+      order: 0,
+      index: index,
+      class: 'end'
+    })
+
+    for(i = 0; i < multiIndex; i++){
+      if(multiplyBrac.indexOf(tempResultArrayOb[i+1].values) > -1 && numbers.indexOf(tempResultArrayOb[i].values) > -1){
+        tempResultArrayOb.splice(i+1,0,{
+          values: '*',
+          order: tempResultArrayOb[i].order,
+          index: i,
+          class: 'content'
+        })
+      }
+      else if(backBrac.indexOf(tempResultArrayOb[i].values) > -1 && numbers.indexOf(tempResultArrayOb[i+1].values) > -1){
+        tempResultArrayOb.splice(i+1,0,{
+          values: '*',
+          order: tempResultArrayOb[i+1].order,
+          index: i,
+          class: 'content'
+        })
+      }
+    }
+
+    for(i = 0; i < tempResultArrayOb.length; i++){
+        tempResultArrayOb[i].index = i;
+    }
+
+      //  console.log(tempResultArrayOb);
 
     if(!orderArray.length){
       orderArray = [0];
@@ -164,130 +231,158 @@
     orderArray = orderArray.filter(function(item,pos){
       return orderArray.indexOf(item) == pos;
     })
-    console.log(orderArray);
+    orderArray = orderArray.sort();
+//    console.log(orderArray);
 
     for(checkOrder = orderArray.length; checkOrder > 0; checkOrder--){
-      console.log(tempResultArrayOb);
-      content = '';
-      functions = '';
+  //    console.log(tempResultArrayOb);
+      content = [];
+      functions = [];
+      contentArrayIndex = 0;
       for(checkContent = 0; checkContent < tempResultArrayOb.length; checkContent++) {
         if(tempResultArrayOb[checkContent].order == orderArray[checkOrder - 1] && tempResultArrayOb[checkContent].class == 'content'){
-          if(tempResultArrayOb[checkContent].factorialFlag){
+  /*        if(tempResultArrayOb[checkContent].factorialFlag){
             content += factorial(tempResultArrayOb[checkContent].values);
             console.log(content);
           }
           else{
           content += tempResultArrayOb[checkContent].values;
+        }*/
+        if((tempResultArrayOb[checkContent+1].index - tempResultArrayOb[checkContent].index) == 1){
+          if(tempResultArrayOb[checkContent].factorialFlag){
+            tempContent += factorial(tempResultArrayOb[checkContent].values);
+          }
+          else{
+            tempContent += tempResultArrayOb[checkContent].values;
+          }
+    //      console.log(tempContent);
+          if(tempResultArrayOb[checkContent+1].class == 'end'){
+            content[contentArrayIndex] = tempContent;
+            tempContent = [];
+            contentArrayIndex++;
+    //        console.log(contentArrayIndex);
+          }
         }
-          console.log(content);
         }
         else if (tempResultArrayOb[checkContent].order == orderArray[checkOrder - 1] && tempResultArrayOb[checkContent].class == 'start') {
-          functions = tempResultArrayOb[checkContent].values;
+          functions.push(tempResultArrayOb[checkContent].values);
+    //      console.log(functions);
         }
       }
       nextOrder = orderArray[checkOrder - 1] - 1;
-      console.log(functions);
+    //  console.log(content);
 
-      if(content.indexOf('^') > -1) {
-        numOfOccurences = content.indexOf('^');
-        while(numOfOccurences >= 0) {
-            numOfOccurencesArray[j] = numOfOccurences;
-            j++;
-          numOfOccurences = content.indexOf('^', numOfOccurences+1);
-        }
-        console.log(numOfOccurencesArray);
-
-        for(i=0; i<numOfOccurencesArray.length; i++){
-          if(numOfOccurencesArray[i+1] - numOfOccurencesArray[i] == 2){
-            continue;
+      for(calculateIndex = 0; calculateIndex < content.length; calculateIndex++){
+        j = 0;
+      if(content[calculateIndex].indexOf('^') > -1) {
+          numOfOccurences = content[calculateIndex].indexOf('^');
+          while(numOfOccurences >= 0) {
+              numOfOccurencesArray[j] = numOfOccurences;
+              j++;
+            numOfOccurences = content[calculateIndex].indexOf('^', numOfOccurences+1);
           }
-          numOfOccurencesArrayEliDuplication[i] = numOfOccurencesArray[i];
-        }
+        //  console.log(numOfOccurencesArray);
 
-        numOfOccurencesArrayEliDuplication = numOfOccurencesArrayEliDuplication.filter(function(v){return v!==''});
-
-        console.log(numOfOccurencesArrayEliDuplication);
-
-        for(i = 0; i < numOfOccurencesArrayEliDuplication.length; i++) {
-          countNumR = 0;
-        //  console.log(result.innerHTML.substring(numOfOccurencesArrayEliDuplication[i]+countNumR+1, numOfOccurencesArrayEliDuplication[i]+countNumR+2));
-          while (nonNumBraket.indexOf(content.substring(numOfOccurencesArrayEliDuplication[i]+countNumR+1, numOfOccurencesArrayEliDuplication[i]+countNumR+2)) == -1) {
-            countNumR++;
-          //  console.log(countNumR);
-          }
-
-          right = content.substring(numOfOccurencesArrayEliDuplication[i]+1,numOfOccurencesArrayEliDuplication[i]+countNumR+1);
-
-          countNumL = 0;
-
-          while (nonNumBraket.indexOf(content.substring(numOfOccurencesArrayEliDuplication[i]-countNumL-1, numOfOccurencesArrayEliDuplication[i]-countNumL)) == -1) {
-            countNumL++;
-          //  console.log(countNumL);
-          }
-
-          left = content.substring(numOfOccurencesArrayEliDuplication[i]-countNumL,numOfOccurencesArrayEliDuplication[i]);
-
-        //  console.log(left.split('^'))
-          if(left.indexOf('^') > -1){
-            separate = left.split('^');
-            powerTemp = separate[0];
-           for(var l=1; l<separate.length; l++){
-              powerTemp = Math.pow(powerTemp,separate[l]);
+          for(i=0; i<numOfOccurencesArray.length; i++){
+            if(numOfOccurencesArray[i+1] - numOfOccurencesArray[i] == 2){
+              continue;
             }
-            left = powerTemp;
+            numOfOccurencesArrayEliDuplication[i] = numOfOccurencesArray[i];
           }
-          /*  var separators = ['\\\+', '-', '\\*', '/', '\\\(', '\\\)'];
-            console.log(separators.join('|'));
-            var tokens = result.innerHTML.split(new RegExp('[-+()*'/':? ]', 'g'));
-                tokens = tokens.filter(Boolean);
-            var nonTokens = result.innerHTML.replace(/[0-9]|\^|\./g, '');*/
 
-          console.log(right);
-          console.log(left);
-          //console.log(numOfOccurencesArray[i] - countNumL);
-          //console.log(numOfOccurencesArray[i] + countNumR + 1);
-        productOriginalArray[i] = content.substring(numOfOccurencesArrayEliDuplication[i] - countNumL,numOfOccurencesArrayEliDuplication[i] + countNumR + 1);
-        product = Math.pow(left,right);
-        console.log(product);
-        productArray[i] = product;
+          numOfOccurencesArrayEliDuplication = numOfOccurencesArrayEliDuplication.filter(function(v){return v!==''});
+
+      //    console.log(numOfOccurencesArrayEliDuplication);
+
+          for(i = 0; i < numOfOccurencesArrayEliDuplication.length; i++) {
+            countNumR = 0;
+          //  console.log(result.innerHTML.substring(numOfOccurencesArrayEliDuplication[i]+countNumR+1, numOfOccurencesArrayEliDuplication[i]+countNumR+2));
+            while (nonNumBraket.indexOf(content[calculateIndex].substring(numOfOccurencesArrayEliDuplication[i]+countNumR+1, numOfOccurencesArrayEliDuplication[i]+countNumR+2)) == -1) {
+              countNumR++;
+            //  console.log(countNumR);
+            }
+
+            right = content[calculateIndex].substring(numOfOccurencesArrayEliDuplication[i]+1,numOfOccurencesArrayEliDuplication[i]+countNumR+1);
+            console.log(right);
+
+            countNumL = 0;
+
+            while (nonNumBraket.indexOf(content[calculateIndex].substring(numOfOccurencesArrayEliDuplication[i]-countNumL-1, numOfOccurencesArrayEliDuplication[i]-countNumL)) == -1) {
+              countNumL++;
+            //  console.log(countNumL);
+            }
+
+            left = content[calculateIndex].substring(numOfOccurencesArrayEliDuplication[i]-countNumL,numOfOccurencesArrayEliDuplication[i]);
+            console.log(left);
+
+          //  console.log(left.split('^'))
+            if(left.indexOf('^') > -1){
+              separate = left.split('^');
+              powerTemp = separate[0];
+             for(var l=1; l<separate.length; l++){
+                powerTemp = Math.pow(powerTemp,separate[l]);
+              }
+              left = powerTemp;
+            }
+            /*  var separators = ['\\\+', '-', '\\*', '/', '\\\(', '\\\)'];
+              console.log(separators.join('|'));
+              var tokens = result.innerHTML.split(new RegExp('[-+()*'/':? ]', 'g'));
+                  tokens = tokens.filter(Boolean);
+              var nonTokens = result.innerHTML.replace(/[0-9]|\^|\./g, '');*/
+            //console.log(numOfOccurencesArray[i] - countNumL);
+            //console.log(numOfOccurencesArray[i] + countNumR + 1);
+          productOriginalArray[i] = content[calculateIndex].substring(numOfOccurencesArrayEliDuplication[i] - countNumL,numOfOccurencesArrayEliDuplication[i] + countNumR + 1);
+          product = Math.pow(left,right);
+          productArray[i] = product;
+          }
+
+      //    console.log(content[calculateIndex]);
+
+          for(i=0; i<productOriginalArray.length; i++) {
+            content[calculateIndex] = content[calculateIndex].replace(productOriginalArray[i],productArray[i]);
+          }
+
+      //    console.log(content[calculateIndex]);
+      //    temp = eval(content.toString());
+      //    console.log(temp);
         }
-
-        console.log(content);
-
-        for(i=0; i<productOriginalArray.length; i++) {
-          content = content.replace(productOriginalArray[i],productArray[i]);
+        try{
+        //    result.innerHTML = math.eval(result.innerHTML); sin(6^5*sin(6)+sin(5))
+          content[calculateIndex] = eval(content[calculateIndex]);
         }
+        catch(err){
+          result.innerHTML = 'unable to evaluate the expression';
+        }
+      //  console.log(content[calculateIndex]);
 
-        console.log(content);
-    //    temp = eval(content.toString());
-    //    console.log(temp);
+        switch (functions[calculateIndex]) {
+          case 'sqrt(':
+            content[calculateIndex] = Math.sqrt(content[calculateIndex]);
+            break;
+          case 'tan(':
+            content[calculateIndex] = '(' + Math.tan(content[calculateIndex]) + ')';
+            break;
+          case 'sin(':
+            content[calculateIndex] = '(' + Math.sin(content[calculateIndex]) + ')';
+            break;
+          case 'cos(':
+            content[calculateIndex] = '(' + Math.cos(content[calculateIndex]) + ')';
+            break;
+          default:
+            content[calculateIndex] = content[calculateIndex];
+        }
       }
-      content = eval(content);
-      console.log(content);
 
-      switch (functions) {
-        case 'sqrt(':
-          content = Math.sqrt(content);
-          break;
-        case 'tan(':
-          content = Math.tan(content);
-          break;
-        case 'sin(':
-          content = Math.sin(content);
-          break;
-        case 'cos(':
-          content = Math.cos(content);
-          break;
-        default:
-          content = content;
-      }
-      console.log(content);
+      //  console.log(content);
+        result.innerHTML = content[0];
+        answer = content[0];
       tempResultArrayObtemp = [];
       for(checkContent = 0; checkContent < tempResultArrayOb.length; checkContent++) {
         if (tempResultArrayOb[checkContent].order == orderArray[checkOrder - 1] && tempResultArrayOb[checkContent].class == 'start') {
           tempResultArrayObtemp.push({
-            values: content,
+            values: content.shift(),
             order: nextOrder,
+            index: checkContent,
             class: 'content'
           });
         }
@@ -300,16 +395,20 @@
           tempResultArrayOb.push(tempResultArrayObtemp[i]);
         }
       }
-      console.log(tempResultArrayOb);
+
+      for(i = 0; i < tempResultArrayOb.length; i++){
+        tempResultArrayOb[i].index = i;
+      }
+  //    console.log(tempResultArrayOb);
     }
 
-    result.innerHTML = tempResultArray.join('');
+  //  result.innerHTML = tempResultArray.join('');
 
   //  console.log(result.innerHTML);
 
-    result.innerHTML = result.innerHTML.replace('ANS', answer);
+  //  result.innerHTML = result.innerHTML.replace('ANS', answer);
 
-    console.log(result.innerHTML);
+  //  console.log(result.innerHTML);
 
     switch (result.innerHTML.slice(-1)) {
         case '.':
@@ -324,13 +423,7 @@
          result.innerHTML = result.innerHTML;
       }
 
-    try{
-    //    result.innerHTML = math.eval(result.innerHTML);
-        answer = result.innerHTML;
-    }
-    catch(err){
-      result.innerHTML = 'unable to evaluate the expression';
-    }
+
 
     }
 
@@ -338,6 +431,8 @@
       if(clearFlag == 1){
         tempResultArray.length = 0;
         result.innerHTML = '';
+        index = 0;
+        order - 0;
         expressionWithoutFlag(key);
         clearFlag = 0;
       }
@@ -404,8 +499,8 @@
            tempResultArrayOb.push(factory(buttons[key].innerHTML));
          }
       }
-      console.log(tempResultArray);
-      console.log(tempResultArrayOb);
+  //    console.log(tempResultArray);
+  //    console.log(tempResultArrayOb);
     }
 
     registeredFunctions.sqrt = function(){
@@ -416,21 +511,25 @@
         tempResultArray.push('sqrt(');
         tempResultArrayOb.push(factory('sqrt('));
         clearFlag = 0;
-        console.log(tempResultArrayOb);
+    //    console.log(tempResultArrayOb);
       }
       else {
         result.innerHTML += 'sqrt(';
         tempResultArray.push('sqrt(');
         tempResultArrayOb.push(factory('sqrt('));
-        console.log(tempResultArrayOb);
+    //    console.log(tempResultArrayOb);
       }
-      console.log(tempResultArray);
+    //  console.log(tempResultArray);
     }
 
     registeredFunctions.erase = function() {
       tempResultArray.length = 0;
       result.innerHTML = '';
-      console.log(tempResultArray);
+      tempResultArrayOb.length = 0;
+      index = 0;
+      order = 0;
+    //  console.log(tempResultArray);
+    //  console.log(tempResultArrayOb);
     }
 
     registeredFunctions.cosine = function() {
@@ -440,16 +539,16 @@
         result.innerHTML += 'cos(';
         tempResultArray.push('cos(');
         tempResultArrayOb.push(factory('cos('));
-        console.log(tempResultArrayOb);
+  //      console.log(tempResultArrayOb);
         clearFlag = 0;
       }
       else {
         result.innerHTML += 'cos(';
         tempResultArray.push('cos(');
         tempResultArrayOb.push(factory('cos('));
-        console.log(tempResultArrayOb);
+  //      console.log(tempResultArrayOb);
       }
-      console.log(tempResultArray);
+    //  console.log(tempResultArray);
     }
 
     registeredFunctions.sine = function() {
@@ -459,16 +558,16 @@
         result.innerHTML += 'sin(';
         tempResultArray.push('sin(');
         tempResultArrayOb.push(factory('sin('));
-        console.log(tempResultArrayOb);
+    //    console.log(tempResultArrayOb);
         clearFlag = 0;
       }
       else {
         result.innerHTML += 'sin(';
         tempResultArray.push('sin(');
         tempResultArrayOb.push(factory('sin('));
-        console.log(tempResultArrayOb);
+    //    console.log(tempResultArrayOb);
       }
-      console.log(tempResultArray);
+  //    console.log(tempResultArray);
     }
 
     registeredFunctions.tangent = function() {
@@ -478,82 +577,101 @@
         result.innerHTML += 'tan(';
         tempResultArray.push('tan(');
         tempResultArrayOb.push(factory('tan('));
-        console.log(tempResultArrayOb);
+    //    console.log(tempResultArrayOb);
         clearFlag = 0;
       }
       else {
         result.innerHTML += 'tan(';
         tempResultArray.push('tan(');
         tempResultArrayOb.push(factory('tan('));
-        console.log(tempResultArrayOb);
+  //      console.log(tempResultArrayOb);
       }
-      console.log(tempResultArray);
+  //    console.log(tempResultArray);
     }
 
     registeredFunctions.exponent = function() {
       if(clearFlag == 1){
         tempResultArray.length = 0;
-        result.innerHTML += '^';
+        tempResultArrayOb.length = 0;
+        tempResultArrayOb.push(factory('^'));
         tempResultArray.push('^');
         clearFlag = 0;
       }
       else {
         result.innerHTML += '^';
         tempResultArray.push('^');
+        tempResultArrayOb.push(factory('^'));
       }
-      console.log(tempResultArray);
+  //    console.log(tempResultArray);
     }
 
     registeredFunctions.bracketL = function() {
       if(clearFlag == 1){
         tempResultArray.length = 0;
         tempResultArrayOb.length = 0;
+        result.innerHTML = '';
         result.innerHTML += '(';
         tempResultArray.push('(');
         tempResultArrayOb.push(factory('('));
-        console.log(tempResultArrayOb);
+  //      console.log(tempResultArrayOb);
         clearFlag = 0;
       }
       else {
         result.innerHTML += '(';
         tempResultArray.push('(');
         tempResultArrayOb.push(factory('('));
-        console.log(tempResultArrayOb);
+  //      console.log(tempResultArrayOb);
       }
-      console.log(tempResultArray);
+  //    console.log(tempResultArray);
     }
 
     registeredFunctions.bracketR = function() {
       if(clearFlag == 1){
         tempResultArray.length = 0;
+        tempResultArrayOb.length = 0;
+        result.innerHTML = '';
         result.innerHTML += ')';
         tempResultArray.push(')');
+        tempResultArrayOb.push(factory(')'));
+  //      console.log(tempResultArrayOb);
         clearFlag = 0;
       }
       else {
         result.innerHTML += ')';
         tempResultArray.push(')');
         tempResultArrayOb.push(factory(')'));
-        console.log(tempResultArrayOb);
+    //    console.log(tempResultArrayOb);
       }
-      console.log(tempResultArray);
+  //    console.log(tempResultArray);
     }
 
     registeredFunctions.clear = function() {
       if(clearFlag == 1){
         tempResultArray.length = 0;
         result.innerHTML = '';
+        tempResultArrayOb.length = 0;
         clearFlag = 0;
       }
       else {
         var popped = tempResultArray.pop();
+        index = tempResultArrayOb[tempResultArrayOb.length - 1].index;
+        if(multiplyBrac.indexOf(tempResultArrayOb[tempResultArrayOb.length -1].values) > -1) {
+          order--;
+        }
+        else if(backBrac.indexOf(tempResultArrayOb[tempResultArrayOb.length -1].values) > -1) {
+          order++;
+        }
+        else {
+          order = order;
+        }
+        var poppedOb = tempResultArrayOb.pop();
         var lastIndex = result.innerHTML.lastIndexOf(popped);
         result.innerHTML = result.innerHTML.substring(0,lastIndex);
-        console.log(popped);
+    //    console.log(tempResultArrayOb);
 
 
       }
-      console.log(tempResultArray);
+  //    console.log(tempResultArray);
     }
     /*  console.log(result.innerHTML.substring(result.innerHTML.length - 4, result.innerHTML.length));
       if(trigWords.indexOf(result.innerHTML.substring(result.innerHTML.length - 4, result.innerHTML.length - 3)) > -1){
