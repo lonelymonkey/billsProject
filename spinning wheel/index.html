@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<link href="style.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+var outer;
+$(document).ready(function(){
+    $("button").click(function(){
+        $('#outerWheel').css('transform','rotate(20deg)');
+    });
+
+    for(outer = 0; outer < 360; outer++){
+      jQuery('<div/>', {
+        class: 'display',
+        style:'width: 500px;'+
+        'height: 500px;'+
+        'border-radius: 270px;'+
+        'margin: auto;'+
+        'background-color: blue;'+
+        'position: absolute;'+
+        'background-image:'+
+               /* 10% = 126deg = 90 + ( 360 * .1 ) */
+               'linear-gradient(126deg, transparent 50%, white 50%),'+
+              'linear-gradient(90deg, white 50%, transparent 50%);'+
+        'transform: rotate(' + outer + 'deg);'
+     }).appendTo('#outerWheel');
+    }
+});
+</script>
+
+<html>
+
+<button>rotate</button>
+
+<div id='appWrapper'>
+<div id='outerWheel'>
+</div>
+</div>
+</html>

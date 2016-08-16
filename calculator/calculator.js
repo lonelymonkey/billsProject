@@ -4,7 +4,7 @@
   }(function(myCalculator){
     var nonNum = '+-/*.^'; //-
     var num = '1234567890()!';
-    var multiplyBrac = '(sqrt(cos(sin(tan(';
+    var multiplyBrac = '(sqrt(cos(sin(tan(log(';
     var backBrac = ')';
     var bracket = '()';
     var count;
@@ -34,7 +34,7 @@
           index++;
 
       }
-      else if (value === 'sqrt(' || value === 'cos(' || value === 'sin(' || value === 'tan(' || value === '(') {
+      else if (value === 'sqrt(' || value === 'cos(' || value === 'sin(' || value === 'tan(' || value === '(' || value === 'log(') {
         order++;
         self = {
           values: value,
@@ -89,7 +89,7 @@
               order:  index,
               index:  order,
               class: 'content'
-            })
+            });
             result.innerHTML = 'ANS';
             index++;
             clearFlag = 0;
@@ -110,30 +110,37 @@
         $(buttons[22]).empty();
         $(buttons[22]).html('ANS');
 
+
         $(buttons[23]).on('click', function(){
           if(clearFlag == 1){
+            index = 0;
+            order = 0;
             tempResultArray.length = 0;
-            tempResultArray.push('!');
-            jQuery.extend(tempResultArrayOb[tempResultArrayOb.length - 1], factorialOb);
-            result.innerHTML = '!';
+            tempResultArray.push('log');
+            tempResultArrayOb.length = 0;
+            tempResultArrayOb.push(factory('log('));
+            result.innerHTML = 'log(';
+            index++;
             clearFlag = 0;
           }
           else {
-            tempResultArray.push('!');
-            result.innerHTML += '!';
-            jQuery.extend(tempResultArrayOb[tempResultArrayOb.length - 1], factorialOb);
-        //    console.log(tempResultArrayOb);
+            tempResultArray.push('log(');
+            tempResultArrayOb.push(factory('log('));
+            result.innerHTML += 'log(';
+
           }
         })
 
         $(buttons[23]).empty();
-        $(buttons[23]).html('!');
+        $(buttons[23]).html('log(');
 
         $(buttons[1]).on('click', function(){
           registeredFunctions['unshift']();
         })
 
       }
+
+
       registeredFunctions.unshift = function(){
         $(buttons[22]).off();
         $(buttons[23]).off();
@@ -156,7 +163,8 @@
 
 
     registeredFunctions.calculate = function() {
-      console.log(result.innerHTML);
+    //  console.log(result.innerHTML);
+  //    console.log(Math.log(2));
     //  result.innerHTML = "6^6^1+5^5^2+5^2+3^2+5^1^1^1^1+2^2^2^2";
     //tempResultArray = ['9','!','+','4','!'];
   //  console.log(tempResultArray);
@@ -177,6 +185,8 @@
   var productOriginalArray = [];
   var tempResult = {};
 
+  var negNum;
+
   //  console.log(orderArray);
     var checkOrder;
     var checkContent = 0;
@@ -189,6 +199,8 @@
     var arrayReset;
     var calculateIndex;
     clearFlag = 1;
+
+    var negBuffer;
 
   //  console.log(tempResultArrayOb);
 
@@ -216,13 +228,21 @@
           class: 'content'
         })
       }
+      else if(backBrac.indexOf(tempResultArrayOb[i].values) > -1 && multiplyBrac.indexOf(tempResultArrayOb[i+1].values) > -1){
+        tempResultArrayOb.splice(i+1,0,{
+          values: '*',
+          order: tempResultArrayOb[i].order - 1,
+          index: i,
+          class: 'content'
+        })
+      }
     }
 
     for(i = 0; i < tempResultArrayOb.length; i++){
         tempResultArrayOb[i].index = i;
     }
 
-      //  console.log(tempResultArrayOb);
+    //    console.log(tempResultArrayOb);
 
     if(!orderArray.length){
       orderArray = [0];
@@ -247,15 +267,21 @@
           }
           else{
           content += tempResultArrayOb[checkContent].values;
-        }*/
+        }*/ //ffffffffff
         if((tempResultArrayOb[checkContent+1].index - tempResultArrayOb[checkContent].index) == 1){
-          if(tempResultArrayOb[checkContent].factorialFlag){
-            tempContent += factorial(tempResultArrayOb[checkContent].values);
-          }
-          else{
-            tempContent += tempResultArrayOb[checkContent].values;
-          }
-    //      console.log(tempContent);
+            if(Number(tempResultArrayOb[checkContent].values) < 0){
+              negNum =  tempResultArrayOb[checkContent].values.toString();
+              negNum = negNum.replace('-','neg');
+              tempContent += negNum;
+            }
+            else if(tempResultArrayOb[checkContent].values === '-'){
+              tempContent += 'neg';
+            }
+            else{
+              tempContent += tempResultArrayOb[checkContent].values;
+            }
+
+      //   console.log(tempContent);
           if(tempResultArrayOb[checkContent+1].class == 'end'){
             content[contentArrayIndex] = tempContent;
             tempContent = [];
@@ -270,7 +296,7 @@
         }
       }
       nextOrder = orderArray[checkOrder - 1] - 1;
-    //  console.log(content);
+  //    console.log(content);
 
       for(calculateIndex = 0; calculateIndex < content.length; calculateIndex++){
         j = 0;
@@ -303,7 +329,7 @@
             }
 
             right = content[calculateIndex].substring(numOfOccurencesArrayEliDuplication[i]+1,numOfOccurencesArrayEliDuplication[i]+countNumR+1);
-            console.log(right);
+        //    console.log(right);
 
             countNumL = 0;
 
@@ -313,17 +339,40 @@
             }
 
             left = content[calculateIndex].substring(numOfOccurencesArrayEliDuplication[i]-countNumL,numOfOccurencesArrayEliDuplication[i]);
-            console.log(left);
+      //     console.log(left);
 
           //  console.log(left.split('^'))
+
+          if(left.indexOf('neg') > -1){
+            left = left.split('neg').join('-');
+          }
+
+          if(right.indexOf('neg') > -1){
+            right = right.split('neg').join('-');
+          }
+
+            if(right.indexOf('^') > -1){
+              separate = right.split('^');
+              powerTemp = separate[0];
+
+             for(var l=1; l<separate.length; l++){
+                powerTemp = Math.pow(powerTemp,separate[l]);
+              }
+              right = powerTemp;
+            }
+
             if(left.indexOf('^') > -1){
               separate = left.split('^');
               powerTemp = separate[0];
+
              for(var l=1; l<separate.length; l++){
                 powerTemp = Math.pow(powerTemp,separate[l]);
               }
               left = powerTemp;
             }
+
+        //   console.log(right);
+        //   console.log(left);
             /*  var separators = ['\\\+', '-', '\\*', '/', '\\\(', '\\\)'];
               console.log(separators.join('|'));
               var tokens = result.innerHTML.split(new RegExp('[-+()*'/':? ]', 'g'));
@@ -341,39 +390,50 @@
           for(i=0; i<productOriginalArray.length; i++) {
             content[calculateIndex] = content[calculateIndex].replace(productOriginalArray[i],productArray[i]);
           }
-
-      //    console.log(content[calculateIndex]);
+    //      console.log(content[calculateIndex]);
       //    temp = eval(content.toString());
       //    console.log(temp);
         }
+
+        if(content[calculateIndex].indexOf('neg') > -1){
+          content[calculateIndex] = content[calculateIndex].split('neg').join('-');
+        }
+
+//console.log(content);
         try{
         //    result.innerHTML = math.eval(result.innerHTML); sin(6^5*sin(6)+sin(5))
           content[calculateIndex] = eval(content[calculateIndex]);
+
+          switch (functions[calculateIndex]) {
+            case 'sqrt(':
+              content[calculateIndex] = Math.sqrt(content[calculateIndex]);
+              break;
+            case 'tan(':
+              content[calculateIndex] = Math.tan(content[calculateIndex]);
+              break;
+            case 'sin(':
+              content[calculateIndex] = Math.sin(content[calculateIndex]);
+              break;
+            case 'cos(':
+              content[calculateIndex] = Math.cos(content[calculateIndex]);
+              break;
+            case 'log(':
+              content[calculateIndex] = Math.log(content[calculateIndex]);
+            default:
+              content[calculateIndex] = content[calculateIndex];
+          }
         }
         catch(err){
-          result.innerHTML = 'unable to evaluate the expression';
+          content[calculateIndex] = 'unable to evaluate the expression';
         }
       //  console.log(content[calculateIndex]);
-
-        switch (functions[calculateIndex]) {
-          case 'sqrt(':
-            content[calculateIndex] = Math.sqrt(content[calculateIndex]);
-            break;
-          case 'tan(':
-            content[calculateIndex] = '(' + Math.tan(content[calculateIndex]) + ')';
-            break;
-          case 'sin(':
-            content[calculateIndex] = '(' + Math.sin(content[calculateIndex]) + ')';
-            break;
-          case 'cos(':
-            content[calculateIndex] = '(' + Math.cos(content[calculateIndex]) + ')';
-            break;
-          default:
-            content[calculateIndex] = content[calculateIndex];
-        }
       }
 
-      //  console.log(content);
+  //      console.log(content);
+        if(isNaN(content[0])){
+          content[0] = 'unable to evaluate the expression';
+        }
+
         result.innerHTML = content[0];
         answer = content[0];
       tempResultArrayObtemp = [];
@@ -409,22 +469,6 @@
   //  result.innerHTML = result.innerHTML.replace('ANS', answer);
 
   //  console.log(result.innerHTML);
-
-    switch (result.innerHTML.slice(-1)) {
-        case '.':
-        case '*':
-        case '/':
-        case '+':
-        case '-':
-        case '^':
-         result.innerHTML = result.innerHTML.substring(0, result.innerHTML.length - 1);
-         break;
-        default:
-         result.innerHTML = result.innerHTML;
-      }
-
-
-
     }
 
     registeredFunctions.expression = function(key){
@@ -523,11 +567,21 @@
     }
 
     registeredFunctions.erase = function() {
-      tempResultArray.length = 0;
-      result.innerHTML = '';
-      tempResultArrayOb.length = 0;
-      index = 0;
-      order = 0;
+      if(clearFlag == 1){
+        result.innerHTML = '';
+        tempResultArrayOb.length = 0;
+        clearFlag = 0;
+        index = 0;
+        order = 0;
+    //    console.log(tempResultArrayOb);
+      }
+      else{
+        tempResultArray.length = 0;
+        result.innerHTML = '';
+        tempResultArrayOb.length = 0;
+        index = 0;
+        order = 0;
+      }
     //  console.log(tempResultArray);
     //  console.log(tempResultArrayOb);
     }
@@ -643,6 +697,22 @@
     //    console.log(tempResultArrayOb);
       }
   //    console.log(tempResultArray);
+    }
+
+    registeredFunctions.factorial = function(){
+      if(clearFlag == 1){
+        tempResultArray.length = 0;
+        tempResultArray.push('!');
+        jQuery.extend(tempResultArrayOb[tempResultArrayOb.length - 1], factorialOb);
+        result.innerHTML = '!';
+        clearFlag = 0;
+      }
+      else {
+        tempResultArray.push('!');
+        result.innerHTML += '!';
+        jQuery.extend(tempResultArrayOb[tempResultArrayOb.length - 1], factorialOb);
+    //    console.log(tempResultArrayOb);
+      }
     }
 
     registeredFunctions.clear = function() {
@@ -827,6 +897,98 @@
       buttons = document.getElementsByClassName('key');
     //  console.log(buttons);
       buttons2 = document.getElementsByClassName('key2');
+    }
+
+    myCalculator.test = function(){
+      var test;
+      var t;
+      var e;
+      var testArray = [
+      ['(','3',')','(','1','+','1',')', '^', '(', '1', '+', '1',')', '+', '(', '1', '+', '2' ], //15
+        ['1','+','(','1','+','1',')', '^', '(', '1', '+', '1', ')' , '+', '1'], //6
+        ['(','1','+','1',')', '^', '(', '1', '+', '1' ], //4
+        ['(','4',')','(','3','+','4',')', '^', '2'], //196
+        ['1','+','3','^','2'], //10
+        ['(','-','2',')','^','3'], //-8
+        ['3','^','(','-','2',')'], //0.11111
+        ['2','^','(', '2', '^', '2', '+', '1', ')'], //32
+        ['2','^', '2', '^', '3'], //64
+        ['2','^','(', '2', '^', '3', ')'], //256
+        ['2','^','(', '2', '^', '2', '+', '1', ')', '^', '2'], //33554432
+        ['(','2','^','(', '2', '^', '2', '+', '1', ')', ')', '^', '2'], //1024
+        ['2','^','(', '2', '^', '2', '+', '1', ')', '^', '(', '1' , '+', '1' , ')' , '+', '3'], //33554435
+        ['(', '2', '^', '2', '+', '1', ')', '^', '(', '1' , '+', '1' , ')' , '+', '3'], //28
+        ['2','^','-','2'] //0.25
+      ];
+
+      var testArrayTrig = [
+        ['sqrt(','3',')','sin(','1','+','1',')', '^', 'cos(', '1', '+', '1',')', '+', '(', '1', '+', '2' ], //sqrt(3)sin(1+1)^cos(1+1)+(1+2
+       ['1','+','tan(','1','+','3',')', '^', 'sin(', '1', '+', '1', ')' , '+', '1'],//1+tan(1+3)^sin(1+1)+1
+      ['sin(','6','^','5','*','sin(','6',')','+','tan(','5',')',')'], //sin(6^5*sin(6)+tan(5))
+          ['sin(','6','^','5','*','sin(','6',')','^','tan(','5',')',')'], //imaginary numbers
+      ['sin(','6','^','5','*','sin(','6',')','*','tan(','5',')',')'],//sin(6^5*sin(6)*tan(5))
+        ['sqrt(','sin(','cos(','6'],//sqrt(sin(cos(6
+       ['tan(','6','+','sqrt(','50',')','^','3','+','5',')'] //tan(6+sqrt(50)^3+5)
+      ];
+      for(t = 0; t < testArray.length; t++){
+        for(e = 0; e < testArray[t].length; e++){
+        //   console.log(e);
+          switch(testArray[t][e]) {
+             case 'cos(':
+             registeredFunctions['cosine']();
+             break;
+             case 'sin(':
+             registeredFunctions['sine']();
+             break;
+             case 'tan(':
+             registeredFunctions['tangent']();
+             break;
+             case '(':
+             registeredFunctions['bracketL']();
+             break;
+             case ')':
+             registeredFunctions['bracketR']();
+             break;
+             default:
+             result.innerHTML += testArray[t][e];
+             tempResultArrayOb.push(factory(testArray[t][e]));
+             }
+        }
+    //    console.log(result.innerHTML);
+        registeredFunctions.calculate();
+        console.log(result.innerHTML);
+        registeredFunctions.erase();
+      }
+
+      for(t = 0; t < testArrayTrig.length; t++){
+        for(e = 0; e < testArrayTrig[t].length; e++){
+        //   console.log(e);
+          switch(testArrayTrig[t][e]) {
+             case 'cos(':
+             registeredFunctions['cosine']();
+             break;
+             case 'sin(':
+             registeredFunctions['sine']();
+             break;
+             case 'tan(':
+             registeredFunctions['tangent']();
+             break;
+             case '(':
+             registeredFunctions['bracketL']();
+             break;
+             case ')':
+             registeredFunctions['bracketR']();
+             break;
+             default:
+             result.innerHTML += testArrayTrig[t][e];
+             tempResultArrayOb.push(factory(testArrayTrig[t][e]));
+             }
+        }
+    //    console.log(result.innerHTML);
+        registeredFunctions.calculate();
+        console.log(result.innerHTML);
+        registeredFunctions.erase();
+      }
     }
 
     return myCalculator;

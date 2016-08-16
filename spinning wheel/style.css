@@ -1,0 +1,35 @@
+p {
+  background-color: black;
+}
+
+#appWrapper {
+}
+
+#outerWheel {
+  width: 500px;
+  height: 500px;
+  border-radius: 270px;
+  margin: auto;
+  background-color: blue;
+  position: relative;
+  background-image:
+         /* 10% = 126deg = 90 + ( 360 * .1 ) */
+         linear-gradient(126deg, transparent 50%, white 50%),
+        linear-gradient(90deg, white 50%, transparent 50%);
+  transform: rotate(7deg);
+}
+
+#innerWheel {
+  width: 400px;
+  height: 400px;
+  background: white;
+  margin: auto;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  border-radius: 200px;
+}
+
+#evenNum {
+
+}
