@@ -545,7 +545,7 @@
          }
       }
   //    console.log(tempResultArray);
-  //    console.log(tempResultArrayOb);
+      console.log(tempResultArrayOb);
     }
 
     registeredFunctions.sqrt = function(){
