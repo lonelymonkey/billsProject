@@ -57,11 +57,26 @@
     {
       char : ['tan('],
       data : {
-        'type' : 'functionTypeB',
-        'function' : "Math.tan",
+        'type' : 'functionTypeC',
+        'function' : "MathTan",
       }
     }
   ];
+
+  function MathTan(flag, value){
+    var rad;
+    if(flag == '1'){
+    rad = value * 3.14159/180;
+    console.log(rad);
+    return Math.tan(rad);
+    }
+    else{
+    rad = value;
+    console.log(rad);
+      return Math.tan(rad);
+    }
+  }
+
   function findInDictionary(char) {
     var output = false;
     for (var i=0;i<dictionary.length;i++) {
@@ -98,6 +113,7 @@
 
   myMathlib.hit = function(char){
     var currentKey = findInDictionary(char);
+    var flag = false;
     if (currentKey) {
         var lastKey = (buffer.length > 0) ?  buffer[buffer.length-1] : false;
         console.log(lastKey);
@@ -132,6 +148,9 @@
             break;
           case 'functionTypeB':
             translateFunctionTypeB(currentKey.function);
+            break;
+          case 'functionTypeC':
+            translateFunctionTypeC(currentKey.function, flag);
             break;
           default:
             translation.push(char);
@@ -313,7 +332,43 @@
       'type' : 'functionTypeB',
       'paramStartIndex' : translation.length-1,
       'insertLength' : 2,
-      'open' : true
+      'open' : false
+    });
+    return;
+  }
+
+  /************************************
+  translateFunctionTypeC:
+    functionTypeB  requires 2 parameters,
+        the first parameter is the expression after the function operator
+        the second parameter is a flag responsible for unit conversion
+  *****************************************/
+  function  translateFunctionTypeC(func,flag) {
+    console.log('gsdgsd');
+    var count = 0;
+    var index = 0;
+    var functionName = 'FUNC_'+functionMapping.length;
+    //console.log(translation);
+    console.log(index);
+    if (index > 0) {
+      //we dont want function to insert between   FUNC_ and (
+      if (translation[index-1].indexOf('FUNC_') > -1) {
+        index = index+1;
+      }
+    }
+    console.log(index);
+    translation.push(functionName);
+    translation.push('(');
+    if(flag === true) translation.push('1');
+    else translation.push('0');
+    translation.push(',')
+    insertFunction({
+      'function' : func,
+      'functionName' : functionName,
+      'type' : 'functionTypeB',
+      'paramStartIndex' : translation.length-1,
+      'insertLength' : 2,
+      'open' : false
     });
     return;
   }
@@ -367,19 +422,21 @@
     }
     console.log(translation); */
     var key;
-    var lastkey = false;
+    var lastKey = false;
     var tempTranslation = [];
     var length = translation.length;
 
     for(var i=0; i<length;i++){
       key = translation.shift();
-      if(lastkey){
-        if('0123456789./*+-(),'.indexOf(key) === -1 && lastkey === ')'){
+      if(lastKey){
+        if('0123456789./*+-(),'.indexOf(key) === -1 && lastKey === ')'){
           tempTranslation.push('*');
         }
+        else if(key === '(' && lastKey === ')')
+          tempTranslation.push('*');
       }
       tempTranslation.push(key);
-      lastkey = key;
+      lastKey = key;
     }
     console.log(tempTranslation);
     translation = tempTranslation;
@@ -398,7 +455,7 @@
         console.log(translation);
     var translationText = translation.join('');
     //translationText = addMissingOperators(translationText);
-    console.log('translation: ' + translationText)
+    console.log('translation: ' + translationText);
     var output = eval(translationText);
     init();
     console.log('output: ' + output);
