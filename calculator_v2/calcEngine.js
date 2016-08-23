@@ -63,6 +63,29 @@
     }
   ];
 
+  myMathlib.shift = function() {
+      $(buttons[1]).off();
+      flag = true;
+      $(buttons[1]).on('click', function(){
+        myMathlib['unshift']();
+      })
+
+      $(buttons[1]).html('rad');
+      console.log(flag);
+    }
+
+
+    myMathlib.unshift = function(){
+      $(buttons[1]).off();
+      flag = false;
+      $(buttons[1]).on('click', function(){
+        myMathlib['shift']();
+      })
+
+      $(buttons[1]).html('deg');
+              console.log(flag);
+    }
+
   function MathTan(flag, value){
     var rad;
     if(flag == '1'){
@@ -93,6 +116,12 @@
   var translation = [];
   var newUnit = true;
   var firstUnit = true;
+  var flag = false;
+  var result = document.getElementById('display');
+//  console.log(result);
+  var buttons = document.getElementsByClassName('key');
+//  console.log(buttons);
+  var buttons2 = document.getElementsByClassName('key2');
 
   //problem:
   //paramStartIndex can change when more functions are insert, we need to update each paramStartIndex
@@ -110,10 +139,14 @@
   var functionMapping = [];
   var paramStartIndex = 0;
 
+  myMathlib.remove = function(){
+    init();
+    console.log(translation);
+  }
 
   myMathlib.hit = function(char){
+  //  console.log(result);
     var currentKey = findInDictionary(char);
-    var flag = false;
     if (currentKey) {
         var lastKey = (buffer.length > 0) ?  buffer[buffer.length-1] : false;
         console.log(lastKey);
@@ -361,6 +394,7 @@
     translation.push('(');
     if(flag === true) translation.push('1');
     else translation.push('0');
+    console.log(flag);
     translation.push(',')
     insertFunction({
       'function' : func,
@@ -456,7 +490,12 @@
     var translationText = translation.join('');
     //translationText = addMissingOperators(translationText);
     console.log('translation: ' + translationText);
-    var output = eval(translationText);
+    try{
+      var output = eval(translationText);
+    }
+    catch(err){
+      output = 'unable to evaluate the following expression';
+    }
     init();
     console.log('output: ' + output);
     return output;
