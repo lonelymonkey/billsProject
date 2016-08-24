@@ -777,6 +777,11 @@
               myMathlib.remove();
               result.innerHTML = '';
               break;
+            case 'clear':
+              result.innerHTML = '';
+      //        myMathlib.clear();
+              result.innerHTML = myMathlib.clear();
+              break;
             default:
             myMathlib.hit(key);
             if(clearFlag == 1){

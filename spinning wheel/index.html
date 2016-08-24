@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <link href="style.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<input type="button" value=" Toggle Spin " />
+<br/><br/><br/><br/>
+<img src="http://i.imgur.com/ABktns.jpg" />
 <script>
-var outer;
+/*var outer;
 $(document).ready(function(){
     $("button").click(function(){
         $('#outerWheel').css('transform','rotate(20deg)');
@@ -18,21 +21,67 @@ $(document).ready(function(){
         'background-color: blue;'+
         'position: absolute;'+
         'background-image:'+
-               /* 10% = 126deg = 90 + ( 360 * .1 ) */
+               /* 10% = 126deg = 90 + ( 360 * .1 )
                'linear-gradient(126deg, transparent 50%, white 50%),'+
               'linear-gradient(90deg, white 50%, transparent 50%);'+
         'transform: rotate(' + outer + 'deg);'
      }).appendTo('#outerWheel');
     }
+});*/
+$(function() {
+    var $elie = $("img"), degree = 0, timer;
+    var random = Math.random();
+    console.log(random);
+    rotate();
+
+    function rotate() {
+
+        $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+        $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+        timer = setTimeout(function() {
+          if(degree < 3600*random){
+            ++degree; rotate();
+          }
+          else if(degree >= 3600*random && degree < 10000*random){
+            degree = degree + 2; rotate();
+          }
+          else if(degree >= 10000*random){
+            stop();
+          }
+            console.log(degree);
+        },5);
+    }
+
+    function stop(){
+      clearTimeout(timer);
+    }
+
+    $("input").toggle(function() {
+        clearTimeout(timer);
+        console.log(timer);
+    }, function() {
+        rotate();
+    });
 });
 </script>
 
 <html>
-
-<button>rotate</button>
-
 <div id='appWrapper'>
-<div id='outerWheel'>
+<div class='set'>
+<form>
+<ul class='row'>
+  <li class='columnNum'>#</li>
+  <li class='columnName'>Name</li>
+  <li class='columnProb'>Probability</li>
+  <li class='columnColor'>Color</li>
+</ul>
+</br>
+<ul class='row'>
+  <li class='columnCol'>1</li>
+  <li class='columnCol'><input type="text" name="Name" style='width: 100px'></li>
+  <li class='columnCol'><input type="text" name="Probability" style='width: 100px'></li>
+  <li class='columnCol'><input type="text" name="Color" style='width: 100px'></li>
+</ul>
+</form>
 </div>
 </div>
-</html>

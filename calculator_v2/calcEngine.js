@@ -117,6 +117,7 @@
   var newUnit = true;
   var firstUnit = true;
   var flag = false;
+  var clearBuffer = [];
   var result = document.getElementById('display');
 //  console.log(result);
   var buttons = document.getElementsByClassName('key');
@@ -142,6 +143,19 @@
   myMathlib.remove = function(){
     init();
     console.log(translation);
+  }
+
+  myMathlib.clear = function(){
+    var tempBuffer = clearBuffer.slice(0);
+    var length = 0;
+    init();
+    tempBuffer.pop();
+    console.log(tempBuffer);
+    for(var i = 0; i < tempBuffer.length; i++){
+      myMathlib.hit(tempBuffer[i]);
+    }
+
+    return tempBuffer.join('');
   }
 
   myMathlib.hit = function(char){
@@ -171,6 +185,7 @@
           }
         }
         currentKey.char = char;
+        clearBuffer.push(char);
         buffer.push(currentKey);
         console.log(translation);
         closeFunctionCheck();
@@ -200,6 +215,7 @@
         */
         console.log(buffer);
         console.log(translation);
+        console.log(clearBuffer);
     }
   }
   //initialize variables
@@ -210,6 +226,7 @@
     firstUnit = true;
     functionMapping = [],
     paramStartIndex = 0;
+    clearBuffer = [];
   }
   /*******************************************************
       this function loops through  functionMapping array and translates all the functionName to function
