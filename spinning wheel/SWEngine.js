@@ -27,7 +27,7 @@
     function formView(){
       var form = '';
       form +=
-      '<div class="set">' +
+      '<div class="set' + total + '">' +
       '<ul class="row">'  +
         '<li class="columnNum">#</li>'  +
         '<li class="columnName">Name</li>'  +
@@ -39,20 +39,18 @@
         '<li class="columnCol">' + total + '</li>'  +
         '<li class="columnCol"><input type="text" name="Name' + total + '" style="width: 100px"></li>'  +
         '<li class="columnCol"><input type="text" name="Probability' + total + '" style="width: 100px"></li>'  +
-        '<li class="columnCol">' +
-        '<select>' +
-        '<option>-- Select Color --</option>' +
-        '<option value="blue">blue</option>' +
-        '<option value="red">red</option>' +
-        '<option value="yellow">yellow</option>' +
-        '<option value="black">black</option>' +
-        '</li>'  +
+        '<li class="columnCol"><input type="color" name="color' + total + '" style="width: 20px"></li>' +
+        '<li class="columnCol"><button onclick="removeRow("set'+ total +'")">x</button></li>' +
       '</ul>'  +
-      '</div>' +
-      '</br>' +
-      '</br>';
+      '</div>';
       $('#template').append(form);
       total++;
+    }
+
+    function removeRow(set){
+      var x = document.getElementsByClassName(set);
+      console.log(x);
+      x.remove();
     }
 
     function bindEvents(){
@@ -127,43 +125,14 @@
       }
 
       function rotate() {
+        var speed = ((-9/25000000)*degree*degree)+((9/2500)*degree)+1; //compute the speed of the wheel based on the degree rotated
           $('#can').css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
           $('#can').css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
           timer = setTimeout(function() {
-            if(degree < 1500*random){
-              ++degree; rotate();
+            if(degree < 10000){
+              degree = degree + speed; rotate();
             }
-            else if(degree >= 1500*random && degree < 3000*random){
-              degree = degree + 2; rotate();
-            }
-            else if(degree >= 3000*random && degree < 4500*random){
-              degree = degree + 3; rotate();
-            }
-            else if(degree >= 4500*random && degree < 6000*random){
-              degree = degree + 4; rotate();
-            }
-            else if(degree >= 6000*random && degree < 7500*random){
-              degree = degree + 5; rotate();
-            }
-            else if(degree >= 7500*random && degree < 9000*random){
-              degree = degree + 6; rotate();
-            }
-            else if(degree >= 9000*random && degree < 10500*random){
-              degree = degree + 5; rotate();
-            }
-            else if(degree >= 10500*random && degree < 12000*random){
-              degree = degree + 4; rotate();
-            }
-            else if(degree >= 12000*random && degree < 13500*random){
-              degree = degree + 3; rotate();
-            }
-            else if(degree >= 13500*random && degree < 15000*random){
-              degree = degree + 2; rotate();
-            }
-            else if(degree >= 15000*random && degree < 16500*random){
-              ++degree; rotate();
-            }
-            else if(degree >= 16500*random){
+            else if(degree >= 10000){
               stop();
             }
               console.log(degree);
