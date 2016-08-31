@@ -15,10 +15,11 @@
 
   var degree = 0, timer;
   var random = Math.random();
+  var submitFlag = false;
 
   function buildUIFrame(){
     var view = '';
-    view += '<button class="key">More</button>' +
+    view += '<button id="key">More</button>' +
     '<button id="submit">Submit</button>';
 
     $('#options').html(view);
@@ -27,34 +28,32 @@
     function formView(){
       var form = '';
       form +=
-      '<div class="set' + total + '">' +
-      '<ul class="row">'  +
-        '<li class="columnNum">#</li>'  +
-        '<li class="columnName">Name</li>'  +
-        '<li class="columnProb">Probability</li>'  +
-        '<li class="columnColor">Color</li>'  +
-      '</ul>'  +
-      '</br>'  +
+      '<div class="set">' +
       '<ul class="row">'  +
         '<li class="columnCol">' + total + '</li>'  +
-        '<li class="columnCol"><input type="text" name="Name' + total + '" style="width: 100px"></li>'  +
-        '<li class="columnCol"><input type="text" name="Probability' + total + '" style="width: 100px"></li>'  +
-        '<li class="columnCol"><input type="color" name="color' + total + '" style="width: 20px"></li>' +
-        '<li class="columnCol"><button onclick="removeRow("set'+ total +'")">x</button></li>' +
+        '<li class="columnCol"><input type="text" name="Name' + total + '" style="width: 100px" placeholder= "Name"></li>'  +
+        '<li class="columnCol"><input type="text" name="Probability' + total + '" style="width: 100px" placeholder= "Probability"></li>'  +
+        '<li class="columnCol"><input type="color" name="color' + total + '" style="width: 20px" value=' + randomColor() + '></li>' +
+        '<li class="columnCol"><input class="remove" type="button" value="x"></li>' +
       '</ul>'  +
       '</div>';
       $('#template').append(form);
       total++;
     }
 
-    function removeRow(set){
-      var x = document.getElementsByClassName(set);
-      console.log(x);
-      x.remove();
+    function remove(){
+      $('#template').on('click','.remove', function(){
+        $(this).closest('.set').remove();
+      })
+    }
+
+    function randomColor(){
+      var color = Math.floor(Math.random() * 16777216).toString(16);
+      return '#000000'.slice(0, -color.length) + color;
     }
 
     function bindEvents(){
-      $('.key').click(function(){
+      $('#key').click(function(){
         formView();
       });
       $('#submit').click(function(){
@@ -64,10 +63,17 @@
 
     function submit(){
       var x = document.getElementById("template");
+      submitFlag = true;
+      console.log(x);
       console.log(x.length);
       var text = '';
       for (var i = 0; i < x.length ;i++) {
-        text += x[i].value + "<br>";
+        if(x[i].value === 'x'){
+          continue;
+        }
+        else{
+          text += x[i].value + "<br>";
+        }
       }
       console.log(text);
       textArray = text.split('<br>');
@@ -143,10 +149,44 @@
         clearTimeout(timer);
       }
 
+      function autoUpdate(){
+        setInterval(function(){
+          if(submitFlag == false){
+            var x = document.getElementById("template");
+            var text = '';
+            for (var i = 0; i < x.length ;i++) {
+              if(x[i].value === 'x'){
+                continue;
+              }
+              else{
+                text += x[i].value + "<br>";
+              }
+            }
+            textArray = text.split('<br>');
+            textArray.pop();
+            for (var i =0; i< textArray.length; i+=3){
+              pieChart.name.push(textArray[i]);
+              pieChart.probability.push(textArray[i+1]);
+              pieChart.color.push(textArray[i+2]);
+            }
+            if(text.indexOf('<br><br>') == -1){
+              drawPieChart();
+            }
+            pieChart = {
+              name:[],
+              probability:[],
+              color:[]
+            };
+          }
+        }, 5);
+      }
+
   spinningWheel.load = function(cfg){
     saveConfig(cfg);
     buildUIFrame();
     formView();
+    remove();
+    autoUpdate();
     //drawPieChart();
   }
 

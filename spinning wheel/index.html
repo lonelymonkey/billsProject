@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <link href="style.css" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script src="SWEngine.js"></script>
 
 
 <html>
 <div id="app-wrapper">
   <div id='form'>
+    <ul class="row">
+      <li class="columnNum">#</li>
+      <li class="columnName">Name</li>
+      <li class="columnProb">Probability</li>
+      <li class="columnColor">Color</li>
+    </ul>
+      </br>
+      </br>
     <form id="template">
     </form>
   </div>
@@ -21,6 +30,9 @@
 $(document).ready(function(){
   spinningWheel.load({
     'containerId' : 'app-wrapper'
+  });
+  $('.remove').on("click", function(){
+    console.log('hello');
   });
 });
 </script>
