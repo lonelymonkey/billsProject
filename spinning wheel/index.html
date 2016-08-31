@@ -19,20 +19,19 @@
     <form id="template">
     </form>
   </div>
+  <div id='wheel'>
+    <canvas id="can" width="200" height="200">
+  </div>
   <div id='options'>
   </div>
 </div>
 
-<canvas id="can" width="200" height="200">
 </html>
 
 <script>
 $(document).ready(function(){
   spinningWheel.load({
     'containerId' : 'app-wrapper'
-  });
-  $('.remove').on("click", function(){
-    console.log('hello');
   });
 });
 </script>
