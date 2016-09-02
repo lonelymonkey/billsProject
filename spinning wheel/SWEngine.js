@@ -39,15 +39,26 @@
       form +=
       '<div class="set">' +
       '<ul class="row">'  +
-        '<li class="columnCol">' + total + '</li>'  +
-        '<li class="columnCol"><input type="text" name="Name' + total + '" style="width: 100px" placeholder= "Name"></li>'  +
-        '<li class="columnCol"><input type="text" name="Probability' + total + '" style="width: 100px" placeholder= "Probability"></li>'  +
-        '<li class="columnCol"><input type="color" name="color' + total + '" style="width: 20px" value=' + randomColor() + '></li>' +
+        '<li class="columnCol"><input type="text" name="Name" style="width: 100px" placeholder= "Name"></li>'  +
+        '<li class="columnCol"><input type="text" name="Probability" style="width: 100px" placeholder= "Probability"></li>'  +
+        '<li class="columnCol"><input type="color" name="color" style="width: 20px" value=' + randomColor() + '></li>' +
         '<li class="columnCol"><input class="remove" type="button" value="x"></li>' +
       '</ul>'  +
       '</div>';
       $('#template').append(form);
-      total++;
+    }
+
+    function formViewInit(){
+      var form = '';
+      form +=
+      '<div class="setInit">' +
+      '<ul class="row">'  +
+        '<li class="columnCol"><input type="text" name="Name" style="width: 100px" placeholder= "Name"></li>'  +
+        '<li class="columnCol"><input type="text" name="Probability" style="width: 100px" placeholder= "Probability"></li>'  +
+        '<li class="columnCol"><input type="color" name="color" style="width: 20px" value=' + randomColor() + '></li>' +
+      '</ul>'  +
+      '</div>';
+      $('#template').append(form);
     }
 
     function remove(){
@@ -234,7 +245,7 @@
   spinningWheel.load = function(cfg){
     saveConfig(cfg);
     buildUIFrame();
-    formView();
+    formViewInit();
     remove();
     autoUpdate();
     //drawPieChart();
