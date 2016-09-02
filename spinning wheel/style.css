@@ -4,7 +4,7 @@ p {
 
 #key,#submit {
     background-color: #4CAF50; /* Green */
-    border: 2px white;
+    border: white;
     color: white;
     font-size: 8px;
     padding: 5px;
@@ -16,7 +16,7 @@ p {
 #key:hover,#submit:hover {
      background-color: white;
      color: black;
-     border: 2px solid #4CAF50;
+     border: #4CAF50;
 }
 
 #app-wrapper {
@@ -31,6 +31,7 @@ p {
   padding-top: 50px;
   box-sizing: border-box;
   height: 300px;
+  position:relative;
 }
 
 #form {
@@ -52,6 +53,17 @@ p {
   box-sizing: border-box;
   float:left;
   border-radius: 5px;
+}
+
+#triangle-left {
+	width: 0;
+	height: 0;
+	border-top: 25px solid transparent;
+	border-right: 50px solid red;
+	border-bottom: 25px solid transparent;
+  position:absolute;
+  top: 127px;
+  left: 284px;
 }
 
 .set {

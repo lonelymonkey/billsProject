@@ -17,6 +17,15 @@
   var random = Math.random();
   var submitFlag = false;
 
+  var lastEndArray = [];
+  var sectorWidth = [];
+  var lastText;
+
+  var finalDistance;
+
+  var probabilityArray = [];
+
+
   function buildUIFrame(){
     var view = '';
     view += '<button id="key">More</button>' +
@@ -62,6 +71,15 @@
     }
 
     function submit(){
+      pieChart = {
+        name:[],
+        probability:[],
+        color:[]
+      };
+      degree = 0;
+      finalDistance = 0;
+      sectorWidth = [];
+      var winner;
       var x = document.getElementById("template");
       submitFlag = true;
       console.log(x);
@@ -86,10 +104,34 @@
         console.log(pieChart);
       }
       drawPieChart();
+
+      for(var i=0; i<lastEndArray.length; i++){
+        if(i != lastEndArray.length - 1){
+          sectorWidth.push(lastEndArray[i+1]-lastEndArray[i]);
+        }
+        else{
+          sectorWidth.push(6.28 - Number(lastEndArray[i]));
+        }
+      }
+      winner = 0;
+
+      console.log(sectorWidth);
+      for(i = sectorWidth.length-1; i>winner; i--){
+        finalDistance += sectorWidth[i];
+      }
+      console.log(finalDistance);
+      finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
+      console.log(finalDistance);
+
+
+
+
       rotate();
       }
 
       function drawPieChart(){
+        lastEndArray = [];
+        probabilityArray = [];
         var canvas;
         var ctx;
         var lastEnd = 0;
@@ -110,6 +152,7 @@
         console.log(pieColor);
         console.log(pieName);
         for (var i = 0; i < pieData.length; i++) {
+                probabilityArray.push(pieChart.probability[i]/pieTotal);
                 ctx.fillStyle = pieColor[i];
                 ctx.beginPath();
                 ctx.moveTo(hwidth,hheight); //starting position
@@ -126,22 +169,26 @@
                 ctx.font = '14px Calibri';
                 ctx.fillText(pieName[i],setX,setY);
 
+                lastEndArray.push(lastEnd);
+                console.log(lastEndArray);
                 lastEnd += Math.PI*2*(pieData[i]/pieTotal);
               }
+              console.log(probabilityArray);
       }
 
       function rotate() {
-        var speed = ((-9/25000000)*degree*degree)+((9/2500)*degree)+1; //compute the speed of the wheel based on the degree rotated
+        var speed = ((-9/27500000)*degree*degree)+((189/55000)*degree)+1; //compute the speed of the wheel based on the degree rotated
           $('#can').css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
           $('#can').css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
           timer = setTimeout(function() {
-            if(degree < 10000){
+            if(degree < 10080 + finalDistance){
               degree = degree + speed; rotate();
             }
-            else if(degree >= 10000){
+            else if(degree >= 10080 + finalDistance){
               stop();
+              submitFlag = false;
             }
-              console.log(degree);
+            //  console.log(degree);
           },5);
       }
 
@@ -170,8 +217,11 @@
               pieChart.color.push(textArray[i+2]);
             }
             if(text.indexOf('<br><br>') == -1){
-              drawPieChart();
+              if( lastText !== text){
+                  drawPieChart();
+              }
             }
+            lastText = text;
             pieChart = {
               name:[],
               probability:[],

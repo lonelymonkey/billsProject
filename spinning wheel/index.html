@@ -14,17 +14,21 @@
       <li class="columnProb">Probability</li>
       <li class="columnColor">Color</li>
     </ul>
-      </br>
-      </br>
+  </br>
+</br>
     <form id="template">
     </form>
   </div>
-  <div id='wheel'>
-    <canvas id="can" width="200" height="200">
-  </div>
   <div id='options'>
   </div>
+
+  <div id='wheel'>
+    <canvas id="can" width="200" height="200"></canvas>
+    <div id='triangle-left'>
+    </div>
+  </div>
 </div>
+
 
 </html>
 
@@ -32,6 +36,9 @@
 $(document).ready(function(){
   spinningWheel.load({
     'containerId' : 'app-wrapper'
+  });
+  $('.remove').on("click", function(){
+    console.log('hello');
   });
 });
 </script>
