@@ -16,6 +16,7 @@
   var degree = 0, timer;
   var random = Math.random();
   var submitFlag = false;
+  var rotateFlag = false;
 
   var lastEndArray = [];
   var sectorWidth = [];
@@ -25,6 +26,26 @@
 
   var probabilityArray = [];
 
+  var winner;
+
+  function hash(){
+    var x = location.hash;
+    console.log(x);
+    var xArray = x.split('#')
+    xArray.shift();
+    console.log(xArray);
+    var insertItems;
+    for(var i=0; i<xArray.length - 3; i+=3){
+      formView();
+    }
+    insertItems = document.getElementsByClassName('input');
+    for(i=0; i<xArray.length; i+=3){
+      insertItems[i].value = xArray[i];
+      insertItems[i+1].value = xArray[i+1];
+      insertItems[i+2].value = '#' + xArray[i+2];
+    }
+    //http://billchou.local/spinning%20wheel/#part2#123#ECD078#part3#234#D95B43
+  }
 
   function buildUIFrame(){
     var view = '';
@@ -39,9 +60,9 @@
       form +=
       '<div class="set">' +
       '<ul class="row">'  +
-        '<li class="columnCol"><input type="text" name="Name" style="width: 100px" placeholder= "Name"></li>'  +
-        '<li class="columnCol"><input type="text" name="Probability" style="width: 100px" placeholder= "Probability"></li>'  +
-        '<li class="columnCol"><input type="color" name="color" style="width: 20px" value=' + randomColor() + '></li>' +
+        '<li class="columnCol"><input class="input" type="text" name="Name" style="width: 100px" placeholder= "Name"></li>'  +
+        '<li class="columnCol"><input class="input" type="text" name="Probability" style="width: 100px" placeholder= "Probability"></li>'  +
+        '<li class="columnCol"><input class="input" type="color" name="color" style="width: 20px" value=' + randomColor() + '></li>' +
         '<li class="columnCol"><input class="remove" type="button" value="x"></li>' +
       '</ul>'  +
       '</div>';
@@ -53,9 +74,9 @@
       form +=
       '<div class="setInit">' +
       '<ul class="row">'  +
-        '<li class="columnCol"><input type="text" name="Name" style="width: 100px" placeholder= "Name"></li>'  +
-        '<li class="columnCol"><input type="text" name="Probability" style="width: 100px" placeholder= "Probability"></li>'  +
-        '<li class="columnCol"><input type="color" name="color" style="width: 20px" value=' + randomColor() + '></li>' +
+        '<li class="columnCol"><input class="input" type="text" name="Name" style="width: 100px" placeholder= "Name"></li>'  +
+        '<li class="columnCol"><input class="input" type="text" name="Probability" style="width: 100px" placeholder= "Probability"></li>'  +
+        '<li class="columnCol"><input class="input" type="color" name="color" style="width: 20px" value=' + randomColor() + '></li>' +
       '</ul>'  +
       '</div>';
       $('#template').append(form);
@@ -82,62 +103,62 @@
     }
 
     function submit(){
-      pieChart = {
-        name:[],
-        probability:[],
-        color:[]
-      };
-      degree = 0;
-      finalDistance = 0;
-      sectorWidth = [];
-      var winner;
-      var x = document.getElementById("template");
-      submitFlag = true;
-      console.log(x);
-      console.log(x.length);
-      var text = '';
-      for (var i = 0; i < x.length ;i++) {
-        if(x[i].value === 'x'){
-          continue;
+      if(rotateFlag == true){
+        createHashURL();
+        pieChart = {
+          name:[],
+          probability:[],
+          color:[]
+        };
+        degree = 0;
+        finalDistance = 0;
+        sectorWidth = [];
+        var x = document.getElementById("template");
+        submitFlag = true;
+        console.log(x);
+        console.log(x.length);
+        var text = '';
+        for (var i = 0; i < x.length ;i++) {
+          if(x[i].value === 'x'){
+            continue;
+          }
+          else{
+            text += x[i].value + "<br>";
+          }
         }
-        else{
-          text += x[i].value + "<br>";
+        console.log(text);
+        textArray = text.split('<br>');
+        textArray.pop();
+        console.log(textArray);
+        for (var i =0; i< textArray.length; i+=3){
+          pieChart.name.push(textArray[i]);
+          pieChart.probability.push(textArray[i+1]);
+          pieChart.color.push(textArray[i+2]);
+          console.log(pieChart);
         }
-      }
-      console.log(text);
-      textArray = text.split('<br>');
-      textArray.pop();
-      console.log(textArray);
-      for (var i =0; i< textArray.length; i+=3){
-        pieChart.name.push(textArray[i]);
-        pieChart.probability.push(textArray[i+1]);
-        pieChart.color.push(textArray[i+2]);
-        console.log(pieChart);
-      }
-      drawPieChart();
+        drawPieChart();
 
-      for(var i=0; i<lastEndArray.length; i++){
-        if(i != lastEndArray.length - 1){
-          sectorWidth.push(lastEndArray[i+1]-lastEndArray[i]);
+        for(var i=0; i<lastEndArray.length; i++){
+          if(i != lastEndArray.length - 1){
+            sectorWidth.push(lastEndArray[i+1]-lastEndArray[i]);
+          }
+          else{
+            sectorWidth.push(6.28 - Number(lastEndArray[i]));
+          }
         }
-        else{
-          sectorWidth.push(6.28 - Number(lastEndArray[i]));
+        winner = getRandom();
+
+        console.log(winner);
+
+        console.log(sectorWidth);
+        for(i = sectorWidth.length-1; i>winner; i--){
+          finalDistance += sectorWidth[i];
         }
+        console.log(finalDistance);
+        finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
+        console.log(finalDistance);
+        rotate();
       }
-      winner = 0;
-
-      console.log(sectorWidth);
-      for(i = sectorWidth.length-1; i>winner; i--){
-        finalDistance += sectorWidth[i];
-      }
-      console.log(finalDistance);
-      finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
-      console.log(finalDistance);
-
-
-
-
-      rotate();
       }
 
       function drawPieChart(){
@@ -170,6 +191,7 @@
                 ctx.arc(hwidth,hheight,hheight,lastEnd,lastEnd+
                   (Math.PI*2*(pieData[i]/pieTotal)),false);  //ctx.arc(x,y,radius,startAngle,endAngle,counterclockwise);
                 ctx.lineTo(hwidth,hheight);
+
                 ctx.fill();
 
                 var radius = hheight/1.5; //put the label in the middle
@@ -187,6 +209,19 @@
               console.log(probabilityArray);
       }
 
+      function getRandom(){
+        var num = Math.random();
+        s = 0;
+        lastIndex = probabilityArray.length - 1;
+        for(var i=0;i<lastIndex;i++){
+          s += probabilityArray[i];
+          if(num < s){
+            return i;
+          }
+        }
+        return lastIndex;
+      }
+
       function rotate() {
         var speed = ((-9/27500000)*degree*degree)+((189/55000)*degree)+1; //compute the speed of the wheel based on the degree rotated
           $('#can').css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
@@ -194,6 +229,7 @@
           timer = setTimeout(function() {
             if(degree < 10080 + finalDistance){
               degree = degree + speed; rotate();
+
             }
             else if(degree >= 10080 + finalDistance){
               stop();
@@ -205,11 +241,18 @@
 
       function stop(){
         clearTimeout(timer);
+        alert('the winner is ' + pieChart.name[winner]);
       }
 
       function autoUpdate(){
         setInterval(function(){
+                validation();
           if(submitFlag == false){
+            pieChart = {
+              name:[],
+              probability:[],
+              color:[]
+            };
             var x = document.getElementById("template");
             var text = '';
             for (var i = 0; i < x.length ;i++) {
@@ -233,13 +276,49 @@
               }
             }
             lastText = text;
-            pieChart = {
-              name:[],
-              probability:[],
-              color:[]
-            };
           }
         }, 5);
+      }
+
+      function createHashURL(){
+        var hashItems = document.getElementsByClassName('input');
+        var initialURL = "http://billchou.local/spinning%20wheel/";
+        for(var i=0; i<hashItems.length;i++){
+          initialURL += '#' + hashItems[i].value;
+        }
+        console.log(initialURL);
+        initialURL = initialURL.replace('##','#');
+        window.location.href = initialURL;
+      }
+
+      function validation(){
+        var validateItems = document.getElementsByClassName('input');
+        //console.log(validateItems);
+      //  console.log(validateItems[0].value);
+        for(var i =0; i<validateItems.length; i++){
+          if(validateItems[i].value == ''){
+            $(validateItems[i]).css('border','red solid 1px');
+            rotateFlag = false;
+          }
+          else if(validateItems[i].placeholder == 'Probability'){
+            //console.log(/^[0-9]+$/.test(validateItems[i].value));
+            if(/^[0-9]+$/.test(validateItems[i].value) == false){
+              $(validateItems[i]).css('border','red solid 1px');
+              rotateFlag = false;
+            }
+            else{
+              $(validateItems[i]).css('border','white solid 1px');
+              rotateFlag = true;
+            }
+          }
+          else if(validateItems[i].type == 'color') {
+            continue;
+          }
+          else{
+            $(validateItems[i]).css('border','white solid 1px');
+            rotateFlag = true;
+          }
+        }
       }
 
   spinningWheel.load = function(cfg){
@@ -248,6 +327,7 @@
     formViewInit();
     remove();
     autoUpdate();
+    hash();
     //drawPieChart();
   }
 
