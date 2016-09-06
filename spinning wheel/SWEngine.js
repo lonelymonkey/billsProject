@@ -49,10 +49,27 @@
 
   function buildUIFrame(){
     var view = '';
-    view += '<button id="key">More</button>' +
-    '<button id="submit">Submit</button>';
-
-    $('#options').html(view);
+    view +=
+    '<div id="form">' +
+      '<ul class="row">' +
+        '<li class="columnName">Name</li>' +
+        '<li class="columnProb">Probability</li>' +
+        '<li class="columnColor">Color</li>' +
+      '</ul>' +
+    '</br>' +
+    '</br>' +
+      '<form id="template">' +
+      '</form>' +
+    '</div>' +
+    '<div id="options">' +
+    '<button id="key">More</button>' +
+    '<button id="submit">Submit</button>' +
+    '</div>' +
+    '<canvas id="can" width="200" height="200"></canvas>' +
+      '<div id="triangle-left"></div>' +
+      '</div>';
+    $('#app-wrapper').html(view);
+    $('#triangle-left').hide();
     bindEvents();
   }
     function formView(){
@@ -104,6 +121,7 @@
 
     function submit(){
       if(rotateFlag == true){
+        $('#triangle-left').show();
         createHashURL();
         pieChart = {
           name:[],
@@ -167,11 +185,13 @@
         var canvas;
         var ctx;
         var lastEnd = 0;
+        /*  name:[10,30,20,60,40],
+          probability:[0.1,0.3,0.2,0.6,0.4],
+          color:["#ECD078","#D95B43","#C02942","#542437","#53777A"] */
         var pieColor = pieChart.color;
         var pieData = pieChart.probability;
         var pieName = pieChart.name;
         var pieTotal = pieData.reduce(function(a, b) { return Number(a) + Number(b); }, 0);
-        console.log(pieTotal);
 
         canvas = document.getElementById('can');
         console.log(canvas);
@@ -205,6 +225,7 @@
                 lastEndArray.push(lastEnd);
                 console.log(lastEndArray);
                 lastEnd += Math.PI*2*(pieData[i]/pieTotal);
+
               }
               console.log(probabilityArray);
       }
@@ -282,13 +303,13 @@
 
       function createHashURL(){
         var hashItems = document.getElementsByClassName('input');
-        var initialURL = "http://billchou.local/spinning%20wheel/";
+        var initialURL = "";
         for(var i=0; i<hashItems.length;i++){
           initialURL += '#' + hashItems[i].value;
         }
         console.log(initialURL);
-        initialURL = initialURL.replace('##','#');
-        window.location.href = initialURL;
+        initialURL = initialURL.replace(/##/g,'#');
+        window.location.href = 'http://billchou.local/spinning%20wheel/' + initialURL;
       }
 
       function validation(){

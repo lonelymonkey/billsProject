@@ -7,37 +7,13 @@
 
 <html>
 <div id="app-wrapper">
-  <div id='form'>
-    <ul class="row">
-      <li class="columnName">Name</li>
-      <li class="columnProb">Probability</li>
-      <li class="columnColor">Color</li>
-    </ul>
-  </br>
-</br>
-    <form id="template">
-    </form>
-  </div>
-  <div id='options'>
-  </div>
-
-  <div id='wheel'>
-    <canvas id="can" width="200" height="200"></canvas>
-    <div id='triangle-left'>
-    </div>
-  </div>
 </div>
-
-
 </html>
 
 <script>
 $(document).ready(function(){
   spinningWheel.load({
     'containerId' : 'app-wrapper'
-  });
-  $('.remove').on("click", function(){
-    console.log('hello');
   });
 });
 </script>
