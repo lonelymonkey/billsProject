@@ -7,6 +7,7 @@
   /*  name:[10,30,20,60,40],
     probability:[0.1,0.3,0.2,0.6,0.4],
     color:["#ECD078","#D95B43","#C02942","#542437","#53777A"] */
+    set:[],
     name:[],
     probability:[],
     color:[]
@@ -25,32 +26,59 @@
   var finalDistance;
 
   var probabilityArray = [];
-
+  var j=0;
   var winner;
+  var wheelSetName = '';
 
   function hash(){
-    var x = location.hash;
+    var x = location.hash
+    x = unescape(x);
     console.log(x);
-    var xArray = x.split('#')
-    xArray.shift();
-    console.log(xArray);
-    var insertItems;
-    for(var i=0; i<xArray.length - 3; i+=3){
-      formView();
-    }
-    insertItems = document.getElementsByClassName('input');
-    for(i=0; i<xArray.length; i+=3){
-      insertItems[i].value = xArray[i];
-      insertItems[i+1].value = xArray[i+1];
-      insertItems[i+2].value = '#' + xArray[i+2];
+    if(x != ''){
+      var xObject = x.substring(1);
+      xObject = JSON.parse(xObject);
+      console.log(xObject);
+      console.log(xObject.name);
+      var insertItems;
+      for(var i=0; i< xObject.name.length - 1; i++){
+        formView();
+      }
+      insertItems = document.getElementsByClassName('input');
+      console.log(insertItems);
+      for(i=0; i<insertItems.length; i+=3){
+        insertItems[i].value = xObject.name[j];
+        insertItems[i+1].value = xObject.probability[j];
+        insertItems[i+2].value = xObject.color[j];
+        j++;
+      }
     }
     //http://billchou.local/spinning%20wheel/#part2#123#ECD078#part3#234#D95B43
   }
+
+  function ajax(pieChart) {
+        if (window.XMLHttpRequest) {4
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET","spinningWheel.php?q=" + escape(JSON.stringify(pieChart)),true);
+        xmlhttp.send();
+    }
 
   function buildUIFrame(){
     var view = '';
     view +=
     '<div id="form">' +
+    '<input id="wheelSet" type="text" name="wheelSet" style="width: 100px" placeholder= "Wheelset">'  +
+    '</br>' +
       '<ul class="row">' +
         '<li class="columnName">Name</li>' +
         '<li class="columnProb">Probability</li>' +
@@ -122,8 +150,8 @@
     function submit(){
       if(rotateFlag == true){
         $('#triangle-left').show();
-        createHashURL();
         pieChart = {
+          set:[],
           name:[],
           probability:[],
           color:[]
@@ -136,6 +164,9 @@
         console.log(x);
         console.log(x.length);
         var text = '';
+        var hashObject = '';
+        var wheelSet = document.getElementById('wheelSet').value;
+        console.log(wheelSet);
         for (var i = 0; i < x.length ;i++) {
           if(x[i].value === 'x'){
             continue;
@@ -154,6 +185,14 @@
           pieChart.color.push(textArray[i+2]);
           console.log(pieChart);
         }
+
+        pieChart.set.push(wheelSet);
+        ajax(pieChart);
+
+
+        hashObject = JSON.stringify(pieChart);
+        console.log(hashObject);
+        window.location.href = '#' + escape(hashObject);
         drawPieChart();
 
         for(var i=0; i<lastEndArray.length; i++){
@@ -270,12 +309,14 @@
                 validation();
           if(submitFlag == false){
             pieChart = {
+              set:[],
               name:[],
               probability:[],
               color:[]
             };
             var x = document.getElementById("template");
             var text = '';
+
             for (var i = 0; i < x.length ;i++) {
               if(x[i].value === 'x'){
                 continue;
@@ -291,6 +332,7 @@
               pieChart.probability.push(textArray[i+1]);
               pieChart.color.push(textArray[i+2]);
             }
+
             if(text.indexOf('<br><br>') == -1){
               if( lastText !== text){
                   drawPieChart();
@@ -301,21 +343,18 @@
         }, 5);
       }
 
-      function createHashURL(){
-        var hashItems = document.getElementsByClassName('input');
-        var initialURL = "";
-        for(var i=0; i<hashItems.length;i++){
-          initialURL += '#' + hashItems[i].value;
-        }
-        console.log(initialURL);
-        initialURL = initialURL.replace(/##/g,'#');
-        window.location.href = 'http://billchou.local/spinning%20wheel/' + initialURL;
-      }
-
       function validation(){
         var validateItems = document.getElementsByClassName('input');
+        var validateSet = document.getElementById('wheelSet');
         //console.log(validateItems);
       //  console.log(validateItems[0].value);
+      if(validateSet.value == ''){
+        $(validateSet).css('border','red solid 1px');
+      }
+      else{
+        $(validateSet).css('border','white solid 1px');
+      }
+
         for(var i =0; i<validateItems.length; i++){
           if(validateItems[i].value == ''){
             $(validateItems[i]).css('border','red solid 1px');

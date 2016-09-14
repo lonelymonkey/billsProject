@@ -28,6 +28,33 @@ CREATE TABLE `userinfo` (
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;
 
+CREATE TABLE `userinfo` (
+  `id` int(11) NOT NULL auto_increment,
+  `userName` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) AUTO_INCREMENT=1;
+
+CREATE TABLE `set` (
+  `id` int(11) NOT NULL auto_increment,
+  `set` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) AUTO_INCREMENT=1;
+
+CREATE TABLE `color` (
+  `setID` int(11) NOT NULL,
+  `color` varchar(64) NOT NULL
+);
+
+CREATE TABLE `probability` (
+  `setID` int(11) NOT NULL,
+  `probability` varchar(64) NOT NULL
+);
+
+CREATE TABLE `name` (
+  `setID` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL
+);
 /*
 CREATE TABLE `blogs` (
   `id` int(11) NOT NULL,
