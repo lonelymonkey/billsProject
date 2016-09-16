@@ -10,7 +10,8 @@
     set:[],
     name:[],
     probability:[],
-    color:[]
+    color:[],
+    winner:[]
   }
   var textArray = [];
 
@@ -73,9 +74,42 @@
         xmlhttp.send();
     }
 
+  function retrival(){
+    $.post("retrival.php",
+  {
+      name:'bill',
+      probability:'123',
+      color:'#FFFFFF'
+  },
+  function(data,status){
+    var allData = JSON.parse(data);
+    console.log(allData);
+    var viewSet = '';
+    var eachSet = {
+      setName:'',
+      name:[],
+      distribution:[],
+      color:[]
+    }
+
+    for(var i=0; i<allData.length; i++){
+      if(i == allData.length - 1){
+        if(allData[i].setID == allData[i-1].setID){
+           
+        }
+      }
+    }
+
+    viewSet += '<li>' + data + '</li>';
+    $('#setList').append(viewSet);
+    console.log("status:" + status);
+  });
+  }
+
   function buildUIFrame(){
     var view = '';
     view +=
+    '<div id="formBox">' +
     '<div id="form">' +
     '<input id="wheelSet" type="text" name="wheelSet" style="width: 100px" placeholder= "Wheelset">'  +
     '</br>' +
@@ -93,8 +127,15 @@
     '<button id="key">More</button>' +
     '<button id="submit">Submit</button>' +
     '</div>' +
+    '</div>' +
+    '<div id="wheelbox">' +
     '<canvas id="can" width="200" height="200"></canvas>' +
       '<div id="triangle-left"></div>' +
+      '</div>' +
+      '</div>' +
+    '<div id="panel">' +
+      '<ul id="setList">' +
+      '</ul>'+
       '</div>';
     $('#app-wrapper').html(view);
     $('#triangle-left').hide();
@@ -154,7 +195,8 @@
           set:[],
           name:[],
           probability:[],
-          color:[]
+          color:[],
+          winner:[]
         };
         degree = 0;
         finalDistance = 0;
@@ -186,10 +228,6 @@
           console.log(pieChart);
         }
 
-        pieChart.set.push(wheelSet);
-        ajax(pieChart);
-
-
         hashObject = JSON.stringify(pieChart);
         console.log(hashObject);
         window.location.href = '#' + escape(hashObject);
@@ -206,6 +244,10 @@
         winner = getRandom();
 
         console.log(winner);
+
+        pieChart.set.push(wheelSet);
+        pieChart.winner.push(pieChart.name[winner]);
+        ajax(pieChart);
 
         console.log(sectorWidth);
         for(i = sectorWidth.length-1; i>winner; i--){
@@ -312,7 +354,8 @@
               set:[],
               name:[],
               probability:[],
-              color:[]
+              color:[],
+              winner:[]
             };
             var x = document.getElementById("template");
             var text = '';
@@ -388,6 +431,7 @@
     remove();
     autoUpdate();
     hash();
+    retrival();
     //drawPieChart();
   }
 

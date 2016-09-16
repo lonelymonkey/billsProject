@@ -35,26 +35,34 @@ CREATE TABLE `userinfo` (
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;
 
-CREATE TABLE `set` (
-  `id` int(11) NOT NULL auto_increment,
-  `set` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
-) AUTO_INCREMENT=1;
+CREATE TABLE `wheelSet` (
+  `setID` int(11) NOT NULL auto_increment,
+  `setName` varchar(64) NOT NULL,
+  PRIMARY KEY (`setID`)
+) ENGINE=INNODB CHARACTER SET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE `color` (
+CREATE TABLE `probabilitySlice` (
+  `sliceID` int(11) NOT NULL auto_increment,
   `setID` int(11) NOT NULL,
-  `color` varchar(64) NOT NULL
-);
+  `name` varchar(256) NOT NULL,
+  `distribution` int NOT NULL,
+  `color` varchar(64) NOT NULL,
+  PRIMARY KEY (`sliceID`),
+  FOREIGN KEY (setID)
+    REFERENCES wheelSet(setID)
+    ON DELETE CASCADE
+) ENGINE=INNODB CHARACTER SET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE `probability` (
+CREATE TABLE `wheelResult` (
+  `resultID` int(11) NOT NULL auto_increment,
   `setID` int(11) NOT NULL,
-  `probability` varchar(64) NOT NULL
-);
+  `winner` varchar(64) NOT NULL,
+  PRIMARY KEY (`resultID`),
+  FOREIGN KEY (`setID`)
+    REFERENCES wheelSet(setID)
+    ON DELETE CASCADE
+) ENGINE=INNODB CHARACTER SET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE `name` (
-  `setID` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL
-);
 /*
 CREATE TABLE `blogs` (
   `id` int(11) NOT NULL,

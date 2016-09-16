@@ -10,6 +10,15 @@ class Database{
 
   private $stmt;
 
+  private static $db = false;
+
+  public static function getConnection() {
+      if (self::$db === false) {
+          self::$db = new Database();
+      }
+      return self::$db;
+  }
+
   public function __construct(){
     // Set DSN
       $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;

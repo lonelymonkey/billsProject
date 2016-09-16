@@ -25,28 +25,43 @@ p {
 }
 
 #app-wrapper {
-  width: 800px;
-  height:  1000px;
+  width: 990px;
+  height: 1000px;
+}
+
+#formBox{
+  width: 433px;
+  1height: 262px;
+  float: left;
 }
 
 #form {
   float: left;
   background-color: rgb(132,140,242);
-  width:420px;
+  width: 423px;
   border-radius: 5px;
   padding-left: 10px;
   padding-top: 10px;
 }
 
 #options {
-  width: 430px;
+  width: 432px;
   padding-left: 300px;
   padding-top: 15px;
   height: 55px;
   background-color: rgb(56,36,200);
   box-sizing: border-box;
-  float:left;
+  float: left;
   border-radius: 5px;
+}
+
+#wheelbox {
+  float: left;
+      position: relative;
+      width: 282px;
+      height: 235px;
+      padding-top: 26px;
+      padding-left: 63px;
 }
 
 #triangle-left {
@@ -57,7 +72,14 @@ p {
   border-bottom: 25px solid transparent;
   position: absolute;
   top: 99px;
-  left: 700px;
+  left: 262px;
+}
+
+#panel {
+  float: left;
+  width: 200px;
+  height: 300px;
+  background: #D3D3D3;
 }
 
 .set,.setInit {
@@ -134,12 +156,6 @@ input[type=text]:focus{
 
 .input{
   background: white;
-}
-
-canvas {
-  position: relative;
-  top: 16px;
-  left: 63px;
 }
 
 .sector:hover {
