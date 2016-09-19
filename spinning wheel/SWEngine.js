@@ -56,8 +56,8 @@
     //http://billchou.local/spinning%20wheel/#part2#123#ECD078#part3#234#D95B43
   }
 
-  function ajax(pieChart) {
-        if (window.XMLHttpRequest) {4
+  function write(pieChart) {
+      /*  if (window.XMLHttpRequest) {4
             // code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp = new XMLHttpRequest();
         }
@@ -71,39 +71,113 @@
             }
         };
         xmlhttp.open("GET","spinningWheel.php?q=" + escape(JSON.stringify(pieChart)),true);
-        xmlhttp.send();
+        xmlhttp.send();*/
+        $.post("write.php",pieChart,function(data, status){
+        console.log("Data: " + data + "\nStatus: " + status);
+    });
     }
 
   function retrival(){
-    $.post("retrival.php",
-  {
-      name:'bill',
-      probability:'123',
-      color:'#FFFFFF'
-  },
+    $.get("retrival.php",
   function(data,status){
+    spinningWheel.creatingPanelList(data,status);
+  });
+  }
+  spinningWheel.creatingPanelList = function(data,status){
     var allData = JSON.parse(data);
     console.log(allData);
-    var viewSet = '';
-    var eachSet = {
+    var eachSet = '';
+    var setProperty = {
       setName:'',
       name:[],
       distribution:[],
       color:[]
     }
+    var index = 1;
 
     for(var i=0; i<allData.length; i++){
-      if(i == allData.length - 1){
-        if(allData[i].setID == allData[i-1].setID){
-           
-        }
-      }
-    }
+      console.log(i);
+      if(allData[i].setID == index){
+        setProperty.setName = allData[i].setName;
+        setProperty.name.push(allData[i].name);
+        setProperty.distribution.push(allData[i].distribution);
+        setProperty.color.push(allData[i].color);
+        if(i < allData.length - 1){
+          if(allData[i+1].setID != index){
 
-    viewSet += '<li>' + data + '</li>';
-    $('#setList').append(viewSet);
-    console.log("status:" + status);
-  });
+            eachSet += '<div class="dropdown">' +
+                      '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
+                      '<div id="myDropdown'+index+'" class="dropdown-content">' +
+                      '<a id="name">'+ setProperty.name +'</a>' +
+                      '<a id="distribution">'+ setProperty.distribution+'</a>' +
+                      '<a id="color">'+ setProperty.color+'</a>' +
+                      '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
+                      '</div>' +
+                      '</div>';
+            //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
+            $('#panel').append(eachSet);
+            setProperty = {
+              setName:'',
+              name:[],
+              distribution:[],
+              color:[]
+            };
+            eachSet = '';
+            index++;
+          }
+          }
+        else if (i == allData.length - 1) {
+          eachSet += '<div class="dropdown">' +
+                    '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
+                    '<div id="myDropdown'+index+'" class="dropdown-content">' +
+                    '<a id="name">'+ setProperty.name +'</a>' +
+                    '<a id="distribution">'+ setProperty.distribution+'</a>' +
+                    '<a id="color">'+ setProperty.color+'</a>' +
+                    '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
+                    '</div>' +
+                    '</div>';
+        //  eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
+          $('#panel').append(eachSet);
+          setProperty = {
+            setName:'',
+            name:[],
+            distribution:[],
+            color:[]
+          };
+          eachSet = '';
+        }
+        }
+
+
+      }
+
+    console.log( data + "status:" + status);
+  }
+  spinningWheel.applyToField = function(index){
+    $('.set').remove();
+
+    var setName = document.getElementById('wheelSet');
+    var property = document.getElementsByClassName('input');
+    var propertyName = $('#myDropdown' + index + ' #name').html();
+    var propertyDistribution = $('#myDropdown' + index + ' #distribution').html();
+    var propertyColor = $('#myDropdown' + index + ' #color').html();
+    var j = 0;
+    propertyName = propertyName.split(',');
+    propertyDistribution = propertyDistribution.split(',');
+    propertyColor = propertyColor.split(',');
+    console.log(index);
+    console.log(document.getElementById('setName'+index));
+    setName.value = document.getElementById('setName'+index).innerHTML;
+
+    for(var i=0; i< propertyName.length - 1; i++){
+      formView();
+    }
+    for(i=0; i<property.length; i+=3){
+      property[i].value = propertyName[j];
+      property[i+1].value = propertyDistribution[j];
+      property[i+2].value = propertyColor[j];
+      j++;
+    }
   }
 
   function buildUIFrame(){
@@ -134,8 +208,6 @@
       '</div>' +
       '</div>' +
     '<div id="panel">' +
-      '<ul id="setList">' +
-      '</ul>'+
       '</div>';
     $('#app-wrapper').html(view);
     $('#triangle-left').hide();
@@ -190,6 +262,7 @@
 
     function submit(){
       if(rotateFlag == true){
+        $('.dropdown').remove();
         $('#triangle-left').show();
         pieChart = {
           set:[],
@@ -247,8 +320,7 @@
 
         pieChart.set.push(wheelSet);
         pieChart.winner.push(pieChart.name[winner]);
-        ajax(pieChart);
-
+        write(pieChart);
         console.log(sectorWidth);
         for(i = sectorWidth.length-1; i>winner; i--){
           finalDistance += sectorWidth[i];
@@ -256,6 +328,7 @@
         console.log(finalDistance);
         finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
         console.log(finalDistance);
+        retrival();
         rotate();
       }
       }
@@ -349,6 +422,7 @@
       function autoUpdate(){
         setInterval(function(){
                 validation();
+                //retrival();
           if(submitFlag == false){
             pieChart = {
               set:[],
@@ -432,6 +506,7 @@
     autoUpdate();
     hash();
     retrival();
+    //requestData();
     //drawPieChart();
   }
 

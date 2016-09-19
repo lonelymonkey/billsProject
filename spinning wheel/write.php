@@ -1,10 +1,9 @@
 <?php
 include '../includes/databasebill.class.inc';
 include '../includes/config.inc';
-  $q = $_REQUEST["q"];
-
+  $data = $_POST;
+  var_dump($data);
   $database = new Database;
-  $data = json_decode($q);
 
   //$database->query('INSERT INTO mytable (FName, LName, Age, Gender) VALUES (:fname, :lname, :age, :gender)');
   $database->query('SELECT w.setID, w.setName, x.name, x.distribution, x.color from wheelset as w left join probabilityslice as x on w.setID = x.setID where w.setID = (select max(setID) from wheelset)');
@@ -19,31 +18,31 @@ include '../includes/config.inc';
 
   echo "<pre>";
   print_r($lastEntry);
-  echo "</pre>"; */
+  echo "</pre>";*/
 
   //compore the current set with the last set, if they are equal, just enter the winner into the database
-  if($data->set[0] == $lastEntry[0]['setName']){ //setname
+  if($data['set'][0] == $lastEntry[0]['setName']){ //setname
     for($i = 0; $i<$entryLength; $i++){
-      if($data->name[$i] != $lastEntry[$i]['name']){
+      if($data['name'][$i] != $lastEntry[$i]['name']){
         storeNewSet($database, $data);
-    //    echo 'new set with identical name added1';
+       echo 'new set with identical name added1';
         break;
       }
-      elseif ($data->probability[$i] != $lastEntry[$i]['distribution']) { //distribution
+      elseif ($data['probability'][$i] != $lastEntry[$i]['distribution']) { //distribution
         storeNewSet($database, $data);
-    //    echo 'new set with identical name added2';
+        echo 'new set with identical name added2';
         break;
       }
-      elseif($data->color[$i] != $lastEntry[$i]['color']){ //color
+      elseif($data['color'][$i] != $lastEntry[$i]['color']){ //color
         storeNewSet($database, $data);
-      //  echo 'new set with identical name added3';
+        echo 'new set with identical name added3';
         break;
       }
     }
   }
   else{
     storeNewSet($database, $data);
-  //  echo 'new set added';
+    echo 'new set added';
   }
 
   $database->query('SELECT COUNT(setID) FROM wheelSet');
@@ -54,17 +53,17 @@ include '../includes/config.inc';
 
   $database->query('INSERT into wheelResult (setID,winner) VALUES (:setID,:winner)');
   $database->bind(':setID', intval($foreignKey));
-  $database->bind(':winner', $data->winner[0]);
+  $database->bind(':winner', $data['winner'][0]);
   $database->execute();
 //functions
 
 
   function storeNewSet($database, $data){
 
-    $count = count($data->name);
+    $count = count($data['name']);
 
     $database->query('INSERT INTO wheelset (setName) VALUES (:setname)');
-    $database->bind(':setname',$data->set[0]);
+    $database->bind(':setname',$data['set'][0]);
     $database->execute();
 
     $setID = $database->lastInsertId();
@@ -75,9 +74,9 @@ include '../includes/config.inc';
 
     for($i = 0; $i<$count; $i++){
       $database->bind(':setID',$setID);
-      $database->bind(':name', $data->name[$i]);
-      $database->bind(':distribution', $data->probability[$i]);
-      $database->bind(':color', $data->color[$i]);
+      $database->bind(':name', $data['name'][$i]);
+      $database->bind(':distribution', $data['probability'][$i]);
+      $database->bind(':color', $data['color'][$i]);
       $database->execute();
     }
 
