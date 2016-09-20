@@ -29,6 +29,8 @@
   var j=0;
   var winner = 0;
   var wheelSetName = '';
+
+
   function hash(){
     var x = location.hash
     x = unescape(x);
@@ -39,6 +41,8 @@
   //    console.log(xObject);
   //    console.log(xObject.name);
       var insertItems;
+      var insertName = document.getElementById('wheelSet');
+      insertName.value = xObject.set[0];
       for(var i=0; i< xObject.name.length - 1; i++){
         formView();
       }
@@ -52,6 +56,17 @@
       }
     }
     //http://billchou.local/spinning%20wheel/#part2#123#ECD078#part3#234#D95B43
+  }
+
+  function winnerList(){
+    $.get("winner.php",function(data,status){
+      var winnerList = JSON.parse(data);
+      var insertNum = 0;
+      console.log(JSON.parse(data));
+      for(var i=0; i<winnerList.length; i++){
+        $('#winner'+winnerList[i].setID).append('<option>#'+i+':'+ winnerList[i].winner +'</option>');
+      }
+    })
   }
 
   function write(pieChart) {
@@ -81,13 +96,13 @@
         console.log(finalDistance);
         finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
         console.log(finalDistance);
-        //retrival();
+        //retrieval();
         rotate();
     });
     }
 
-  function retrival(){
-    $.get("retrival.php",
+  function retrieval(){
+    $.get("retrieval.php",
   function(data,status){
     spinningWheel.creatingPanelList(data,status);
   });
@@ -120,9 +135,13 @@
                       '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                       '<div id="myDropdown'+index+'" class="dropdown-content">' +
                       '<div class="setID">'+ setProperty.setID +'</div>' +
+                      '<div>' +
                       '<a class="name">'+ setProperty.name +'</a>' +
+                      '<div id="detailName"></div>' +
+                      '</div>' +
                       '<a class="distribution">'+ setProperty.distribution+'</a>' +
                       '<a class="color">'+ setProperty.color+'</a>' +
+                      '<a ><select id="winner'+index+'" class="winnerList"></select></a>' +
                       '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                       '</div>' +
                       '</div>';
@@ -147,6 +166,7 @@
                     '<a class="name">'+ setProperty.name +'</a>' +
                     '<a class="distribution">'+ setProperty.distribution+'</a>' +
                     '<a class="color">'+ setProperty.color+'</a>' +
+                    '<a ><select class="winnerList"></select></a>' +
                     '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                     '</div>' +
                     '</div>';
@@ -314,7 +334,8 @@
           pieChart.color.push(textArray[i+2]);
         //  console.log(pieChart);
         }
-
+        pieChart.set.push(wheelSet);
+      //  console.log(pieChart);
         hashObject = JSON.stringify(pieChart);
       //  console.log(hashObject);
         window.location.href = '#' + escape(hashObject);
@@ -451,6 +472,7 @@
                 '<a class="name">'+ object.name +'</a>' +
                 '<a class="distribution">'+ object.distribution+'</a>' +
                 '<a class="color">'+ object.color+'</a>' +
+                '<a ><select  id="winner'+object.setID+'" class="winnerList"></select></a>' +
                 '<a><button onclick=spinningWheel.applyToField("'+data[0].setID+'")>apply</button></a>' +
                 '</div>' +
                 '</div>';
@@ -510,13 +532,15 @@
         var validateSet = document.getElementById('wheelSet');
         //console.log(validateItems);
       //  console.log(validateItems[0].value);
+
+
+
       if(validateSet.value == ''){
         $(validateSet).css('border','red solid 1px');
+        rotateFlag = false;
       }
       else{
         $(validateSet).css('border','white solid 1px');
-      }
-
         for(var i =0; i<validateItems.length; i++){
           if(validateItems[i].value == ''){
             $(validateItems[i]).css('border','red solid 1px');
@@ -530,7 +554,6 @@
             }
             else{
               $(validateItems[i]).css('border','white solid 1px');
-              rotateFlag = true;
             }
           }
           else if(validateItems[i].type == 'color') {
@@ -542,6 +565,7 @@
           }
         }
       }
+      }
 
   spinningWheel.load = function(cfg){
     saveConfig(cfg);
@@ -550,7 +574,8 @@
     remove();
     autoUpdate();
     hash();
-    retrival();
+    retrieval();
+    winnerList();
     autoRefresh();
     //drawPieChart();
   }
