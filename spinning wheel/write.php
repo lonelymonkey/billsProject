@@ -2,8 +2,21 @@
 include '../includes/databasebill.class.inc';
 include '../includes/config.inc';
   $data = $_POST;
-  var_dump($data);
+  //var_dump($data);
   $database = new Database;
+
+  //determine the winner of the game
+  $distributionTotal = array_sum($data['probability']);
+  $distributionArray = [];
+
+  foreach ($data['probability'] as $distribution){
+    array_push($distributionArray,$distribution/$distributionTotal * 100);
+  }
+
+    //var_dump($distributionArray);
+
+  $winner = getRandom($distributionArray);
+  echo $winner;
 
   //$database->query('INSERT INTO mytable (FName, LName, Age, Gender) VALUES (:fname, :lname, :age, :gender)');
   $database->query('SELECT w.setID, w.setName, x.name, x.distribution, x.color from wheelset as w left join probabilityslice as x on w.setID = x.setID where w.setID = (select max(setID) from wheelset)');
@@ -25,35 +38,33 @@ include '../includes/config.inc';
     for($i = 0; $i<$entryLength; $i++){
       if($data['name'][$i] != $lastEntry[$i]['name']){
         storeNewSet($database, $data);
-       echo 'new set with identical name added1';
+      // echo 'new set with identical name added1';
         break;
       }
       elseif ($data['probability'][$i] != $lastEntry[$i]['distribution']) { //distribution
         storeNewSet($database, $data);
-        echo 'new set with identical name added2';
+      //  echo 'new set with identical name added2';
         break;
       }
       elseif($data['color'][$i] != $lastEntry[$i]['color']){ //color
         storeNewSet($database, $data);
-        echo 'new set with identical name added3';
+      //  echo 'new set with identical name added3';
         break;
       }
     }
   }
   else{
     storeNewSet($database, $data);
-    echo 'new set added';
+  //  echo 'new set added';
   }
 
-  $database->query('SELECT COUNT(setID) FROM wheelSet');
+  $database->query('SELECT COUNT(setID) as max FROM wheelSet');
   $foreignKey = $database->single();
-  /*echo "<pre>";
-  var_dump($foreignKey);
-  echo "</pre>";*/
+  $foreignKey = $foreignKey['max'][0];
 
   $database->query('INSERT into wheelResult (setID,winner) VALUES (:setID,:winner)');
-  $database->bind(':setID', intval($foreignKey));
-  $database->bind(':winner', $data['winner'][0]);
+  $database->bind(':setID', (int)$foreignKey);
+  $database->bind(':winner', $winner);//$data['winner'][0]);
   $database->execute();
 //functions
 
@@ -82,6 +93,35 @@ include '../includes/config.inc';
 
     $database->endTransaction();
   }
+
+  function getRandom($distributionArray){
+    $rand = mt_rand(1,100);
+    $s = 0;
+    $lastIndex = count($distributionArray) -1;
+
+    for($i=0;$i<$lastIndex;$i++){
+      $s += $distributionArray[$i];
+      if($rand < $s){
+        return $i;
+      }
+    }
+    return $lastIndex;
+  }
+
+  /*
+  function getRandom(){
+    var num = Math.random();
+    s = 0;
+    lastIndex = probabilityArray.length - 1;
+    for(var i=0;i<lastIndex;i++){
+      s += probabilityArray[i];
+      if(num < s){
+        return i;
+      }
+    }
+    return lastIndex;
+  }
+  */
 
 
   /*

@@ -163,6 +163,10 @@ input[type=text]:focus{
   stroke: blue;
 }
 
+.setID{
+  visibility: hidden;
+}
+
 /* dropdown menu*/
 
 /* Dropdown Button */

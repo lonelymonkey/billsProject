@@ -11,7 +11,6 @@
     name:[],
     probability:[],
     color:[],
-    winner:[]
   }
   var textArray = [];
 
@@ -28,24 +27,23 @@
 
   var probabilityArray = [];
   var j=0;
-  var winner;
+  var winner = 0;
   var wheelSetName = '';
-
   function hash(){
     var x = location.hash
     x = unescape(x);
-    console.log(x);
+  //  console.log(x);
     if(x != ''){
       var xObject = x.substring(1);
       xObject = JSON.parse(xObject);
-      console.log(xObject);
-      console.log(xObject.name);
+  //    console.log(xObject);
+  //    console.log(xObject.name);
       var insertItems;
       for(var i=0; i< xObject.name.length - 1; i++){
         formView();
       }
       insertItems = document.getElementsByClassName('input');
-      console.log(insertItems);
+  //    console.log(insertItems);
       for(i=0; i<insertItems.length; i+=3){
         insertItems[i].value = xObject.name[j];
         insertItems[i+1].value = xObject.probability[j];
@@ -73,7 +71,18 @@
         xmlhttp.open("GET","spinningWheel.php?q=" + escape(JSON.stringify(pieChart)),true);
         xmlhttp.send();*/
         $.post("write.php",pieChart,function(data, status){
-        console.log("Data: " + data + "\nStatus: " + status);
+        console.log(data + "\nStatus: " + status);
+        winner = data;
+        console.log(winner);
+      //  console.log(sectorWidth);
+        for(i = sectorWidth.length-1; i>winner; i--){
+          finalDistance += sectorWidth[i];
+        }
+        console.log(finalDistance);
+        finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
+        console.log(finalDistance);
+        //retrival();
+        rotate();
     });
     }
 
@@ -85,9 +94,10 @@
   }
   spinningWheel.creatingPanelList = function(data,status){
     var allData = JSON.parse(data);
-    console.log(allData);
+    //console.log(allData);
     var eachSet = '';
     var setProperty = {
+      setID:'',
       setName:'',
       name:[],
       distribution:[],
@@ -96,8 +106,9 @@
     var index = 1;
 
     for(var i=0; i<allData.length; i++){
-      console.log(i);
+      //console.log(i);
       if(allData[i].setID == index){
+        setProperty.setID = allData[i].setID;
         setProperty.setName = allData[i].setName;
         setProperty.name.push(allData[i].name);
         setProperty.distribution.push(allData[i].distribution);
@@ -108,15 +119,17 @@
             eachSet += '<div class="dropdown">' +
                       '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                       '<div id="myDropdown'+index+'" class="dropdown-content">' +
-                      '<a id="name">'+ setProperty.name +'</a>' +
-                      '<a id="distribution">'+ setProperty.distribution+'</a>' +
-                      '<a id="color">'+ setProperty.color+'</a>' +
+                      '<div class="setID">'+ setProperty.setID +'</div>' +
+                      '<a class="name">'+ setProperty.name +'</a>' +
+                      '<a class="distribution">'+ setProperty.distribution+'</a>' +
+                      '<a class="color">'+ setProperty.color+'</a>' +
                       '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                       '</div>' +
                       '</div>';
             //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
             $('#panel').append(eachSet);
             setProperty = {
+              setID:'',
               setName:'',
               name:[],
               distribution:[],
@@ -130,15 +143,17 @@
           eachSet += '<div class="dropdown">' +
                     '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                     '<div id="myDropdown'+index+'" class="dropdown-content">' +
-                    '<a id="name">'+ setProperty.name +'</a>' +
-                    '<a id="distribution">'+ setProperty.distribution+'</a>' +
-                    '<a id="color">'+ setProperty.color+'</a>' +
+                    '<div class="setID">'+ setProperty.setID +'</div>' +
+                    '<a class="name">'+ setProperty.name +'</a>' +
+                    '<a class="distribution">'+ setProperty.distribution+'</a>' +
+                    '<a class="color">'+ setProperty.color+'</a>' +
                     '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                     '</div>' +
                     '</div>';
         //  eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
           $('#panel').append(eachSet);
           setProperty = {
+            setID:'',
             setName:'',
             name:[],
             distribution:[],
@@ -151,22 +166,23 @@
 
       }
 
-    console.log( data + "status:" + status);
+  //  console.log( data + "status:" + status);
   }
+
   spinningWheel.applyToField = function(index){
     $('.set').remove();
 
     var setName = document.getElementById('wheelSet');
     var property = document.getElementsByClassName('input');
-    var propertyName = $('#myDropdown' + index + ' #name').html();
-    var propertyDistribution = $('#myDropdown' + index + ' #distribution').html();
-    var propertyColor = $('#myDropdown' + index + ' #color').html();
+    var propertyName = $('#myDropdown' + index + ' .name').html();
+    var propertyDistribution = $('#myDropdown' + index + ' .distribution').html();
+    var propertyColor = $('#myDropdown' + index + ' .color').html();
     var j = 0;
     propertyName = propertyName.split(',');
     propertyDistribution = propertyDistribution.split(',');
     propertyColor = propertyColor.split(',');
-    console.log(index);
-    console.log(document.getElementById('setName'+index));
+  //  console.log(index);
+    //console.log(document.getElementById('setName'+index));
     setName.value = document.getElementById('setName'+index).innerHTML;
 
     for(var i=0; i< propertyName.length - 1; i++){
@@ -262,26 +278,24 @@
 
     function submit(){
       if(rotateFlag == true){
-        $('.dropdown').remove();
         $('#triangle-left').show();
         pieChart = {
           set:[],
           name:[],
           probability:[],
           color:[],
-          winner:[]
         };
         degree = 0;
         finalDistance = 0;
         sectorWidth = [];
         var x = document.getElementById("template");
         submitFlag = true;
-        console.log(x);
-        console.log(x.length);
+      //  console.log(x);
+      //  console.log(x.length);
         var text = '';
         var hashObject = '';
         var wheelSet = document.getElementById('wheelSet').value;
-        console.log(wheelSet);
+      //  console.log(wheelSet);
         for (var i = 0; i < x.length ;i++) {
           if(x[i].value === 'x'){
             continue;
@@ -290,19 +304,19 @@
             text += x[i].value + "<br>";
           }
         }
-        console.log(text);
+    //    console.log(text);
         textArray = text.split('<br>');
         textArray.pop();
-        console.log(textArray);
+        //console.log(textArray);
         for (var i =0; i< textArray.length; i+=3){
           pieChart.name.push(textArray[i]);
           pieChart.probability.push(textArray[i+1]);
           pieChart.color.push(textArray[i+2]);
-          console.log(pieChart);
+        //  console.log(pieChart);
         }
 
         hashObject = JSON.stringify(pieChart);
-        console.log(hashObject);
+      //  console.log(hashObject);
         window.location.href = '#' + escape(hashObject);
         drawPieChart();
 
@@ -314,22 +328,10 @@
             sectorWidth.push(6.28 - Number(lastEndArray[i]));
           }
         }
-        winner = getRandom();
-
-        console.log(winner);
 
         pieChart.set.push(wheelSet);
-        pieChart.winner.push(pieChart.name[winner]);
-        write(pieChart);
-        console.log(sectorWidth);
-        for(i = sectorWidth.length-1; i>winner; i--){
-          finalDistance += sectorWidth[i];
-        }
-        console.log(finalDistance);
-        finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
-        console.log(finalDistance);
-        retrival();
-        rotate();
+        //pieChart.winner.push(pieChart.name[winner]);
+        write(pieChart);//getRandom();
       }
       }
 
@@ -348,15 +350,15 @@
         var pieTotal = pieData.reduce(function(a, b) { return Number(a) + Number(b); }, 0);
 
         canvas = document.getElementById('can');
-        console.log(canvas);
+        //console.log(canvas);
         ctx = canvas.getContext('2d');
-        console.log(ctx);
+      //  console.log(ctx);
 
         var hwidth = ctx.canvas.width/2;
         var hheight = ctx.canvas.height/2;
-        console.log(pieData);
-        console.log(pieColor);
-        console.log(pieName);
+      //  console.log(pieData);
+      //  console.log(pieColor);
+      //  console.log(pieName);
         for (var i = 0; i < pieData.length; i++) {
                 probabilityArray.push(pieChart.probability[i]/pieTotal);
                 ctx.fillStyle = pieColor[i];
@@ -377,11 +379,11 @@
                 ctx.fillText(pieName[i],setX,setY);
 
                 lastEndArray.push(lastEnd);
-                console.log(lastEndArray);
+          //      console.log(lastEndArray);
                 lastEnd += Math.PI*2*(pieData[i]/pieTotal);
 
               }
-              console.log(probabilityArray);
+        //      console.log(probabilityArray);
       }
 
       function getRandom(){
@@ -419,17 +421,54 @@
         alert('the winner is ' + pieChart.name[winner]);
       }
 
+      function refresh(){
+        $.get("refresh.php",function(data,status){
+          data = JSON.parse(data);
+        //  console.log(data);
+          var lastSetId = document.getElementsByClassName('setID').length;
+          //console.log(lastSetId);
+          var createOneRow = '';
+          var object = {
+            setID:'',
+            set:'',
+            name:[],
+            distribution:[],
+            color:[]
+          }
+          if(data[0].setID != lastSetId){
+            for(var i=0; i<data.length; i++){
+              object.setID = data[i].setID;
+              object.set = data[i].setName;
+              object.name.push(data[i].name);
+              object.distribution.push(data[i].distribution);
+              object.color.push(data[i].color);
+            }
+            console.log(object);
+            createOneRow += '<div class="dropdown">' +
+                '<button onclick=$("#myDropdown'+data[0].setID+'").toggle(); class="dropbtn"><div id="setName'+data[0].setID+'">'+ object.set +'</div></button>' +
+                '<div id="myDropdown'+data[0].setID+'" class="dropdown-content">' +
+                '<div class="setID">'+ object.setID +'</div>' +
+                '<a class="name">'+ object.name +'</a>' +
+                '<a class="distribution">'+ object.distribution+'</a>' +
+                '<a class="color">'+ object.color+'</a>' +
+                '<a><button onclick=spinningWheel.applyToField("'+data[0].setID+'")>apply</button></a>' +
+                '</div>' +
+                '</div>';
+                //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
+                $('#panel').append(createOneRow);
+          }
+        });
+      }
+
       function autoUpdate(){
         setInterval(function(){
                 validation();
-                //retrival();
           if(submitFlag == false){
             pieChart = {
               set:[],
               name:[],
               probability:[],
               color:[],
-              winner:[]
             };
             var x = document.getElementById("template");
             var text = '';
@@ -458,6 +497,12 @@
             lastText = text;
           }
         }, 5);
+      }
+
+      function autoRefresh(){
+        setInterval(function(){
+          refresh();
+        }, 500);
       }
 
       function validation(){
@@ -506,7 +551,7 @@
     autoUpdate();
     hash();
     retrival();
-    //requestData();
+    autoRefresh();
     //drawPieChart();
   }
 
