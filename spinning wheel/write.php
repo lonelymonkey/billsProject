@@ -38,7 +38,7 @@ include '../includes/config.inc';
     for($i = 0; $i<$entryLength; $i++){
       if($data['name'][$i] != $lastEntry[$i]['name']){
         storeNewSet($database, $data);
-      // echo 'new set with identical name added1';
+    //   echo 'new set with identical name added1';
         break;
       }
       elseif ($data['probability'][$i] != $lastEntry[$i]['distribution']) { //distribution
@@ -55,7 +55,7 @@ include '../includes/config.inc';
   }
   else{
     storeNewSet($database, $data);
-  //  echo 'new set added';
+//    echo 'new set added';
   }
 
   $database->query('SELECT COUNT(setID) as max FROM wheelSet');

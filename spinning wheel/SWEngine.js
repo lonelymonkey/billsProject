@@ -83,7 +83,7 @@
     console.log(view);
     return view;
   }
-
+// slksdafjlksadf
   function write(pieChart) {
       /*  if (window.XMLHttpRequest) {4
             // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -392,7 +392,7 @@
         //  console.log(pieChart);
         }
         pieChart.set.push(wheelSet);
-      //  console.log(pieChart);
+
         hashObject = JSON.stringify(pieChart);
       //  console.log(hashObject);
         window.location.href = '#' + escape(hashObject);
@@ -406,9 +406,8 @@
             sectorWidth.push(6.28 - Number(lastEndArray[i]));
           }
         }
-
-        pieChart.set.push(wheelSet);
         //pieChart.winner.push(pieChart.name[winner]);
+        console.log(pieChart);
         write(pieChart);//getRandom();
       }
       }
@@ -513,38 +512,41 @@
             distribution:[],
             color:[]
           }
-          if(data[0].setID != lastSetId){
-            for(var i=0; i<data.length; i++){
-              object.setID = data[i].setID;
-              object.set = data[i].setName;
-              object.name.push(data[i].name);
-              object.distribution.push(data[i].distribution);
-              object.color.push(data[i].color);
+          if(data != ''){
+            if(data[0].setID != lastSetId){
+              for(var i=0; i<data.length; i++){
+                object.setID = data[i].setID;
+                object.set = data[i].setName;
+                object.name.push(data[i].name);
+                object.distribution.push(data[i].distribution);
+                object.color.push(data[i].color);
+              }
+              console.log(object);
+              createOneRow +=  '<div class="dropdown">' +
+                            '<button onclick=$("#myDropdown'+data[0].setID+'").toggle(); class="dropbtn"><div id="setName'+data[0].setID+'">'+ object.set +'</div></button>' +
+                            '<div id="myDropdown'+data[0].setID+'" class="dropdown-content">' +
+                            '<div class="setID">'+ object.setID +'</div>' +
+                            '<div class="listBlock">' +
+                            '<a class="name" id="name">'+ object.name +'</a>' +
+                            '<div class="detailName detail">'+createList(object.name)+'</div>' +
+                            '</div>' +
+                            '<div class="listBlock">' +
+                            '<a class="distribution" id="distribution'+data[0].setID+'">'+ object.distribution+'</a>' +
+                            '<div class="detailDis detail">'+createList(object.distribution)+'</div>' +
+                            '</div>' +
+                            '<div class="listBlock">' +
+                            '<a class="color" id="color'+data[0].setID+'">'+ object.color+'</a>' +
+                            '<div class="detailColor detail">'+createList(object.color)+'</div>' +
+                            '</div>' +
+                            '<a><select id="winner'+data[0].setID+'" class="winnerList"></select></a>' +
+                            '<a><button onclick=spinningWheel.applyToField("'+data[0].setID+'")>apply</button></a>' +
+                            '</div>' +
+                            '</div>';
+                  //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
+                  $('#panel').append(createOneRow);
             }
-            console.log(object);
-            createOneRow +=  '<div class="dropdown">' +
-                          '<button onclick=$("#myDropdown'+data[0].setID+'").toggle(); class="dropbtn"><div id="setName'+data[0].setID+'">'+ setProperty.setName +'</div></button>' +
-                          '<div id="myDropdown'+data[0].setID+'" class="dropdown-content">' +
-                          '<div class="setID">'+ object.setID +'</div>' +
-                          '<div class="listBlock">' +
-                          '<a class="name" id="name">'+ object.name +'</a>' +
-                          '<div class="detailName detail">'+createList(object.name)+'</div>' +
-                          '</div>' +
-                          '<div class="listBlock">' +
-                          '<a class="distribution" id="distribution'+data[0].setID+'">'+ object.distribution+'</a>' +
-                          '<div class="detailDis detail">'+createList(object.distribution)+'</div>' +
-                          '</div>' +
-                          '<div class="listBlock">' +
-                          '<a class="color" id="color'+data[0].setID+'">'+ object.color+'</a>' +
-                          '<div class="detailColor detail">'+createList(object.color)+'</div>' +
-                          '</div>' +
-                          '<a><select id="winner'+data[0].setID+'" class="winnerList"></select></a>' +
-                          '<a><button onclick=spinningWheel.applyToField("'+data[0].setID+'")>apply</button></a>' +
-                          '</div>' +
-                          '</div>';
-                //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
-                $('#panel').append(createOneRow);
           }
+
         });
       }
 
