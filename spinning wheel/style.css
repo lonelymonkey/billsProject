@@ -2,6 +2,29 @@ p {
   background-color: black;
 }
 
+input[type=text]{
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      border:1px solid #BEBEBE;
+      -webkit-transition: all 0.30s ease-in-out;
+      -moz-transition: all 0.30s ease-in-out;
+      -ms-transition: all 0.30s ease-in-out;
+      -o-transition: all 0.30s ease-in-out;
+      outline: none;
+}
+
+input[type=text]:focus{
+  -moz-box-shadow: 0 0 8px #88D5E9;
+  -webkit-box-shadow: 0 0 8px #88D5E9;
+  box-shadow: 0 0 8px #88D5E9;
+  border: 1px solid #88D5E9;
+}
+
+ul{
+  list-style-type:none;
+}
+
 #key,#submit {
     background-color: #4CAF50; /* Green */
     border: white;
@@ -123,24 +146,6 @@ p {
   margin-right: 30px;
   position: relative;
 }
-input[type=text]{
-      box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      border:1px solid #BEBEBE;
-      -webkit-transition: all 0.30s ease-in-out;
-      -moz-transition: all 0.30s ease-in-out;
-      -ms-transition: all 0.30s ease-in-out;
-      -o-transition: all 0.30s ease-in-out;
-      outline: none;
-}
-
-input[type=text]:focus{
-  -moz-box-shadow: 0 0 8px #88D5E9;
-  -webkit-box-shadow: 0 0 8px #88D5E9;
-  box-shadow: 0 0 8px #88D5E9;
-  border: 1px solid #88D5E9;
-}
 
 .remove{
   border: #0000A0 solid 1px;
@@ -169,7 +174,23 @@ input[type=text]:focus{
 }
 
 .setID{
-  visibility: hidden;
+  display: none;
+}
+
+.listBlock{
+  width: 309px;
+  height: 46px;
+}
+
+.detail{
+  background: red;
+width: 159px;
+text-decoration: none;
+display: block;
+float: left;
+position: absolute;
+left: 180px;
+display:none;
 }
 
 /* dropdown menu*/
@@ -201,18 +222,17 @@ input[type=text]:focus{
 .dropdown-content {
     display: none;
     position: relative;
-    background-color: #f9f9f9;
-    width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        background-color: #f9f9f9;
+        width: 180px;
+        height: 177px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  float: left;
 }
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}

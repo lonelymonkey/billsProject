@@ -69,6 +69,21 @@
     })
   }
 
+  function createList(array){
+    var view = '<ul>';
+    for(var i=0; i<array.length;i++){
+      if(array[i].charAt(0) != '#'){
+        view += '<li>' + (i+1) + '.' + array[i] + '</li>';
+      }
+      else{
+        view += '<li>' + (i+1) + '.' + '<input class="input" type="color" name="color" style="width: 20px" value='+ array[i] +'>' + '</li>';
+      }
+    }
+    view += '</ul>';
+    console.log(view);
+    return view;
+  }
+
   function write(pieChart) {
       /*  if (window.XMLHttpRequest) {4
             // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -107,6 +122,8 @@
     spinningWheel.creatingPanelList(data,status);
   });
   }
+
+
   spinningWheel.creatingPanelList = function(data,status){
     var allData = JSON.parse(data);
     //console.log(allData);
@@ -135,18 +152,25 @@
                       '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                       '<div id="myDropdown'+index+'" class="dropdown-content">' +
                       '<div class="setID">'+ setProperty.setID +'</div>' +
-                      '<div>' +
-                      '<a class="name">'+ setProperty.name +'</a>' +
-                      '<div id="detailName"></div>' +
+                      '<div class="listBlock">' +
+                      '<a class="name" id="name">'+ setProperty.name +'</a>' +
+                      '<div class="detailName detail">'+createList(setProperty.name)+'</div>' +
                       '</div>' +
-                      '<a class="distribution">'+ setProperty.distribution+'</a>' +
-                      '<a class="color">'+ setProperty.color+'</a>' +
-                      '<a ><select id="winner'+index+'" class="winnerList"></select></a>' +
+                      '<div class="listBlock">' +
+                      '<a class="distribution" id="distribution'+index+'">'+ setProperty.distribution+'</a>' +
+                      '<div class="detailDis detail">'+createList(setProperty.distribution)+'</div>' +
+                      '</div>' +
+                      '<div class="listBlock">' +
+                      '<a class="color" id="color'+index+'">'+ setProperty.color+'</a>' +
+                      '<div class="detailColor detail">'+createList(setProperty.color)+'</div>' +
+                      '</div>' +
+                      '<a><select id="winner'+index+'" class="winnerList"></select></a>' +
                       '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                       '</div>' +
                       '</div>';
             //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
             $('#panel').append(eachSet);
+
             setProperty = {
               setID:'',
               setName:'',
@@ -163,10 +187,19 @@
                     '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                     '<div id="myDropdown'+index+'" class="dropdown-content">' +
                     '<div class="setID">'+ setProperty.setID +'</div>' +
-                    '<a class="name">'+ setProperty.name +'</a>' +
-                    '<a class="distribution">'+ setProperty.distribution+'</a>' +
-                    '<a class="color">'+ setProperty.color+'</a>' +
-                    '<a ><select class="winnerList"></select></a>' +
+                    '<div class="listBlock">' +
+                    '<a class="name" id="name">'+ setProperty.name +'</a>' +
+                    '<div class="detailName detail">'+createList(setProperty.name)+'</div>' +
+                    '</div>' +
+                    '<div class="listBlock">' +
+                    '<a class="distribution" id="distribution'+index+'">'+ setProperty.distribution+'</a>' +
+                    '<div class="detailDis detail">'+createList(setProperty.distribution)+'</div>' +
+                    '</div>' +
+                    '<div class="listBlock">' +
+                    '<a class="color" id="color'+index+'">'+ setProperty.color+'</a>' +
+                    '<div class="detailColor detail">'+createList(setProperty.color)+'</div>' +
+                    '</div>' +
+                    '<a><select id="winner'+index+'" class="winnerList"></select></a>' +
                     '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                     '</div>' +
                     '</div>';
@@ -293,6 +326,30 @@
       });
       $('#submit').click(function(){
         submit();
+      });
+
+      $(document).on("mouseenter", ".name", function() {
+        $('.detailName').show();
+      });
+
+      $(document).on("mouseleave", ".name", function() {
+      $('.detailName').hide();
+      });
+
+      $(document).on("mouseenter", ".distribution", function() {
+        $('.detailDis').show();
+      });
+
+      $(document).on("mouseleave", ".distribution", function() {
+      $('.detailDis').hide();
+      });
+
+      $(document).on("mouseenter", ".color", function() {
+        $('.detailColor').show();
+      });
+
+      $(document).on("mouseleave", ".color", function() {
+      $('.detailColor').hide();
       });
     }
 
@@ -465,17 +522,26 @@
               object.color.push(data[i].color);
             }
             console.log(object);
-            createOneRow += '<div class="dropdown">' +
-                '<button onclick=$("#myDropdown'+data[0].setID+'").toggle(); class="dropbtn"><div id="setName'+data[0].setID+'">'+ object.set +'</div></button>' +
-                '<div id="myDropdown'+data[0].setID+'" class="dropdown-content">' +
-                '<div class="setID">'+ object.setID +'</div>' +
-                '<a class="name">'+ object.name +'</a>' +
-                '<a class="distribution">'+ object.distribution+'</a>' +
-                '<a class="color">'+ object.color+'</a>' +
-                '<a ><select  id="winner'+object.setID+'" class="winnerList"></select></a>' +
-                '<a><button onclick=spinningWheel.applyToField("'+data[0].setID+'")>apply</button></a>' +
-                '</div>' +
-                '</div>';
+            createOneRow +=  '<div class="dropdown">' +
+                          '<button onclick=$("#myDropdown'+data[0].setID+'").toggle(); class="dropbtn"><div id="setName'+data[0].setID+'">'+ setProperty.setName +'</div></button>' +
+                          '<div id="myDropdown'+data[0].setID+'" class="dropdown-content">' +
+                          '<div class="setID">'+ object.setID +'</div>' +
+                          '<div class="listBlock">' +
+                          '<a class="name" id="name">'+ object.name +'</a>' +
+                          '<div class="detailName detail">'+createList(object.name)+'</div>' +
+                          '</div>' +
+                          '<div class="listBlock">' +
+                          '<a class="distribution" id="distribution'+data[0].setID+'">'+ object.distribution+'</a>' +
+                          '<div class="detailDis detail">'+createList(object.distribution)+'</div>' +
+                          '</div>' +
+                          '<div class="listBlock">' +
+                          '<a class="color" id="color'+data[0].setID+'">'+ object.color+'</a>' +
+                          '<div class="detailColor detail">'+createList(object.color)+'</div>' +
+                          '</div>' +
+                          '<a><select id="winner'+data[0].setID+'" class="winnerList"></select></a>' +
+                          '<a><button onclick=spinningWheel.applyToField("'+data[0].setID+'")>apply</button></a>' +
+                          '</div>' +
+                          '</div>';
                 //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
                 $('#panel').append(createOneRow);
           }
@@ -572,9 +638,10 @@
     buildUIFrame();
     formViewInit();
     remove();
+    retrieval();
     autoUpdate();
     hash();
-    retrieval();
+
     winnerList();
     autoRefresh();
     //drawPieChart();
