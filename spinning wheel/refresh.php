@@ -8,6 +8,10 @@ $database->query('SELECT w.setID, w.setName, x.name, x.distribution, x.color fro
 
 $data = $database->resultset();
 
-echo json_encode($data);
+$database->query('SELECT setID,winner from wheelresult where setID = (select setID from wheelresult order by setID desc limit 1)');
+
+$winnerList = $database->resultset();
+
+echo json_encode(array('data' => json_encode($data),'winnerList' => json_encode($winnerList)));
  /*where w.setID = (SELECT setID from wheelset order by setID desc limit 1)*/
  ?>

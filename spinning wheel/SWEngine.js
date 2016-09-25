@@ -459,11 +459,15 @@
 
       function refresh(){
         $.get("refresh.php",function(data,status){
-          data = JSON.parse(data);
-          //console.log(data);
+          var allData = JSON.parse(data);
+        //  console.log(allData);
           var lastSetId = document.getElementsByClassName('setID').length;
-        //  console.log(data[0].setID);
-        //  console.log(lastSetId);
+          //console.log(lastSetId);
+          var lastEntry = JSON.parse(allData.data);
+          var winnerList = JSON.parse(allData.winnerList);
+          var numberOfWinners = winnerList.length;
+          var rows = '';
+          console.log(winnerList);
           var createOneRow = '';
           var object = {
             setID:'',
@@ -472,13 +476,13 @@
             distribution:[],
             color:[]
           }
-          if(data[0].setID != lastSetId){
-            for(var i=0; i<data.length; i++){
-              object.setID = data[i].setID;
-              object.set = data[i].setName;
-              object.name.push(data[i].name);
-              object.distribution.push(data[i].distribution);
-              object.color.push(data[i].color);
+          if(lastEntry[0].setID != lastSetId){
+            for(var i=0; i<lastEntry.length; i++){
+              object.setID = lastEntry[i].setID;
+              object.set = lastEntry[i].setName;
+              object.name.push(lastEntry[i].name);
+              object.distribution.push(lastEntry[i].distribution);
+              object.color.push(lastEntry[i].color);
             }
             console.log(object);
             createOneRow +=  '<div class="dropdown">' +
@@ -492,6 +496,14 @@
                       '</div>';
                 //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
                 $('#panel').append(createOneRow);
+          }
+          rows = document.getElementById('winner'+lastEntry[0].setID).length;
+          console.log(rows);
+          if(rows != numberOfWinners){
+            $('#winner'+lastEntry[0].setID).find('option').remove();
+            for(i=0;i<numberOfWinners;i++){
+              $('#winner'+lastEntry[0].setID).append('<option>'+winnerList[i].winner+'</option>')
+            }
           }
         });
       }
