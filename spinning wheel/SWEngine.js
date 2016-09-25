@@ -58,29 +58,26 @@
     //http://billchou.local/spinning%20wheel/#part2#123#ECD078#part3#234#D95B43
   }
 
-  function winnerList(){
-    $.get("winner.php",function(data,status){
-      var winnerList = JSON.parse(data);
-      var insertNum = 0;
-      console.log(JSON.parse(data));
-      for(var i=0; i<winnerList.length; i++){
-        $('#winner'+winnerList[i].setID).append('<option>#'+i+':'+ winnerList[i].winner +'</option>');
+  function winnerList(object, index){
+    console.log(object);
+    var list = '';
+      for(var i=0; i<object.length; i++){
+        if(object[i].setID == index){
+            list += '<option>'+object[i].winner+'</option>';
+        }
       }
-    })
+      return list;
   }
 
-  function createList(array){
-    var view = '<ul>';
-    for(var i=0; i<array.length;i++){
-      if(array[i].charAt(0) != '#'){
-        view += '<li>' + (i+1) + '.' + array[i] + '</li>';
-      }
-      else{
-        view += '<li>' + (i+1) + '.' + '<input class="input" type="color" name="color" style="width: 20px" value='+ array[i] +'>' + '</li>';
-      }
+  function createList(name,distribution,color){
+    console.log(distribution);
+    var view = '<ul>' +
+    '<li>Name, Distribution, Color</li>';
+    for(var i=0; i<name.length;i++){
+        view += '<li>'+name[i]+','+distribution[i]+','+color[i]+'</li>';
     }
     view += '</ul>';
-    console.log(view);
+  //  console.log(view);
     return view;
   }
 
@@ -101,7 +98,7 @@
         xmlhttp.open("GET","spinningWheel.php?q=" + escape(JSON.stringify(pieChart)),true);
         xmlhttp.send();*/
         $.post("write.php",pieChart,function(data, status){
-        console.log(data + "\nStatus: " + status);
+      //  console.log(data + "\nStatus: " + status);
         winner = data;
         console.log(winner);
       //  console.log(sectorWidth);
@@ -125,8 +122,12 @@
 
 
   spinningWheel.creatingPanelList = function(data,status){
+  //  console.log(data);
     var allData = JSON.parse(data);
-    //console.log(allData);
+//    console.log(allData);
+    var setInfo = JSON.parse(allData.data);
+    var winner = JSON.parse(allData.winner);
+    console.log(setInfo);
     var eachSet = '';
     var setProperty = {
       setID:'',
@@ -137,34 +138,23 @@
     }
     var index = 1;
 
-    for(var i=0; i<allData.length; i++){
+    for(var i=0; i<setInfo.length; i++){
       //console.log(i);
-      if(allData[i].setID == index){
-        setProperty.setID = allData[i].setID;
-        setProperty.setName = allData[i].setName;
-        setProperty.name.push(allData[i].name);
-        setProperty.distribution.push(allData[i].distribution);
-        setProperty.color.push(allData[i].color);
-        if(i < allData.length - 1){
-          if(allData[i+1].setID != index){
+      if(setInfo[i].setID == index){
+        setInfo.setID = setInfo[i].setID;
+        setProperty.setName = setInfo[i].setName;
+        setProperty.name.push(setInfo[i].name);
+        setProperty.distribution.push(setInfo[i].distribution);
+        setProperty.color.push(setInfo[i].color);
+        if(i < setInfo.length - 1){
+          if(setInfo[i+1].setID != index){
 
             eachSet += '<div class="dropdown">' +
                       '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                       '<div id="myDropdown'+index+'" class="dropdown-content">' +
                       '<div class="setID">'+ setProperty.setID +'</div>' +
-                      '<div class="listBlock">' +
-                      '<a class="name" id="name">'+ setProperty.name +'</a>' +
-                      '<div class="detailName detail">'+createList(setProperty.name)+'</div>' +
-                      '</div>' +
-                      '<div class="listBlock">' +
-                      '<a class="distribution" id="distribution'+index+'">'+ setProperty.distribution+'</a>' +
-                      '<div class="detailDis detail">'+createList(setProperty.distribution)+'</div>' +
-                      '</div>' +
-                      '<div class="listBlock">' +
-                      '<a class="color" id="color'+index+'">'+ setProperty.color+'</a>' +
-                      '<div class="detailColor detail">'+createList(setProperty.color)+'</div>' +
-                      '</div>' +
-                      '<a><select id="winner'+index+'" class="winnerList"></select></a>' +
+                      createList(setProperty.name,setProperty.distribution,setProperty.color) +
+                      '<a><select id="winner'+index+'">'+winnerList(winner,index)+'</select></a>' +
                       '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                       '</div>' +
                       '</div>';
@@ -187,19 +177,8 @@
                     '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                     '<div id="myDropdown'+index+'" class="dropdown-content">' +
                     '<div class="setID">'+ setProperty.setID +'</div>' +
-                    '<div class="listBlock">' +
-                    '<a class="name" id="name">'+ setProperty.name +'</a>' +
-                    '<div class="detailName detail">'+createList(setProperty.name)+'</div>' +
-                    '</div>' +
-                    '<div class="listBlock">' +
-                    '<a class="distribution" id="distribution'+index+'">'+ setProperty.distribution+'</a>' +
-                    '<div class="detailDis detail">'+createList(setProperty.distribution)+'</div>' +
-                    '</div>' +
-                    '<div class="listBlock">' +
-                    '<a class="color" id="color'+index+'">'+ setProperty.color+'</a>' +
-                    '<div class="detailColor detail">'+createList(setProperty.color)+'</div>' +
-                    '</div>' +
-                    '<a><select id="winner'+index+'" class="winnerList"></select></a>' +
+                    createList(setProperty.name,setProperty.distribution,setProperty.color) +
+                    '<a><select id="winner'+index+'">'+winnerList(winner,index)+'</select></a>' +
                     '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
                     '</div>' +
                     '</div>';
@@ -326,30 +305,6 @@
       });
       $('#submit').click(function(){
         submit();
-      });
-
-      $(document).on("mouseenter", ".name", function() {
-        $('.detailName').show();
-      });
-
-      $(document).on("mouseleave", ".name", function() {
-      $('.detailName').hide();
-      });
-
-      $(document).on("mouseenter", ".distribution", function() {
-        $('.detailDis').show();
-      });
-
-      $(document).on("mouseleave", ".distribution", function() {
-      $('.detailDis').hide();
-      });
-
-      $(document).on("mouseenter", ".color", function() {
-        $('.detailColor').show();
-      });
-
-      $(document).on("mouseleave", ".color", function() {
-      $('.detailColor').hide();
       });
     }
 
@@ -523,28 +478,19 @@
             }
             console.log(object);
             createOneRow +=  '<div class="dropdown">' +
-                          '<button onclick=$("#myDropdown'+data[0].setID+'").toggle(); class="dropbtn"><div id="setName'+data[0].setID+'">'+ setProperty.setName +'</div></button>' +
-                          '<div id="myDropdown'+data[0].setID+'" class="dropdown-content">' +
-                          '<div class="setID">'+ object.setID +'</div>' +
-                          '<div class="listBlock">' +
-                          '<a class="name" id="name">'+ object.name +'</a>' +
-                          '<div class="detailName detail">'+createList(object.name)+'</div>' +
-                          '</div>' +
-                          '<div class="listBlock">' +
-                          '<a class="distribution" id="distribution'+data[0].setID+'">'+ object.distribution+'</a>' +
-                          '<div class="detailDis detail">'+createList(object.distribution)+'</div>' +
-                          '</div>' +
-                          '<div class="listBlock">' +
-                          '<a class="color" id="color'+data[0].setID+'">'+ object.color+'</a>' +
-                          '<div class="detailColor detail">'+createList(object.color)+'</div>' +
-                          '</div>' +
-                          '<a><select id="winner'+data[0].setID+'" class="winnerList"></select></a>' +
-                          '<a><button onclick=spinningWheel.applyToField("'+data[0].setID+'")>apply</button></a>' +
-                          '</div>' +
-                          '</div>';
+                      '<button onclick=$("#myDropdown'+object.setID+'").toggle(); class="dropbtn"><div id="setName'+object.setID+'">'+ object.set+'</div></button>' +
+                      '<div id="myDropdown'+object.setID+'" class="dropdown-content">' +
+                      '<div class="setID">'+ object.setID+'</div>' +
+                      createList(object.name,object.distribution,object.color) +
+                      '<a><select id="winner'+object.setID+'"></select></a>' +
+                      '<a><button onclick=spinningWheel.applyToField("'+object.setID+'")>apply</button></a>' +
+                      '</div>' +
+                      '</div>';
                 //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
                 $('#panel').append(createOneRow);
           }
+
+          updateWinnerList(object.setID);
         });
       }
 
@@ -641,8 +587,6 @@
     retrieval();
     autoUpdate();
     hash();
-
-    winnerList();
     autoRefresh();
     //drawPieChart();
   }
