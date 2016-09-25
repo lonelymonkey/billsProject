@@ -60,7 +60,7 @@ include '../includes/config.inc';
 
   $database->query('SELECT COUNT(setID) as max FROM wheelSet');
   $foreignKey = $database->single();
-  $foreignKey = $foreignKey['max'][0];
+  $foreignKey = $foreignKey['max'];
 
   $database->query('INSERT into wheelResult (setID,winner) VALUES (:setID,:winner)');
   $database->bind(':setID', (int)$foreignKey);

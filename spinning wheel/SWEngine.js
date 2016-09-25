@@ -69,12 +69,18 @@
       return list;
   }
 
-  function createList(name,distribution,color){
+  function createList(index,name,distribution,color){
     console.log(distribution);
-    var view = '<ul>' +
-    '<li>Name, Distribution, Color</li>';
+    var view = '<ul>'+
+    '<div class="value">Name</div>'+
+    '<div class="value">Prob</div>'+
+    '<div class="value">Color</div>';
     for(var i=0; i<name.length;i++){
-        view += '<li>'+name[i]+','+distribution[i]+','+color[i]+'</li>';
+        view += '<li>'+
+        '<div class="value name'+index+'">'+name[i]+'</div>'+
+        '<div class="value distribution'+index+'">'+distribution[i]+'</div>'+
+        '<div class="value color'+index+'">'+color[i]+'</div>'+
+        '</li>';
     }
     view += '</ul>';
   //  console.log(view);
@@ -141,7 +147,7 @@
     for(var i=0; i<setInfo.length; i++){
       //console.log(i);
       if(setInfo[i].setID == index){
-        setInfo.setID = setInfo[i].setID;
+        setProperty.setID = setInfo[i].setID;
         setProperty.setName = setInfo[i].setName;
         setProperty.name.push(setInfo[i].name);
         setProperty.distribution.push(setInfo[i].distribution);
@@ -153,9 +159,9 @@
                       '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                       '<div id="myDropdown'+index+'" class="dropdown-content">' +
                       '<div class="setID">'+ setProperty.setID +'</div>' +
-                      createList(setProperty.name,setProperty.distribution,setProperty.color) +
-                      '<a><select id="winner'+index+'">'+winnerList(winner,index)+'</select></a>' +
-                      '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
+                      createList(index,setProperty.name,setProperty.distribution,setProperty.color) +
+                      '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index)+'</select></div>' +
+                      '<div class="apply"><button onclick=spinningWheel.applyToField('+index+')>apply</button></div>' +
                       '</div>' +
                       '</div>';
             //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
@@ -177,9 +183,9 @@
                     '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                     '<div id="myDropdown'+index+'" class="dropdown-content">' +
                     '<div class="setID">'+ setProperty.setID +'</div>' +
-                    createList(setProperty.name,setProperty.distribution,setProperty.color) +
-                    '<a><select id="winner'+index+'">'+winnerList(winner,index)+'</select></a>' +
-                    '<a><button onclick=spinningWheel.applyToField("'+index+'")>apply</button></a>' +
+                    createList(index,setProperty.name,setProperty.distribution,setProperty.color) +
+                    '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index)+'</select></div>' +
+                    '<div class="apply"><button onclick=spinningWheel.applyToField('+index+')>apply</button></div>' +
                     '</div>' +
                     '</div>';
         //  eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
@@ -203,17 +209,14 @@
 
   spinningWheel.applyToField = function(index){
     $('.set').remove();
-
+    console.log(document.getElementsByClassName('name1'));
     var setName = document.getElementById('wheelSet');
     var property = document.getElementsByClassName('input');
-    var propertyName = $('#myDropdown' + index + ' .name').html();
-    var propertyDistribution = $('#myDropdown' + index + ' .distribution').html();
-    var propertyColor = $('#myDropdown' + index + ' .color').html();
+    var propertyName = document.getElementsByClassName('name'+index);
+    var propertyDistribution = document.getElementsByClassName('distribution'+index);
+    var propertyColor = document.getElementsByClassName('color'+index);
     var j = 0;
-    propertyName = propertyName.split(',');
-    propertyDistribution = propertyDistribution.split(',');
-    propertyColor = propertyColor.split(',');
-  //  console.log(index);
+    //console.log(index);
     //console.log(document.getElementById('setName'+index));
     setName.value = document.getElementById('setName'+index).innerHTML;
 
@@ -221,9 +224,9 @@
       formView();
     }
     for(i=0; i<property.length; i+=3){
-      property[i].value = propertyName[j];
-      property[i+1].value = propertyDistribution[j];
-      property[i+2].value = propertyColor[j];
+      property[i].value = propertyName[j].innerHTML;
+      property[i+1].value = propertyDistribution[j].innerHTML;
+      property[i+2].value = propertyColor[j].innerHTML;
       j++;
     }
   }
@@ -457,9 +460,10 @@
       function refresh(){
         $.get("refresh.php",function(data,status){
           data = JSON.parse(data);
-        //  console.log(data);
+          //console.log(data);
           var lastSetId = document.getElementsByClassName('setID').length;
-          //console.log(lastSetId);
+        //  console.log(data[0].setID);
+        //  console.log(lastSetId);
           var createOneRow = '';
           var object = {
             setID:'',
@@ -481,16 +485,14 @@
                       '<button onclick=$("#myDropdown'+object.setID+'").toggle(); class="dropbtn"><div id="setName'+object.setID+'">'+ object.set+'</div></button>' +
                       '<div id="myDropdown'+object.setID+'" class="dropdown-content">' +
                       '<div class="setID">'+ object.setID+'</div>' +
-                      createList(object.name,object.distribution,object.color) +
-                      '<a><select id="winner'+object.setID+'"></select></a>' +
-                      '<a><button onclick=spinningWheel.applyToField("'+object.setID+'")>apply</button></a>' +
+                      createList(object.setID,object.name,object.distribution,object.color) +
+                      '<div class="winner"><select id="winner'+object.setID+'"></select></div>' +
+                      '<div class="apply"><button onclick=spinningWheel.applyToField("'+object.setID+'")>apply</button></div>' +
                       '</div>' +
                       '</div>';
                 //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
                 $('#panel').append(createOneRow);
           }
-
-          updateWinnerList(object.setID);
         });
       }
 

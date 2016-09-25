@@ -6,8 +6,8 @@ $database = new Database;
 
 $database->query('SELECT w.setID, w.setName, x.name, x.distribution, x.color from wheelset as w left join probabilityslice as x on w.setID = x.setID where w.setID = (SELECT setID from wheelset order by setID desc limit 1)');
 
-$allData = $database->resultset();
+$data = $database->resultset();
 
-echo json_encode($allData);
+echo json_encode($data);
  /*where w.setID = (SELECT setID from wheelset order by setID desc limit 1)*/
  ?>
