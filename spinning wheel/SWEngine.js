@@ -58,19 +58,19 @@
     //http://billchou.local/spinning%20wheel/#part2#123#ECD078#part3#234#D95B43
   }
 
-  function winnerList(object, index){
-    console.log(object);
+  function winnerList(object, index, name){
+    //console.log(name);
     var list = '';
       for(var i=0; i<object.length; i++){
         if(object[i].setID == index){
-            list += '<option>'+object[i].winner+'</option>';
+            list += '<option>'+name[object[i].winner]+'</option>';
         }
       }
       return list;
   }
 
   function createList(index,name,distribution,color){
-    console.log(distribution);
+    //console.log(distribution);
     var view = '<ul>'+
     '<div class="value">Name</div>'+
     '<div class="value">Prob</div>'+
@@ -106,14 +106,14 @@
         $.post("write.php",pieChart,function(data, status){
       //  console.log(data + "\nStatus: " + status);
         winner = data;
-        console.log(winner);
+        //console.log(winner);
       //  console.log(sectorWidth);
         for(i = sectorWidth.length-1; i>winner; i--){
           finalDistance += sectorWidth[i];
         }
-        console.log(finalDistance);
+      //  console.log(finalDistance);
         finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
-        console.log(finalDistance);
+      //  console.log(finalDistance);
         //retrieval();
         rotate();
     });
@@ -133,7 +133,7 @@
 //    console.log(allData);
     var setInfo = JSON.parse(allData.data);
     var winner = JSON.parse(allData.winner);
-    console.log(setInfo);
+  //  console.log(setInfo);
     var eachSet = '';
     var setProperty = {
       setID:'',
@@ -154,13 +154,13 @@
         setProperty.color.push(setInfo[i].color);
         if(i < setInfo.length - 1){
           if(setInfo[i+1].setID != index){
-
+          //  console.log(setProperty.name);
             eachSet += '<div class="dropdown">' +
                       '<button onclick=$("#myDropdown'+index+'").toggle(); class="dropbtn"><div id="setName'+index+'">'+ setProperty.setName +'</div></button>' +
                       '<div id="myDropdown'+index+'" class="dropdown-content">' +
                       '<div class="setID">'+ setProperty.setID +'</div>' +
                       createList(index,setProperty.name,setProperty.distribution,setProperty.color) +
-                      '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index)+'</select></div>' +
+                      '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index,setProperty.name)+'</select></div>' +
                       '<div class="apply"><button onclick=spinningWheel.applyToField('+index+')>apply</button></div>' +
                       '</div>' +
                       '</div>';
@@ -184,7 +184,7 @@
                     '<div id="myDropdown'+index+'" class="dropdown-content">' +
                     '<div class="setID">'+ setProperty.setID +'</div>' +
                     createList(index,setProperty.name,setProperty.distribution,setProperty.color) +
-                    '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index)+'</select></div>' +
+                    '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index,setProperty.name)+'</select></div>' +
                     '<div class="apply"><button onclick=spinningWheel.applyToField('+index+')>apply</button></div>' +
                     '</div>' +
                     '</div>';
@@ -209,7 +209,7 @@
 
   spinningWheel.applyToField = function(index){
     $('.set').remove();
-    console.log(document.getElementsByClassName('name1'));
+  //  console.log(document.getElementsByClassName('name1'));
     var setName = document.getElementById('wheelSet');
     var property = document.getElementsByClassName('input');
     var propertyName = document.getElementsByClassName('name'+index);
@@ -464,10 +464,11 @@
           var lastSetId = document.getElementsByClassName('setID').length;
           //console.log(lastSetId);
           var lastEntry = JSON.parse(allData.data);
+      //    console.log(allData.data);
           var winnerList = JSON.parse(allData.winnerList);
           var numberOfWinners = winnerList.length;
           var rows = '';
-          console.log(winnerList);
+          //console.log(winnerList);
           var createOneRow = '';
           var object = {
             setID:'',
@@ -484,7 +485,7 @@
               object.distribution.push(lastEntry[i].distribution);
               object.color.push(lastEntry[i].color);
             }
-            console.log(object);
+            //console.log(object);
             createOneRow +=  '<div class="dropdown">' +
                       '<button onclick=$("#myDropdown'+object.setID+'").toggle(); class="dropbtn"><div id="setName'+object.setID+'">'+ object.set+'</div></button>' +
                       '<div id="myDropdown'+object.setID+'" class="dropdown-content">' +
@@ -498,11 +499,11 @@
                 $('#panel').append(createOneRow);
           }
           rows = document.getElementById('winner'+lastEntry[0].setID).length;
-          console.log(rows);
+          //console.log(rows);
           if(rows != numberOfWinners){
             $('#winner'+lastEntry[0].setID).find('option').remove();
             for(i=0;i<numberOfWinners;i++){
-              $('#winner'+lastEntry[0].setID).append('<option>'+winnerList[i].winner+'</option>')
+              $('#winner'+lastEntry[0].setID).append('<option>'+lastEntry[winnerList[i].winner].name+'</option>')
             }
           }
         });

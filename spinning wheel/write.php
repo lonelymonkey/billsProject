@@ -3,7 +3,7 @@ include '../includes/databasebill.class.inc';
 include '../includes/config.inc';
   $data = $_POST;
   //var_dump($data);
-  $database = new Database;
+  $database = Database::getConnection();
 
   //determine the winner of the game
   $distributionTotal = array_sum($data['probability']);
