@@ -73,4 +73,3 @@ CREATE TABLE `blogs` (
   KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 */
-/*dsfsdfsdfsdf*/

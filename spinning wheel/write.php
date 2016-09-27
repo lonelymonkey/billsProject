@@ -24,17 +24,19 @@ include '../includes/config.inc';
   $lastEntry = $database->resultset();
 
   $entryLength = count($lastEntry);
+//  echo "<pre>";
+//  print_r($data);
+//  echo "</pre>";
+//  echo "<pre>";
+//  print_r($lastEntry);
+//  echo "</pre>";
 
-/*  echo "<pre>";
-  print_r($data);
-  echo "</pre>";
 
-  echo "<pre>";
-  print_r($lastEntry);
-  echo "</pre>";*/
-
+  if(empty($lastEntry)){
+    storeNewSet($database, $data);
+  }
   //compore the current set with the last set, if they are equal, just enter the winner into the database
-  if($data['set'][0] == $lastEntry[0]['setName']){ //setname
+  else if($data['set'][0] == $lastEntry[0]['setName']){ //setname
     for($i = 0; $i<$entryLength; $i++){
       if($data['name'][$i] != $lastEntry[$i]['name']){
         storeNewSet($database, $data);

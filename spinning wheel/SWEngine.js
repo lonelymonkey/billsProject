@@ -106,14 +106,14 @@
         $.post("write.php",pieChart,function(data, status){
       //  console.log(data + "\nStatus: " + status);
         winner = data;
-        //console.log(winner);
-      //  console.log(sectorWidth);
+        console.log(winner);
+        console.log(sectorWidth);
         for(i = sectorWidth.length-1; i>winner; i--){
           finalDistance += sectorWidth[i];
         }
-      //  console.log(finalDistance);
+        console.log(finalDistance);
         finalDistance = (finalDistance + Math.random()*sectorWidth[winner])*180/Math.PI;
-      //  console.log(finalDistance);
+        console.log(finalDistance);
         //retrieval();
         rotate();
     });
@@ -160,6 +160,7 @@
                       '<div id="myDropdown'+index+'" class="dropdown-content">' +
                       '<div class="setID">'+ setProperty.setID +'</div>' +
                       createList(index,setProperty.name,setProperty.distribution,setProperty.color) +
+                      '<div class="winnerLabel">Winners:</div>' +
                       '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index,setProperty.name)+'</select></div>' +
                       '<div class="apply"><button onclick=spinningWheel.applyToField('+index+')>apply</button></div>' +
                       '</div>' +
@@ -184,6 +185,7 @@
                     '<div id="myDropdown'+index+'" class="dropdown-content">' +
                     '<div class="setID">'+ setProperty.setID +'</div>' +
                     createList(index,setProperty.name,setProperty.distribution,setProperty.color) +
+                    '<div class="winnerLabel">Winners:</div>' +
                     '<div class="winner"><select id="winner'+index+'">'+winnerList(winner,index,setProperty.name)+'</select></div>' +
                     '<div class="apply"><button onclick=spinningWheel.applyToField('+index+')>apply</button></div>' +
                     '</div>' +
@@ -459,53 +461,56 @@
 
       function refresh(){
         $.get("refresh.php",function(data,status){
-          var allData = JSON.parse(data);
-        //  console.log(allData);
-          var lastSetId = document.getElementsByClassName('setID').length;
-          //console.log(lastSetId);
-          var lastEntry = JSON.parse(allData.data);
-      //    console.log(allData.data);
-          var winnerList = JSON.parse(allData.winnerList);
-          var numberOfWinners = winnerList.length;
-          var rows = '';
-          //console.log(winnerList);
-          var createOneRow = '';
-          var object = {
-            setID:'',
-            set:'',
-            name:[],
-            distribution:[],
-            color:[]
-          }
-          if(lastEntry[0].setID != lastSetId){
-            for(var i=0; i<lastEntry.length; i++){
-              object.setID = lastEntry[i].setID;
-              object.set = lastEntry[i].setName;
-              object.name.push(lastEntry[i].name);
-              object.distribution.push(lastEntry[i].distribution);
-              object.color.push(lastEntry[i].color);
+            var allData = JSON.parse(data);
+            if(JSON.parse(allData.data).length != 0){
+            var lastSetId = document.getElementsByClassName('setID').length;
+            console.log(lastSetId);
+            var lastEntry = JSON.parse(allData.data);
+            console.log(allData.data);
+            var winnerList = JSON.parse(allData.winnerList);
+            var numberOfWinners = winnerList.length;
+            var rows = '';
+            //console.log(winnerList);
+            var createOneRow = '';
+            var object = {
+              setID:'',
+              set:'',
+              name:[],
+              distribution:[],
+              color:[]
             }
-            //console.log(object);
-            createOneRow +=  '<div class="dropdown">' +
-                      '<button onclick=$("#myDropdown'+object.setID+'").toggle(); class="dropbtn"><div id="setName'+object.setID+'">'+ object.set+'</div></button>' +
-                      '<div id="myDropdown'+object.setID+'" class="dropdown-content">' +
-                      '<div class="setID">'+ object.setID+'</div>' +
-                      createList(object.setID,object.name,object.distribution,object.color) +
-                      '<div class="winner"><select id="winner'+object.setID+'"></select></div>' +
-                      '<div class="apply"><button onclick=spinningWheel.applyToField("'+object.setID+'")>apply</button></div>' +
-                      '</div>' +
-                      '</div>';
-                //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
-                $('#panel').append(createOneRow);
-          }
-          rows = document.getElementById('winner'+lastEntry[0].setID).length;
-          //console.log(rows);
-          if(rows != numberOfWinners){
-            $('#winner'+lastEntry[0].setID).find('option').remove();
-            for(i=0;i<numberOfWinners;i++){
-              $('#winner'+lastEntry[0].setID).append('<option>'+lastEntry[winnerList[i].winner].name+'</option>')
+            if(lastEntry[0].setID != lastSetId){
+              for(var i=0; i<lastEntry.length; i++){
+                object.setID = lastEntry[i].setID;
+                object.set = lastEntry[i].setName;
+                object.name.push(lastEntry[i].name);
+                object.distribution.push(lastEntry[i].distribution);
+                object.color.push(lastEntry[i].color);
+              }
+              //console.log(object);
+              createOneRow +=  '<div class="dropdown">' +
+                        '<button onclick=$("#myDropdown'+object.setID+'").toggle(); class="dropbtn"><div id="setName'+object.setID+'">'+ object.set+'</div></button>' +
+                        '<div id="myDropdown'+object.setID+'" class="dropdown-content">' +
+                        '<div class="setID">'+ object.setID+'</div>' +
+                        createList(object.setID,object.name,object.distribution,object.color) +
+                        '<div class="winnerLabel">Winners:</div>' +
+                        '<div class="winner"><select id="winner'+object.setID+'"></select></div>' +
+                        '<div class="apply"><button onclick=spinningWheel.applyToField("'+object.setID+'")>apply</button></div>' +
+                        '</div>' +
+                        '</div>';
+                  //eachSet += '<li>' + JSON.stringify(setProperty) + '</li>';
+                  $('#panel').append(createOneRow);
+            }
+            rows = document.getElementById('winner'+lastEntry[0].setID).length;
+            //console.log(rows);
+            if(rows != numberOfWinners){
+              $('#winner'+lastEntry[0].setID).find('option').remove();
+              for(i=0;i<numberOfWinners;i++){
+                $('#winner'+lastEntry[0].setID).append('<option>'+lastEntry[winnerList[i].winner].name+'</option>')
+              }
             }
           }
+
         });
       }
 
@@ -545,13 +550,13 @@
             }
             lastText = text;
           }
-        }, 5);
+        }, 500);
       }
 
       function autoRefresh(){
         setInterval(function(){
           refresh();
-        }, 500);
+        }, 1000);
       }
 
       function validation(){
