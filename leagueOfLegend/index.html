@@ -1,0 +1,77 @@
+<link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+/*$.get("https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=all&api_key=RGAPI-178a4b1c-107a-4509-85f1-9723084273f0",
+      function(data, status){
+       console.log(data);
+   });*/
+</script>
+
+<!DOCTYPE html>
+
+<html>
+<div id="appWrapper">
+<div id="header" class="container">
+  <div class="row">
+    <div id="sfuIconDiv" class="col-sm-8">
+      <img id="sfuIcon" src='images/icons/websiteIcon.JPG'></img>
+      <h1 id="sfuLogo">SFU League <br/> of legend</h1>
+    </div>
+
+    <div id="searchDiv" class="col-sm-4">
+      <form>
+        <div class="form-group">
+            <input type="search" class="form-control" id="search">
+        </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <div id="pills" class="container">
+        <ul class="nav nav-pills">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Champion</a></li>
+            <li><a href="#">Tournament</a></li>
+            <li><a href="#">SFU Teams</a></li>
+            <li><a href="#">About</a></li>
+          </ul>
+  </div>
+
+  <div id="midSection" class="container">
+    <div class="row">
+      <div id="menu" class="col-sm-2">
+        <ul id="menuContent">
+            <li class="option"><a href="#">Recent News</a></li>
+            <li class="option"><a href="#">League News</a></li>
+            <li class="option"><a href="#">Events</a></li>
+        </ul>
+        <div id="currentPatch">
+          Current Patch: </br> <span class="smallFont">1.56.234</span> </br>
+          Some little stuff
+        </div>
+      </div>
+
+      <div id="content" class="col-sm-10">
+      </div>
+    </div>
+  </div>
+
+  <div id="footer" class="container">
+      <div id="webInfo" class="col-sm-8">
+        Copyright 2013-2016 www.leagueofgraphs.com. All rights reserved.
+        LeagueOfGraphs.com isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends.
+        League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends Riot Games, Inc.
+      </div>
+      <div id="link" class="col-sm-4">
+      </div>
+  </div>
+
+
+</div>
+
+</html>
