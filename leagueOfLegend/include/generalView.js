@@ -11,6 +11,8 @@
     $.extend(config,cfg);
   }
 
+  //menu list for each webpage
+
   function menu(){
     var menuList = '';
     switch (config.page) {
@@ -39,14 +41,21 @@
       '<li class="option"><a href="#">Tournaments Generator</a></li>'+
       '<li class="option"><a href="#">Poll</a></li>';
         break;
+      case 'about':
+        menuList +=
+      '<li class="option"><a href="#">Teams</a></li>'+
+      '<li class="option"><a href="#">Tournaments Generator</a></li>'+
+      '<li class="option"><a href="#">Poll</a></li>';
+        break;
       default:
-      '<li class="option"><a href="#">Abous Us</a></li>'+
-      '<li class="option"><a href="#">SFU Club Policy</a></li>';
+      menuList = '';
 
     }
     console.log(menuList);
     $('#menuContent').append(menuList);
   }
+
+  //Common interface for each webpage
 
   function view(){
     var view = '';
