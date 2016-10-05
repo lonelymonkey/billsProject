@@ -10,19 +10,22 @@
 
   function view(){
     var view='';
-    view +=   '<div id="championSelect" class="container">'+
+    view +=   '<div id="championSelect">'+
         '<div class="row">'+
-          '<div class="col-md-12">'+
+          '<div class="col-sm-12">'+
             '<form class="form-inline">'+
               '<div class="form-group">'+
                 '<label for="championName">Champion Name:</label>'+
-                '<input type="text" class="form-control" id="championName" onkeyup="showResult(this.value)">'+
+                '<input type="text" class="form-control" id="championName" onkeyup="championList.showResult(this.value)">'+
               '</div>'+
             '</form>'+
           '</div>'+
         '</div>'+
 
-        '<div id="championOverview" class="container">'+
+        '<div id="championOverview">'+
+          '<div id="championChart" class="row">'+
+
+          '</div>'+
         '</div>'+
 
       '</div>';
@@ -36,14 +39,21 @@
   function getData(){
     $.get("include/lolAPI.php",
           function(data, status){
-           console.log(JSON.parse(data));
-           var imageURL = "http://ddragon.leagueoflegends.com/cdn/4.2.6/img/champion/" + data.data.Ahri.image.full;
-          console.log(imageURL);
-          $('#championOverview').append('<img src='+imageURL+'>');
+          data = JSON.parse(data);
+          var imageURL = "http://ddragon.leagueoflegends.com/cdn/4.2.6/img/champion/" + data.data[1].image.full;
+           //var numOfChampions = Object.keys(data.data).length;
+           $.each(data.data, function(index, value) {
+             console.log(value);
+             imageURL = "http://ddragon.leagueoflegends.com/cdn/6.19.1/img/champion/" + data.data[index].image.full;
+             $('#championChart').append('<div class="col-sm-2 champPic">'+
+                                          '<img src='+imageURL+' style="max-width:100px;">'+
+                                          '<div id=champion'+value.id+' class="champion">'+value.name+'</div>'+
+                                        '</div>');
+          });
        });
   }
 
-  function showResult(championName){
+  championList.showResult = function(championName){
     console.log(championName);
   }
 
