@@ -9,7 +9,7 @@
        console.log(data);
    });*/
    $(document).ready(function(){
-     $.get("api/history.php?function=matchHistory&summonerName=[0]",function(data,status){
+     $.get("include/matchHistoryService.php",function(data,status){
        document.write(data+status);
      })
    });

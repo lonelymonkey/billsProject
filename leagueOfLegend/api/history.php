@@ -1,5 +1,6 @@
 <?php
-///api/history.php?function=matchHistory&summonerName=[name]
+//https://billchou.local/billchou/leagueOfLegend/api/history.php?function=matchList&summonerId=19732385
+//https://billchou.local/billchou/leagueOfLegend/api/history.php?function=matchDetail&matchId=2313821210
 include '../include/matchHistoryService.php';
 var_dump($_GET);
 $service = new matchHistoryService();
@@ -10,9 +11,13 @@ $response = array(
 );
 
 try {
-  if ($_GET['function'] == 'matchHistory') {
-    $summonerName = $_GET['summonerName'];
-    $service->matchHistory($summonerName);
+  if ($_GET['function'] == 'matchList') {
+    $summonerId = $_GET['summonerId'];
+    $response['data'] = $service->matchList($summonerId);
+  }
+  else if($_GET['function'] == 'matchDetail') {
+    $matchId = $_GET['matchId'];
+    $response['data'] = $service->matchDetail($matchId);
   }
 
 } catch (Exception $e) {
@@ -23,7 +28,7 @@ try {
 }
 
 
-echo json_encode($response);
+var_dump(json_encode($response['data']));
 
 
 
