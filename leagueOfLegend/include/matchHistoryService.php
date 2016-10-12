@@ -10,8 +10,40 @@ class matchHistoryService{
       'region' => 'na'
     ));
   }
+  private function summonerId2Name(){
+  };
+  
   public function matchList($summonerId = 0){
-    return $this->api->getMatchList($summonerId);
+    //$summonerId = $this->api->getSummonerId($summonerName);
+    $matchList = $this->api->getMatchList($summonerId);
+
+    $summonerNameTranslation = [];
+    foreach ($matchList['games'] AS $game) {
+      $players = $game['fellowPlayers'];
+      foreach ($players AS $player) {
+        $summonerNameTranslation[$player['summonerId']] = '';
+      }
+    }
+    //array_keys($summonerNameTranslation);
+    //finish $summonerNameTranslation  variable
+    $summoners = $this->api->getSummoner(array_keys($summonerNameTranslation));
+    foreach ($summoners AS $summoner) {
+      $summonerNameTranslation[$summoner['summonerId']] = $summoner['summonerName'];
+    }
+
+
+    foreach ($matchList['games'] AS $gameIndex => $game) {
+      $players = $game['fellowPlayers'];
+      foreach ($players AS $playerIndex => $player) {
+        $summonerId = $matchList['games'][$gameIndex]['fellowPlayers'][$playerIndex]['summonerId'];
+        $summonerName = $summonerNameTranslation[$summonerId];
+        $matchList['games'][$gameIndex]['fellowPlayers'][$playerIndex]['summonerName'] = $summonerName;
+      }
+    }
+
+
+    return $matchList;
+    //return $this->api->getMatchList($summonerId);
   }
   public function matchDetail($matchId = 0){
     return $this->api->getMatchDetail($matchId);

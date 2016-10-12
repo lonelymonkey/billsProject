@@ -2,7 +2,7 @@
 //https://billchou.local/billchou/leagueOfLegend/api/history.php?function=matchList&summonerId=19732385
 //https://billchou.local/billchou/leagueOfLegend/api/history.php?function=matchDetail&matchId=2313821210
 include '../include/matchHistoryService.php';
-var_dump($_GET);
+//var_dump($_GET);
 $service = new matchHistoryService();
 
 $response = array(
@@ -17,7 +17,7 @@ try {
   }
   else if($_GET['function'] == 'matchDetail') {
     $matchId = $_GET['matchId'];
-    $response['data'] = $service->matchDetail($matchId);
+    $response['data'] = json_decode($service->matchDetail($matchId),true);
   }
 
 } catch (Exception $e) {
@@ -28,7 +28,7 @@ try {
 }
 
 
-var_dump(json_encode($response['data']));
+echo json_encode($response);
 
 
 

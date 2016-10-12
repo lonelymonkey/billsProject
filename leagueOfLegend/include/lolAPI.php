@@ -16,7 +16,7 @@ class lolWebAPIResource {
   }
   //matchList: returns the stats for the last 10 games played
   public function matchList($region,$summonerId){
-    return file_get_contents($this->path.'/api/lol/'.$region.'/v1.3/game/by-summoner/'.$summonerId.'/recent'.$this->key);
+    return json_decode(file_get_contents($this->path.'/api/lol/'.$region.'/v1.3/game/by-summoner/'.$summonerId.'/recent'.$this->key),true);
   }
   //matchDetail: returns the detail information of one game by its gameId
   public function matchDetail($region,$matchId){
