@@ -51,12 +51,16 @@ class matchHistoryService{
     //finish $summonerNameTranslation  variable
     $summoners = $this->getSummonerName(array_keys($summonerNameTranslation));
 
+    $championNameAndImage = $this->api->getNameAndImage();
+    $items = $this->api->getItems();
+    $spells = $this->api->getSummonerSpell();
+
+    //var_dump($spells);
+
     foreach ($summoners AS $summoner) {
       $summonerNameTranslation[$summoner['id']] = $summoner['name'];
     }
     //var_dump($summonerNameTranslation);
-    $championNameAndImage = $this->api->getNameAndImage();
-    $items = $this->api->getItems();
 
     //var_dump($items);
     foreach ($matchList['games'] AS $gameIndex => $game) {
@@ -78,31 +82,31 @@ class matchHistoryService{
         }
       }
 
+      for($i = 1; $i<=2; $i++){
+        $matchList['games'][$gameIndex]['spellName'.$i] = $spells['data'][$game['spell'.$i]]['name'];
+      }
+
       for($i = 0; $i<=6; $i++){
         if(!empty($matchList['games'][$gameIndex]["stats"]['item'.$i])){
           $matchList['games'][$gameIndex]["stats"]['itemName'.$i] = $items['data'][$game['stats']['item'.$i]]['name'];
           $matchList['games'][$gameIndex]["stats"]['itemImage'.$i] = $items['data'][$game['stats']['item'.$i]]['image']['full'];
         }
       }
-          //echo $items['data'];
-          //$matchList['games'][$gameIndex]["stats"]["itemName".$i];
-          var_dump($matchList['games'][$gameIndex]["stats"]);
+          //var_dump($matchList['games'][$gameIndex]["stats"]);
       }
 
-    //var_dump($championNameAndImage);
-
     //var_dump($matchList);
-    //return $matchList;
+    return $matchList;
   }
   public function matchDetail($matchId = 0){
     return $this->api->getMatchDetail($matchId);
   }
 }
 
-$matchHistoryService = new matchHistoryService();
+/*$matchHistoryService = new matchHistoryService();
 echo '<pre>';
 var_dump($matchHistoryService->matchList(19732385));
-echo '</pre>';
+echo '</pre>';*/
 //var_dump($matchHistoryService->getSummonerIds('epiccookierawr'));
 
 

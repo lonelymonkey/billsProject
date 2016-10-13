@@ -8,6 +8,7 @@
 
 class lolWebAPIResource {
   private $path = 'https://na.api.pvp.net/';
+  private $globalPath = 'https://global.api.pvp.net/';
   private $key = 'api_key=RGAPI-178a4b1c-107a-4509-85f1-9723084273f0';
   public function __construct($dataPath = ''){
     if(!empty($dataPath)){
@@ -37,6 +38,10 @@ class lolWebAPIResource {
   //item: retrieve item's name and image by its id
   public function items($region){
     return json_decode(file_get_contents($this->path.'api/lol/static-data/'.$region.'/v1.2/item?itemListData=gold,image&'.$this->key),true);
+  }
+  //summonerSpell: retrieve spell name and info by its id
+  public function summonerSpell($region){
+    return json_decode(file_get_contents($this->globalPath.'api/lol/static-data/'.$region.'/v1.2/summoner-spell?dataById=true&spellData=all&'.$this->key),true);
   }
 }
 
@@ -101,6 +106,10 @@ class lolAPI {
 
   public function getItems(){
     return $this->resource->webAPI->items($this->config['region']);
+  }
+
+  public function getSummonerSpell(){
+    return $this->resource->webAPI->summonerSpell($this->config['region']);
   }
 }
 

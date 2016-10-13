@@ -3,7 +3,7 @@ lolHistoryData = function(cfg){
     apiURL :  'api/history.php'
   },cfg);
 
-  matchList = function(id,callback){
+  matchList = function(summonerName,callback){
     console.log('matchList3242342332234');
     /*$.get(
       config.apiURL,
@@ -23,7 +23,7 @@ lolHistoryData = function(cfg){
         'type': 'GET',
         'dataType': 'json',
         'url': config.apiURL,
-        'data': {'function': 'matchList', 'summonerName' : 'epiccookierawr'},
+        'data': {'function': 'matchList', 'summonerName' : summonerName},
         'success': function(res){
           console.log(res);
           if (res.status > 0) {

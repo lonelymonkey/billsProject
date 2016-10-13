@@ -21,6 +21,14 @@
       var statusView = (match.stats.win) ? 'YAY' : 'SUCKER' ;
       view += ''+
               '<div><h3>'+statusView+'</h3></div>'+
+              '<div>'+match.championName+match.spellName1+match.spellName2+'</div>' +
+              '<div>'+match.stats.itemName0+'</div>' +
+              '<div>'+match.stats.itemName1+'</div>' +
+              '<div>'+match.stats.itemName2+'</div>' +
+              '<div>'+match.stats.itemName3+'</div>' +
+              '<div>'+match.stats.itemName4+'</div>' +
+              '<div>'+match.stats.itemName5+'</div>' +
+              '<div>'+match.stats.itemName6+'</div>' +
               '<div>'+JSON.stringify(match.fellowPlayers)+'</div>'+
               '';
     });
@@ -42,7 +50,7 @@
     console.log(dataAPI);
     buildUIFrame();
 
-    dataAPI.matchList(19732385,function(res){
+    dataAPI.matchList('greenlemons',function(res){
       dataModel.matchList = res.games;
       console.log(dataModel.matchList);
       buildView();
