@@ -29,7 +29,7 @@
   buildView = function(){
     var view = '';
     var data = dataModel.matchList.slice(0,5);
-    
+
     view = buildMatchListView(data);
 
     $('#data-body').html(view);
@@ -39,6 +39,7 @@
     saveConfig(cfg);
 
     dataAPI = lolHistoryData(cfg);
+    console.log(dataAPI);
     buildUIFrame();
 
     dataAPI.matchList(19732385,function(res){

@@ -8,7 +8,7 @@
 
 class lolWebAPIResource {
   private $path = 'https://na.api.pvp.net/';
-  private $key = '?api_key=RGAPI-178a4b1c-107a-4509-85f1-9723084273f0';
+  private $key = 'api_key=RGAPI-178a4b1c-107a-4509-85f1-9723084273f0';
   public function __construct($dataPath = ''){
     if(!empty($dataPath)){
       $this->path = $dataPath;
@@ -16,19 +16,27 @@ class lolWebAPIResource {
   }
   //matchList: returns the stats for the last 10 games played
   public function matchList($region,$summonerId){
-    return json_decode(file_get_contents($this->path.'/api/lol/'.$region.'/v1.3/game/by-summoner/'.$summonerId.'/recent'.$this->key),true);
+    return json_decode(file_get_contents($this->path.'/api/lol/'.$region.'/v1.3/game/by-summoner/'.$summonerId.'/recent'.'?'.$this->key),true);
   }
   //matchDetail: returns the detail information of one game by its gameId
   public function matchDetail($region,$matchId){
-    return file_get_contents($this->path.'/api/lol/'.$region.'/v2.2/match/'.$matchId.$this->key,true);
+    return file_get_contents($this->path.'/api/lol/'.$region.'/v2.2/match/'.$matchId.'?'.$this->key,true);
   }
   //summonerName: return a list of summoner names by their respective ids
   public function summonerName($region,$idArraystring){
-    return json_decode(file_get_contents($this->path.'/api/lol/'.$region.'/v1.4/summoner/'.$idArraystring.$this->key),true);
+    return json_decode(file_get_contents($this->path.'/api/lol/'.$region.'/v1.4/summoner/'.$idArraystring.'?'.$this->key),true);
   }
-  //summonerId = convert summonerName to summonerId
+  //summonerId: convert summonerName to summonerId
   public function summonerId($region,$nameArrayString){
-    return json_decode(file_get_contents($this->path.'/api/lol/'.$region.'/v1.4/summoner/by-name/'.$nameArrayString.$this->key),true);
+    return json_decode(file_get_contents($this->path.'/api/lol/'.$region.'/v1.4/summoner/by-name/'.$nameArrayString.'?'.$this->key),true);
+  }
+  //championNameAndImage: retrieve champion's name and image by its id
+  public function championNameAndImage($region){
+    return json_decode(file_get_contents($this->path.'api/lol/static-data/'.$region.'/v1.2/champion?champData=image&dataById=true&'.$this->key),true);
+  }
+  //item: retrieve item's name and image by its id
+  public function items($region){
+    return json_decode(file_get_contents($this->path.'api/lol/static-data/'.$region.'/v1.2/item?itemListData=gold,image&'.$this->key),true);
   }
 }
 
@@ -85,6 +93,14 @@ class lolAPI {
 
   public function getSummonerIds($nameArraystring = ''){
     return $this->resource->webAPI->summonerId($this->config['region'],$nameArraystring);
+  }
+
+  public function getNameAndImage(){
+    return $this->resource->webAPI->championNameAndImage($this->config['region']);
+  }
+
+  public function getItems(){
+    return $this->resource->webAPI->items($this->config['region']);
   }
 }
 

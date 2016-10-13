@@ -4,13 +4,28 @@ lolHistoryData = function(cfg){
   },cfg);
 
   matchList = function(id,callback){
-    console.log('matchList');
+    console.log('matchList3242342332234');
+    /*$.get(
+      config.apiURL,
+      {'function': 'matchList', 'summonerName' : 'epiccookierawr'},
+      function(data,status){
+        console.log(status);
+        if (status == 'success') {
+          if (typeof(callback) == 'function') {
+            callback(data);
+          }
+        } else {
+          //handle error
+          console.log('error');
+        }
+      });*/
     $.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: config.apiURL,
-        data: {'function': 'matchList', 'summonerId' : id},
-        success: function(res){
+        'type': 'GET',
+        'dataType': 'json',
+        'url': config.apiURL,
+        'data': {'function': 'matchList', 'summonerName' : 'epiccookierawr'},
+        'success': function(res){
+          console.log(res);
           if (res.status > 0) {
             console.log(res.data);
             if (typeof(callback) == 'function') {
@@ -18,6 +33,7 @@ lolHistoryData = function(cfg){
             }
           } else {
             //handle error
+            console.log('error');
           }
         }
     });

@@ -1,8 +1,7 @@
 <?php
-//https://billchou.local/billchou/leagueOfLegend/api/history.php?function=matchList&summonerId=19732385
+//https://billchou.local/billchou/leagueOfLegend/api/history.php?function=matchList&summonerName=epiccookierawr
 //https://billchou.local/billchou/leagueOfLegend/api/history.php?function=matchDetail&matchId=2313821210
 include '../include/matchHistoryService.php';
-//var_dump($_GET);
 $service = new matchHistoryService();
 
 $response = array(
@@ -12,8 +11,14 @@ $response = array(
 
 try {
   if ($_GET['function'] == 'matchList') {
-    $summonerId = $_GET['summonerId'];
-    $response['data'] = $service->matchList($summonerId);
+    /*
+    summonerId = {
+    'summonerName' => ['id','name','profileIconId','summonerlevel','revisionDate']
+  }
+    */
+    $summonerName = $_GET['summonerName'];
+    $summonerId = $service->getSummonerIds($summonerName);
+    $response['data'] = $service->matchList($summonerId[$summonerName]["id"]);
   }
   else if($_GET['function'] == 'matchDetail') {
     $matchId = $_GET['matchId'];

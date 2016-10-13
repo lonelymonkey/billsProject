@@ -55,19 +55,44 @@ class matchHistoryService{
       $summonerNameTranslation[$summoner['id']] = $summoner['name'];
     }
     //var_dump($summonerNameTranslation);
+    $championNameAndImage = $this->api->getNameAndImage();
+    $items = $this->api->getItems();
 
+    //var_dump($items);
     foreach ($matchList['games'] AS $gameIndex => $game) {
       $players = $game['fellowPlayers'];
+      $stats = $game['stats'];
+      $matchList['games'][$gameIndex]["championName"] = $championNameAndImage['data'][$game['championId']]['name'];
+      $matchList['games'][$gameIndex]["title"] = $championNameAndImage['data'][$game['championId']]['title'];
+      $matchList['games'][$gameIndex]["image"] = $championNameAndImage['data'][$game['championId']]['image']['full'];
 
       foreach ($players AS $playerIndex => $player) {
         $summonerId = $player["summonerId"];
         $summonerName = $summonerNameTranslation[$summonerId];
         $matchList['games'][$gameIndex]['fellowPlayers'][$playerIndex]['summonerName'] = $summonerName;
+        if($player["teamId"] == 100){
+          $matchList['games'][$gameIndex]['fellowPlayers'][$playerIndex]['teamColor'] = 'blue';
+        }
+        else{
+          $matchList['games'][$gameIndex]['fellowPlayers'][$playerIndex]['teamColor'] = 'purple';
+        }
       }
-    }
+
+      for($i = 0; $i<=6; $i++){
+        if(!empty($matchList['games'][$gameIndex]["stats"]['item'.$i])){
+          $matchList['games'][$gameIndex]["stats"]['itemName'.$i] = $items['data'][$game['stats']['item'.$i]]['name'];
+          $matchList['games'][$gameIndex]["stats"]['itemImage'.$i] = $items['data'][$game['stats']['item'.$i]]['image']['full'];
+        }
+      }
+          //echo $items['data'];
+          //$matchList['games'][$gameIndex]["stats"]["itemName".$i];
+          var_dump($matchList['games'][$gameIndex]["stats"]);
+      }
+
+    //var_dump($championNameAndImage);
 
     //var_dump($matchList);
-    return $matchList;
+    //return $matchList;
   }
   public function matchDetail($matchId = 0){
     return $this->api->getMatchDetail($matchId);
@@ -75,8 +100,10 @@ class matchHistoryService{
 }
 
 $matchHistoryService = new matchHistoryService();
-
-var_dump($matchHistoryService->getSummonerIds('epiccookierawr'));
+echo '<pre>';
+var_dump($matchHistoryService->matchList(19732385));
+echo '</pre>';
+//var_dump($matchHistoryService->getSummonerIds('epiccookierawr'));
 
 
 ?>
